@@ -223,6 +223,15 @@
   .sticky-save .ss-sub{font-size:11.5px;opacity:.75;font-weight:600}
   .sticky-save .ss-dirty{font-size:12px;font-weight:700;color:#ffd88a;display:none;align-items:center;gap:6px}
   .sticky-save.dirty .ss-dirty{display:flex}
+  .sticky-save .ss-cap{font-size:12px;font-weight:700;opacity:.85}
+  .sticky-save.over{background:var(--alerta)}
+  .sticky-save.over .ss-dirty{display:none}
+  .sticky-save .ss-over{display:none;font-size:12.5px;font-weight:700;align-items:center;gap:6px}
+  .sticky-save.over .ss-over{display:flex}
+  .cap-bar{height:6px;background:#edf1f7;border-radius:6px;overflow:hidden;margin-top:8px}
+  .cap-fill{height:100%;background:var(--ok);border-radius:6px;transition:width .3s}
+  .cap-fill.warn{background:#d9a21b}.cap-fill.over{background:var(--alerta)}
+  input.i.mh{width:110px;padding:8px 10px}
   .sticky-save .spacer{flex:1}
 
   /* Control mensual */
@@ -460,7 +469,7 @@ function guardarConfig_(ss, clave, valor) {
 /* ============================================================
    CONFIGURACIÓN
 ============================================================ */
-const CLIENT_ID = '250127984812-g5ige3lkij1e4k09f0vrtijjd3ccrjmt.apps.googleusercontent.com';
+const CLIENT_ID = '204310820162-phq4d7grasopg952prts474vdl9vepfl.apps.googleusercontent.com';
 const SCOPES = [
   'openid','email','profile',
   'https://www.googleapis.com/auth/spreadsheets',
@@ -474,7 +483,7 @@ let SPREADSHEET_ID = localStorage.getItem('dcd_ss_id') || '1v5D_uUuqKAIlkecQ4O2D
 const DRIVE_FOLDER = '1KRW-BbLzxKT8dWvRJa9xX_zzVchHHQfO';
 
 const TAB = {
-  USR:'SYS_Usuarios',    USR_HEAD:['correo','nombre','es_empleado','activo','rol'],
+  USR:'SYS_Usuarios',    USR_HEAD:['correo','nombre','es_empleado','activo','rol','max_horas'],
   PRO:'SYS_Proyectos',   PRO_HEAD:['proyecto','activo','nombre_largo'],
   TAR:'SYS_Tareas',      TAR_HEAD:['id','anio','mes','correo','proyecto','tarea','origen'],
   REG:'SYS_Registros',   REG_HEAD:['id','anio','mes','correo','nombre','proyecto','tarea','horas','descripcion','timestamp'],
@@ -535,7 +544,7 @@ let adminUnlocked = false;
 let pendingAfterToken = null;
 let SYS_PROMISE = null;
 let CURRENT = 'home';
-let REG = { anio:0, mes:0, dirty:false, items:[], removed:[], comentario:'', mail:false, adding:false, precargadas:0, pm:0, pa:0 };
+let REG = { max:0, anio:0, mes:0, dirty:false, items:[], removed:[], comentario:'', mail:false, adding:false, precargadas:0, pm:0, pa:0 };
 
 function saveSession(){ try{ localStorage.setItem('dcd_session', JSON.stringify({token, tokenExp, ME})); }catch(e){} }
 function loadSession(){ try{ return JSON.parse(localStorage.getItem('dcd_session')||'null'); }catch(e){ return null; } }
@@ -702,6 +711,8 @@ async function ensureSystem(){
   const pro = await readTab(TAB.PRO);
   if(pro.header.length < TAB.PRO_HEAD.length) await writeHeader(TAB.PRO, TAB.PRO_HEAD);
   const tar = await readTab(TAB.TAR);
+  const usrH = await readTab(TAB.USR);
+  if(usrH.header.length < TAB.USR_HEAD.length) await writeHeader(TAB.USR, TAB.USR_HEAD);
   if(tar.header.length < TAB.TAR_HEAD.length) await writeHeader(TAB.TAR, TAB.TAR_HEAD);
   if(pro.rows.length===0){
     const vals = PROYECTOS_SEED.map(p=>[p,'TRUE','']);
@@ -947,6 +958,7 @@ async function viewRegistrar(){
       </div>
       <div class="pbar"><div class="pbar-fill" id="pbarFill"></div></div>
       <div class="prog" id="regProg"></div>
+      <div id="regCapNote" class="hidden" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--linea)"></div>
     </div>
     <div id="misTareas"></div>`;
   loadMisTareas();
@@ -988,6 +1000,8 @@ async function loadMisTareas(){
       if(!p){ const q=prevMonth(t.tarea); if(q && q.horas!=='' && q.horas!==undefined){ horas=String(q.horas); pre=true; precargadas++; } }
       return { k:uid(), proyecto:t.proyecto||'—', tarea:t.tarea, horas, desc, pre, origen:t.origen==='propia'?'propia':'admin', nueva:false, showDesc:desc.trim()!=='' };
     });
+    const meU=(await getUsuarios(true)).find(u=>sameMail(u.correo,ME.email));
+    REG.max = meU? (parseFloat(meU.max_horas)||0) : 0;
     Object.assign(REG,{removed:[], comentario:miCom?miCom.comentario:'', dirty:false, precargadas, pm, pa});
     renderMisTareas();
   }catch(e){ cont.innerHTML=`<div class="panel"><div class="empty">Error: ${esc(e.message)}</div></div>`; }
@@ -1008,10 +1022,11 @@ function addFormHtml(){
 }
 function stickyHtml(){
   return `<div class="sticky-save ${REG.dirty?'dirty':''}" id="stickySave">
-    <div><div class="ss-total" id="regTotal">0 h</div><div class="ss-sub">total del mes</div></div>
+    <div><div class="ss-total" id="regTotal">0 h</div><div class="ss-sub" id="regCap">${REG.max?`de ${r2(REG.max)} h máximas este mes`:'total del mes'}</div></div>
     <div class="ss-dirty"><span class="dot a"></span>Cambios sin guardar</div>
+    <div class="ss-over">${ic('alert')}<span id="regOverTxt">Superas el tope del mes</span></div>
     <div class="spacer"></div>
-    <button class="btn light" onclick="guardarMisHoras()">Guardar horas</button>
+    <button class="btn light" id="btnGuardarHoras" onclick="guardarMisHoras()">Guardar horas</button>
   </div>`;
 }
 function renderMisTareas(){
@@ -1133,11 +1148,27 @@ function sumRegTotal(){
   const n=REG.items.length;
   const pr=document.getElementById('regProg'); if(pr) pr.innerHTML= n? `<b>${filled}</b> de ${n} tareas con horas` : 'Sin tareas este mes';
   const pb=document.getElementById('pbarFill'); if(pb) pb.style.width= n? (filled/n*100)+'%' : '0';
+  // Tope mensual definido por el administrador
+  const over = REG.max>0 && s>REG.max+1e-9;
+  const ss=document.getElementById('stickySave'); if(ss) ss.classList.toggle('over',over);
+  const bt=document.getElementById('btnGuardarHoras'); if(bt) bt.disabled=over;
+  const ot=document.getElementById('regOverTxt'); if(ot) ot.textContent=`Superas el tope por ${r2(s-REG.max)} h`;
+  const cap=document.getElementById('regCapNote');
+  if(cap){
+    if(REG.max>0){
+      const pct=Math.min(100,s/REG.max*100);
+      cap.classList.remove('hidden');
+      cap.innerHTML=`<div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;color:var(--tinta2)"><span>Tope mensual definido por el administrador</span><span><b style="color:var(--tinta)">${r2(s)}</b> / ${r2(REG.max)} h</span></div>
+        <div class="cap-bar"><div class="cap-fill ${over?'over':pct>=90?'warn':''}" style="width:${pct}%"></div></div>`;
+    }else cap.classList.add('hidden');
+  }
 }
 window.addEventListener('beforeunload',(e)=>{ if(REG.dirty){ e.preventDefault(); e.returnValue=''; } });
 
 async function guardarMisHoras(){
   const mes=REG.mes, anio=REG.anio;
+  const totalMes=REG.items.reduce((s,i)=>s+(parseFloat(i.horas)||0),0);
+  if(REG.max>0 && totalMes>REG.max+1e-9){ toast(`El tope de este mes es ${r2(REG.max)} h. Ajusta tus horas antes de guardar.`,'err'); return; }
   loader(true,'Guardando…');
   try{
     await sysReady();
@@ -1218,6 +1249,7 @@ async function admUsuarios(){
       <td style="font-weight:600">${esc(u.nombre)}</td>
       <td>${esc(u.correo)}</td>
       <td><label class="chk"><input type="checkbox" ${isTrue(u.es_empleado)?'checked':''} onchange="setUsr(${i},'es_empleado',this.checked)"> Empleado</label></td>
+      <td><input class="i mh" data-i="${i}" type="number" min="0" step="0.5" value="${esc(u.max_horas||'')}" placeholder="Sin tope"></td>
       <td>${isTrue(u.activo)?'<span class="pill on">Activo</span>':'<span class="pill off">Inactivo</span>'}</td>
       <td><div class="row-actions">
         <button class="btn mini sec" onclick="setUsr(${i},'activo',${!isTrue(u.activo)})">${isTrue(u.activo)?'Desactivar':'Activar'}</button>
@@ -1238,10 +1270,34 @@ async function admUsuarios(){
     <div class="panel">
       <h3>Usuarios registrados <span class="pill mute">${us.length}</span></h3>
       <div class="tbl-wrap" style="margin-top:14px"><table>
-        <thead><tr><th>Nombre</th><th>Correo</th><th>Tipo</th><th>Estado</th><th>Acciones</th></tr></thead>
-        <tbody>${rows||'<tr><td colspan="5" class="empty">Aún no hay usuarios.</td></tr>'}</tbody>
+        <thead><tr><th>Nombre</th><th>Correo</th><th>Tipo</th><th>Tope mensual (h)</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="6" class="empty">Aún no hay usuarios.</td></tr>'}</tbody>
       </table></div>
+      <div class="toolbar" style="margin-top:16px;justify-content:space-between">
+        <div class="row-actions">
+          <input class="i mh" id="mhTodos" type="number" min="0" step="0.5" placeholder="Horas">
+          <button class="btn sec mini" onclick="aplicarTopeTodos()">Aplicar a todos</button>
+          <span class="desc" style="margin:0">Deja la casilla vacía para no poner tope.</span>
+        </div>
+        <button class="btn" onclick="guardarTopes()">Guardar topes</button>
+      </div>
     </div>`;
+}
+function aplicarTopeTodos(){
+  const v=document.getElementById('mhTodos').value;
+  document.querySelectorAll('input.mh[data-i]').forEach(i=>i.value=v);
+}
+async function guardarTopes(){
+  loader(true,'Guardando topes…');
+  try{
+    const us=await getUsuarios(true);
+    document.querySelectorAll('input.mh[data-i]').forEach(inp=>{
+      const v=inp.value.trim(); const n=parseFloat(v);
+      us[+inp.dataset.i].max_horas = (v===''||!(n>0))? '' : n;
+    });
+    await replaceTab(TAB.USR,TAB.USR_HEAD,us); await getUsuarios(true);
+    toast('Topes de horas guardados','ok'); admUsuarios();
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
 }
 async function addUsr(){
   const nombre=document.getElementById('nuNombre').value.trim();
@@ -1251,7 +1307,7 @@ async function addUsr(){
   try{
     const us=await getUsuarios(true);
     if(us.find(u=>sameMail(u.correo,correo))){ toast('Ese correo ya existe','err'); return; }
-    await appendRow(TAB.USR,[correo,nombre,document.getElementById('nuEmp').checked?'TRUE':'FALSE','TRUE','colaborador']);
+    await appendRow(TAB.USR,[correo,nombre,document.getElementById('nuEmp').checked?'TRUE':'FALSE','TRUE','colaborador','']);
     await getUsuarios(true); toast('Usuario añadido','ok'); admUsuarios();
   }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
 }
@@ -1472,7 +1528,7 @@ async function cargarEstado(){
   const rows=data.map(({u,asign,total,completo,com},i)=>`<tr>
       <td style="font-weight:600">${esc(u.nombre)} ${com?`<span title="Dejó un comentario" style="color:var(--azul2);vertical-align:middle">${ic('msg')}</span>`:''}</td>
       <td>${asign} tarea(s)</td>
-      <td><b>${r2(total)} h</b></td>
+      <td><b>${r2(total)} h</b>${parseFloat(u.max_horas)>0?` <span style="color:var(--tinta3)">/ ${r2(parseFloat(u.max_horas))}</span>${total>parseFloat(u.max_horas)?' <span class="pill off">Excede</span>':''}`:''}</td>
       <td>${completo?'<span class="pill on"><span class="dot g"></span>Registró</span>':'<span class="pill off"><span class="dot r"></span>Pendiente</span>'}</td>
       <td><div class="row-actions">
         <button class="btn mini sec" onclick="editarHoras(${i})">Editar horas</button>
@@ -1569,6 +1625,14 @@ async function guardarHorasAdmin(){
       const d=document.querySelector(`.edD[data-j="${h.dataset.j}"]`);
       return { tarea:h.dataset.t, proyecto:h.dataset.p, horas:(h.value===''?'':parseFloat(h.value)||0), descripcion:d?d.value:'' };
     });
+    const u=(CACHE.usuarios||[]).find(x=>sameMail(x.correo,correo));
+    const max=u? parseFloat(u.max_horas)||0 : 0;
+    const tot=entradas.reduce((s,e)=>s+(parseFloat(e.horas)||0),0);
+    if(max>0 && tot>max){
+      loader(false);
+      if(!(await confirmar('Supera el tope',`${nombre} tiene un tope de ${r2(max)} h y este registro suma ${r2(tot)} h. ¿Guardar de todos modos?`,{ok:'Guardar igual',danger:true}))) return;
+      loader(true,'Guardando…');
+    }
     await upsertRegistros(correo,nombre,anio,mes,entradas);
     toast('Horas actualizadas','ok'); cargarEstado();
     checkTodosRegistraron(anio,mes).catch(()=>{});
