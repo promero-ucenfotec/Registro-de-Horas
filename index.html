@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sistema DCD · Desarrollo Curricular</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --azul:#164a98; --azul2:#006aea; --azul-hover:#0f3a78;
+    --celeste:#9cc8ff; --celeste-soft:#eaf2ff; --gris:#d2d2d2;
+    --linea:#e4e9f2; --papel:#f5f7fb; --blanco:#ffffff;
+    --tinta:#1a2740; --tinta2:#5d6b85; --tinta3:#93a0b6;
+    --ok:#1f8a4c; --ok-soft:#e8f5ee; --alerta:#cf3b3b; --alerta-soft:#fcecec;
+    --ambar:#9a6b00; --ambar-soft:#fff6e2;
+    --sombra:0 12px 34px rgba(22,74,152,.10);
+    --sombra-suave:0 1px 2px rgba(22,74,152,.05),0 4px 14px rgba(22,74,152,.05);
+    --radio:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{font-family:"Plus Jakarta Sans",system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--tinta);background:var(--papel);line-height:1.55;-webkit-font-smoothing:antialiased}
+  button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+  input,select,textarea{font-family:inherit;font-size:14px;color:var(--tinta)}
+  .hidden{display:none !important}
+  .ico{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+  .ico.big{width:40px;height:40px;stroke-width:1.5;color:var(--celeste)}
+
+  /* ====== LOGIN ====== */
+  #login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--azul);padding:24px;overflow:auto}
+  #login::before,#login::after{content:"";position:absolute;border-radius:50%;pointer-events:none}
+  #login::before{width:520px;height:520px;background:var(--azul2);opacity:.16;top:-160px;right:-120px}
+  #login::after{width:360px;height:360px;background:var(--celeste);opacity:.14;bottom:-140px;left:-90px}
+  .login-card{position:relative;z-index:1;width:100%;max-width:410px;background:#fff;border-radius:22px;
+    box-shadow:0 30px 70px rgba(8,26,58,.35);padding:44px 38px 34px;text-align:center;animation:rise .5s cubic-bezier(.2,.8,.2,1)}
+  @keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .brand-mark{width:60px;height:60px;margin:0 auto 20px;border-radius:16px;background:var(--azul);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:22px;letter-spacing:-.5px}
+  .login-card .eyebrow{text-transform:uppercase;letter-spacing:2.5px;font-size:10.5px;color:var(--azul2);font-weight:700;margin-bottom:12px}
+  .login-card h1{font-size:23px;color:var(--azul);letter-spacing:-.4px;font-weight:800}
+  .login-card .sub{color:var(--tinta2);font-size:14px;margin:6px 0 28px}
+  .login-foot{margin-top:24px;font-size:12.5px;color:var(--tinta3);line-height:1.5}
+  .gsi-btn{display:flex;align-items:center;justify-content:center;gap:11px;width:100%;max-width:300px;margin:4px auto 0;
+    padding:12px 18px;border:1.5px solid var(--linea);border-radius:12px;background:#fff;font-weight:600;font-size:14.5px;transition:.15s;box-shadow:var(--sombra-suave)}
+  .gsi-btn:hover:not(:disabled){border-color:var(--celeste);transform:translateY(-1px)}
+  .gsi-btn:disabled{opacity:.55;cursor:wait}
+  .login-hint{margin-top:14px;font-size:12px;color:var(--tinta3);line-height:1.55}
+
+  /* ====== SHELL ====== */
+  #app{display:none;min-height:100vh}
+  #app.on{display:grid;grid-template-columns:260px 1fr}
+  .side{position:sticky;top:0;height:100vh;background:#fff;border-right:1px solid var(--linea);display:flex;flex-direction:column;padding:20px 14px 16px;overflow-y:auto}
+  .brand{display:flex;gap:12px;align-items:center;padding:2px 8px 22px}
+  .brand .mark{width:40px;height:40px;border-radius:11px;background:var(--azul);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;letter-spacing:-.4px}
+  .brand .bt{font-weight:800;font-size:14.5px;color:var(--tinta);letter-spacing:-.2px;line-height:1.2}
+  .brand .bs{font-size:11.5px;color:var(--tinta3);font-weight:500}
+  .nav-sec{font-size:10.5px;letter-spacing:1.3px;text-transform:uppercase;color:var(--tinta3);font-weight:700;padding:18px 12px 8px}
+  .nav-item{display:flex;align-items:center;gap:11px;width:100%;padding:10px 12px;border-radius:10px;color:var(--tinta2);font-weight:600;font-size:13.5px;transition:.12s;text-align:left;margin-bottom:2px}
+  .nav-item:hover{background:#f3f6fb;color:var(--tinta)}
+  .nav-item.active{background:var(--celeste-soft);color:var(--azul)}
+  .nav-item .lk{margin-left:auto;width:14px;height:14px;opacity:.45}
+  .me{margin-top:auto;border-top:1px solid var(--linea);padding:14px 6px 0;display:flex;align-items:center;gap:10px}
+  .me .avatar{width:36px;height:36px;border-radius:50%;background:var(--celeste-soft);color:var(--azul);display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0}
+  .me .info{min-width:0;flex:1}
+  .me .nm{font-size:13px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .me .em{font-size:11.5px;color:var(--tinta3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .icon-btn{width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;color:var(--tinta2);transition:.12s;flex-shrink:0}
+  .icon-btn:hover{background:#f3f6fb;color:var(--alerta)}
+  .content{min-width:0}
+  .mobilebar{display:none;align-items:center;gap:12px;height:58px;padding:0 16px;background:#fff;border-bottom:1px solid var(--linea);position:sticky;top:0;z-index:30}
+  .mobilebar b{font-size:15px;color:var(--azul)}
+  .scrim{display:none}
+  main{max-width:1100px;margin:0 auto;padding:34px 36px 90px}
+  @media(max-width:900px){
+    #app.on{grid-template-columns:1fr}
+    .side{position:fixed;left:0;top:0;z-index:60;width:272px;transform:translateX(-100%);transition:transform .25s cubic-bezier(.2,.8,.2,1);box-shadow:0 20px 60px rgba(8,26,58,.25)}
+    .side.open{transform:none}
+    .scrim.open{display:block;position:fixed;inset:0;background:rgba(20,34,60,.4);z-index:50}
+    .mobilebar{display:flex}
+    main{padding:24px 16px 90px}
+  }
+
+  .page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:26px;flex-wrap:wrap}
+  .page-head h1{font-size:25px;font-weight:800;color:var(--tinta);letter-spacing:-.6px;line-height:1.2}
+  .page-head p{color:var(--tinta2);font-size:14px;margin-top:5px;max-width:640px}
+  .page-head .acts{display:flex;gap:9px;flex-wrap:wrap}
+  .section-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--tinta3);margin:30px 0 12px}
+
+  /* ====== COMPONENTES ====== */
+  .panel{background:#fff;border-radius:var(--radio);box-shadow:var(--sombra-suave);border:1px solid var(--linea);padding:24px;margin-bottom:18px}
+  .panel h3{font-size:16px;color:var(--tinta);font-weight:700;letter-spacing:-.2px;margin-bottom:4px;display:flex;align-items:center;gap:9px}
+  .panel h3 .ico{color:var(--azul2)}
+  .panel .desc{font-size:13px;color:var(--tinta2);margin-bottom:18px;line-height:1.55}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:760px){.grid2{grid-template-columns:1fr}}
+  label.f{display:block;font-size:11px;font-weight:700;color:var(--tinta2);margin-bottom:7px;text-transform:uppercase;letter-spacing:.6px}
+  input.i,select.i,textarea.i{width:100%;padding:11px 13px;border:1.5px solid var(--linea);border-radius:10px;background:#fbfcfe;transition:.15s}
+  input.i:focus,select.i:focus,textarea.i:focus{outline:none;border-color:var(--azul2);background:#fff;box-shadow:0 0 0 3px rgba(0,106,234,.12)}
+  textarea.i{resize:vertical;min-height:44px}
+  select.i{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%235d6b85' d='M6 8L0 0h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:34px}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--azul2);color:#fff;padding:10px 18px;border-radius:10px;font-weight:600;font-size:13.5px;transition:.15s;white-space:nowrap}
+  .btn .ico{width:16px;height:16px}
+  .btn:hover{background:var(--azul-hover)}
+  .btn:active{transform:translateY(1px)}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
+  .btn.sec{background:#fff;color:var(--tinta);border:1.5px solid var(--linea)}
+  .btn.sec:hover{border-color:var(--celeste);color:var(--azul);background:#fbfdff}
+  .btn.ghost{background:transparent;color:var(--tinta2)}
+  .btn.ghost:hover{background:#f3f6fb;color:var(--tinta)}
+  .btn.danger{background:#fff;color:var(--alerta);border:1.5px solid #f3d3d3}
+  .btn.danger:hover{background:var(--alerta-soft)}
+  .btn.danger-solid{background:var(--alerta)}
+  .btn.danger-solid:hover{background:#b23030}
+  .btn.ok{background:var(--ok)}
+  .btn.ok:hover{background:#1a763f}
+  .btn.light{background:#fff;color:var(--azul)}
+  .btn.light:hover{background:var(--celeste-soft)}
+  .btn.mini{padding:7px 12px;font-size:12.5px;border-radius:8px}
+  .row-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .toolbar{display:flex;gap:12px;align-items:end;flex-wrap:wrap}
+  .toolbar .grow{flex:1;min-width:150px}
+
+  .tbl-wrap{overflow:auto;border:1px solid var(--linea);border-radius:12px}
+  table{border-collapse:collapse;width:100%;font-size:13px;background:#fff;min-width:560px}
+  th{background:#f8fafd;color:var(--tinta2);text-align:left;padding:11px 14px;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.6px;border-bottom:1px solid var(--linea);position:sticky;top:0}
+  td{padding:12px 14px;border-bottom:1px solid var(--linea);vertical-align:middle}
+  tbody tr:last-child td{border-bottom:none}
+  tbody tr:hover td{background:#fafcff}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .pill.on{background:var(--ok-soft);color:#1a7a44}
+  .pill.off{background:var(--alerta-soft);color:#bd3838}
+  .pill.blue{background:var(--celeste-soft);color:var(--azul)}
+  .pill.pre{background:var(--ambar-soft);color:var(--ambar)}
+  .pill.own{background:#f1ecfd;color:#5b3fb5}
+  .pill.mute{background:#f0f2f6;color:var(--tinta2)}
+  .dot{width:7px;height:7px;border-radius:50%;display:inline-block}
+  .dot.g{background:var(--ok)}.dot.r{background:var(--alerta)}.dot.a{background:#d9a21b}
+
+  .empty{text-align:center;padding:40px 20px;color:var(--tinta3)}
+  .empty b{display:block;color:var(--tinta);font-size:15px;margin:10px 0 4px}
+  .empty p{font-size:13.5px;max-width:420px;margin:0 auto}
+  .spin{width:34px;height:34px;border:3px solid var(--celeste-soft);border-top-color:var(--azul2);border-radius:50%;animation:sp .9s linear infinite;margin:0 auto 12px}
+  @keyframes sp{to{transform:rotate(360deg)}}
+  .note{display:flex;gap:10px;align-items:flex-start;background:var(--celeste-soft);border:1px solid #d8e6fb;border-radius:11px;padding:12px 15px;font-size:13px;color:#3d4f6d;margin-bottom:16px;line-height:1.5}
+  .note .ico{color:var(--azul2);margin-top:1px;width:17px;height:17px}
+  .note b{color:var(--azul)}
+  .chk{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--tinta2);user-select:none;cursor:pointer}
+  .chk input{width:16px;height:16px;accent-color:var(--azul2)}
+
+  /* KPIs y accesos */
+  .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:760px){.kpis{grid-template-columns:1fr}}
+  .kpi{background:#fff;border:1px solid var(--linea);border-radius:var(--radio);padding:20px;display:flex;gap:15px;align-items:center;box-shadow:var(--sombra-suave)}
+  .kpi-ic{width:44px;height:44px;border-radius:12px;background:var(--celeste-soft);color:var(--azul);display:flex;align-items:center;justify-content:center}
+  .kpi-ic .ico{width:21px;height:21px}
+  .kpi-l{font-size:12px;color:var(--tinta2);font-weight:600}
+  .kpi-v{font-size:22px;font-weight:800;color:var(--tinta);letter-spacing:-.5px;line-height:1.25}
+  .actions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  @media(max-width:900px){.actions-grid{grid-template-columns:1fr}}
+  .action{display:flex;gap:15px;align-items:flex-start;text-align:left;background:#fff;border:1px solid var(--linea);border-radius:var(--radio);padding:20px;transition:.18s cubic-bezier(.2,.8,.2,1);box-shadow:var(--sombra-suave)}
+  .action:hover{transform:translateY(-3px);box-shadow:var(--sombra);border-color:var(--celeste)}
+  .action > .ico{width:22px;height:22px;color:var(--azul2);margin-top:2px}
+  .action h3{font-size:15px;font-weight:700;color:var(--tinta)}
+  .action p{font-size:12.5px;color:var(--tinta2);margin-top:3px;line-height:1.5}
+  .action .arr{margin-left:auto;align-self:center;color:var(--tinta3);width:16px;height:16px}
+  .action.primary{background:var(--azul);border-color:var(--azul)}
+  .action.primary h3,.action.primary > .ico,.action.primary .arr{color:#fff}
+  .action.primary p{color:rgba(255,255,255,.78)}
+
+  /* Registrar horas */
+  .month-nav{display:flex;align-items:center;justify-content:center;gap:18px}
+  .mn-btn{width:40px;height:40px;border-radius:50%;background:#fff;color:var(--azul);display:flex;align-items:center;justify-content:center;transition:.15s;border:1.5px solid var(--linea)}
+  .mn-btn:hover{border-color:var(--celeste);background:var(--celeste-soft)}
+  .mn-label{text-align:center;min-width:200px}
+  .mn-mes{font-size:21px;font-weight:800;color:var(--tinta);letter-spacing:-.4px}
+  .mn-hoy{margin-top:2px;font-size:12px;color:var(--azul2);font-weight:600}
+  .mn-hoy:hover{text-decoration:underline}
+  .pbar{height:6px;background:#edf1f7;border-radius:6px;margin-top:18px;overflow:hidden}
+  .pbar-fill{height:100%;background:var(--azul2);border-radius:6px;width:0;transition:width .35s cubic-bezier(.2,.8,.2,1)}
+  .prog{font-size:12.5px;color:var(--tinta2);font-weight:600;text-align:center;margin-top:9px}
+  .prog b{color:var(--azul)}
+
+  .proj-group{border:1px solid var(--linea);border-radius:var(--radio);margin-bottom:14px;overflow:hidden;background:#fff;box-shadow:var(--sombra-suave)}
+  .proj-head{display:flex;align-items:center;gap:10px;padding:12px 18px;background:#f8fafd;border-bottom:1px solid var(--linea)}
+  .proj-head .ptitle{font-weight:700;font-size:13.5px;color:var(--azul)}
+  .proj-head .subtotal{margin-left:auto;font-weight:800;color:var(--tinta);font-size:13.5px}
+  .task-row{padding:14px 18px;border-bottom:1px solid var(--linea);transition:background .15s}
+  .task-row:last-child{border-bottom:none}
+  .task-row.filled{background:#f7fcf9;box-shadow:inset 3px 0 0 var(--ok)}
+  .tr-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .tr-name{flex:1;min-width:200px;font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .tr-controls{display:flex;align-items:center;gap:8px}
+  .stepper{display:flex;align-items:stretch;border:1.5px solid var(--linea);border-radius:10px;overflow:hidden;background:#fff}
+  .stepper button{width:36px;font-size:17px;font-weight:700;color:var(--azul);background:#f6f9fe;transition:.12s}
+  .stepper button:hover{background:var(--celeste-soft)}
+  .stepper input{width:70px;border:none;text-align:center;font-weight:700;font-size:15px;background:#fff;padding:8px 4px}
+  .stepper input:focus{outline:none;background:#fbfdff}
+  .stepper input::-webkit-outer-spin-button,.stepper input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .stepper input[type=number]{-moz-appearance:textfield;appearance:textfield}
+  .tool-btn{height:38px;padding:0 11px;border-radius:9px;border:1.5px solid var(--linea);display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--tinta2);transition:.12s;background:#fff}
+  .tool-btn .ico{width:15px;height:15px}
+  .tool-btn:hover{color:var(--azul);border-color:var(--celeste)}
+  .tool-btn.has{color:var(--azul);border-color:#cfe0fa;background:var(--celeste-soft)}
+  .tool-btn.del:hover{color:var(--alerta);border-color:#f3d3d3;background:var(--alerta-soft)}
+  .tr-desc{margin-top:11px}
+
+  .add-btn{width:100%;display:flex;align-items:center;gap:12px;padding:16px 18px;border:1.5px dashed #c9d6ea;border-radius:var(--radio);color:var(--azul);font-weight:700;font-size:14px;transition:.15s;background:#fff;margin-bottom:18px;text-align:left}
+  .add-btn:hover{border-color:var(--azul2);background:#fbfdff}
+  .add-btn .ico{width:20px;height:20px}
+  .add-btn span{font-weight:500;color:var(--tinta2);font-size:12.5px;margin-left:auto}
+  .add-form{border:1.5px solid var(--celeste);border-radius:var(--radio);padding:18px;background:#fbfdff;margin-bottom:18px}
+  .add-form h4{font-size:14px;color:var(--azul);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .add-grid{display:grid;grid-template-columns:1fr 2fr;gap:12px}
+  @media(max-width:700px){.add-grid{grid-template-columns:1fr}}
+
+  .sticky-save{position:sticky;bottom:16px;z-index:15;display:flex;align-items:center;gap:16px;background:var(--azul);color:#fff;border-radius:14px;padding:12px 14px 12px 20px;margin-top:18px;box-shadow:0 14px 34px rgba(22,74,152,.32)}
+  .sticky-save .ss-total{font-size:19px;font-weight:800;letter-spacing:-.4px;line-height:1.2}
+  .sticky-save .ss-sub{font-size:11.5px;opacity:.75;font-weight:600}
+  .sticky-save .ss-dirty{font-size:12px;font-weight:700;color:#ffd88a;display:none;align-items:center;gap:6px}
+  .sticky-save.dirty .ss-dirty{display:flex}
+  .sticky-save .spacer{flex:1}
+
+  /* Control mensual */
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;align-items:center}
+  .chip{display:flex;align-items:center;gap:9px;padding:9px 15px;border-radius:11px;font-size:13px;font-weight:600;border:1px solid var(--linea);background:#fbfcfe}
+  .chip .num{font-size:19px;font-weight:800;letter-spacing:-.5px}
+  .chip.g{border-color:#cfe8da;background:#f2faf5;color:#1a7a44}
+  .chip.r{border-color:#f3d7d7;background:#fdf5f5;color:#bd3838}
+  .chip.b{border-color:#d8e6fb;background:var(--celeste-soft);color:var(--azul)}
+  .comment-view{background:#fbfcfe;border:1px solid var(--linea);border-left:3px solid var(--celeste);border-radius:10px;padding:12px 15px;margin-bottom:10px;font-size:13px}
+  .comment-view .meta{font-size:11.5px;color:var(--tinta2);font-weight:700;margin-bottom:4px}
+  .task-card{border:1px solid var(--linea);border-radius:12px;padding:16px;margin-bottom:12px;background:#fbfcfe}
+  .task-card .head{display:flex;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+  .task-card .name{font-weight:600;flex:1;min-width:180px}
+
+  /* Recordatorios */
+  .switch{position:relative;display:inline-flex;align-items:center;gap:12px;cursor:pointer;font-weight:700;font-size:14px}
+  .switch input{position:absolute;opacity:0;width:0;height:0}
+  .switch .track{width:44px;height:25px;border-radius:25px;background:#d7deea;position:relative;transition:.2s;flex-shrink:0}
+  .switch .track::after{content:"";position:absolute;top:3px;left:3px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:.2s}
+  .switch input:checked + .track{background:var(--ok)}
+  .switch input:checked + .track::after{transform:translateX(19px)}
+  .grid4{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media(max-width:760px){.grid4{grid-template-columns:1fr}}
+  .summary-box{background:#f8fafd;border:1px solid var(--linea);border-radius:12px;padding:15px 17px;font-size:13.5px;color:var(--tinta);line-height:1.6;margin-top:16px}
+  .summary-box b{color:var(--azul)}
+  .status-row{display:flex;gap:12px;align-items:center;padding:14px 16px;border-radius:12px;border:1px solid var(--linea);margin-bottom:10px;font-size:13.5px}
+  .status-row .ico{width:20px;height:20px}
+  .status-row.g{background:#f2faf5;border-color:#cfe8da;color:#1a7a44}
+  .status-row.r{background:#fdf5f5;border-color:#f3d7d7;color:#bd3838}
+  .status-row.a{background:var(--ambar-soft);border-color:#f2e0b3;color:var(--ambar)}
+  .status-row small{display:block;color:var(--tinta2);font-weight:500;font-size:12.5px}
+  .steps{counter-reset:s;list-style:none;margin:6px 0 16px}
+  .steps li{counter-increment:s;position:relative;padding:4px 0 10px 38px;font-size:13.5px;color:var(--tinta)}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:2px;width:26px;height:26px;border-radius:50%;background:var(--celeste-soft);color:var(--azul);font-weight:800;font-size:12.5px;display:flex;align-items:center;justify-content:center}
+  .code{background:#0f1c33;color:#d6e4ff;border-radius:12px;padding:16px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12px;line-height:1.55;max-height:280px;overflow:auto;white-space:pre}
+  details.more summary{cursor:pointer;font-weight:700;font-size:13px;color:var(--azul2);margin-bottom:12px}
+
+  .lock{max-width:400px;margin:30px auto;text-align:center}
+  .lock .lock-ic{width:56px;height:56px;border-radius:16px;background:var(--celeste-soft);color:var(--azul);display:flex;align-items:center;justify-content:center;margin:0 auto 16px}
+  .lock .lock-ic .ico{width:26px;height:26px}
+
+  /* Overlays */
+  #toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(120px);display:flex;align-items:center;gap:10px;
+    background:var(--tinta);color:#fff;padding:12px 20px;border-radius:12px;font-size:14px;font-weight:500;box-shadow:0 14px 34px rgba(0,0,0,.22);z-index:100;transition:.3s cubic-bezier(.2,.8,.2,1);max-width:92vw}
+  #toast.show{transform:translateX(-50%) translateY(0)}
+  #toast.ok{background:var(--ok)}#toast.err{background:var(--alerta)}
+  #loader{position:fixed;inset:0;background:rgba(245,247,251,.72);backdrop-filter:blur(2px);display:none;align-items:center;justify-content:center;z-index:90;flex-direction:column}
+  #loader.show{display:flex}
+  #loader .msg{color:var(--azul);font-weight:600;font-size:14px}
+  .overlay{position:fixed;inset:0;background:rgba(20,34,60,.5);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;z-index:95;padding:20px}
+  .overlay.show{display:flex}
+  .ov-card{background:#fff;border-radius:18px;padding:28px;max-width:420px;width:100%;box-shadow:0 28px 60px rgba(8,26,58,.35);animation:rise .3s cubic-bezier(.2,.8,.2,1)}
+  .ov-card h3{font-size:17px;color:var(--tinta);font-weight:800;margin-bottom:8px}
+  .ov-card p{font-size:13.5px;color:var(--tinta2);line-height:1.6}
+  .ov-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px}
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div id="login">
+  <div class="login-card">
+    <div class="brand-mark">DCD</div>
+    <div class="eyebrow">Universidad CENFOTEC</div>
+    <h1>Sistema de Horas</h1>
+    <p class="sub">Desarrollo Curricular y Docente</p>
+    <button class="gsi-btn" id="btnGoogle" onclick="doLogin()" disabled>
+      <svg width="19" height="19" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      <span>Ingresar con Google</span>
+    </button>
+    <div class="login-hint">Solo la primera vez se piden los permisos.<br>Después, un clic y listo.</div>
+    <div class="login-foot">Ingresa con tu cuenta institucional de Google para continuar.</div>
+  </div>
+</div>
+
+<!-- ================= APP ================= -->
+<div id="app">
+  <aside class="side" id="side">
+    <div class="brand">
+      <div class="mark">DCD</div>
+      <div><div class="bt">Sistema de Horas</div><div class="bs">Desarrollo Curricular</div></div>
+    </div>
+    <nav id="nav"></nav>
+    <div class="me">
+      <div class="avatar" id="uAvatar">?</div>
+      <div class="info"><div class="nm" id="uName">—</div><div class="em" id="uEmail">—</div></div>
+      <button class="icon-btn" onclick="logout()" title="Cerrar sesión" id="btnLogout"></button>
+    </div>
+  </aside>
+  <div class="scrim" id="scrim" onclick="toggleSide(false)"></div>
+  <div class="content">
+    <div class="mobilebar"><button class="icon-btn" onclick="toggleSide(true)" id="btnMenu"></button><b>Sistema de Horas</b></div>
+    <main>
+      <div class="page-head" id="pageHead"></div>
+      <div id="view"></div>
+    </main>
+  </div>
+</div>
+
+<div id="loader"><div class="spin"></div><div class="msg" id="loaderMsg">Cargando…</div></div>
+
+<div class="overlay" id="reconnect">
+  <div class="ov-card" style="text-align:center">
+    <h3>Tu sesión con Google expiró</h3>
+    <p>Por seguridad, Google cierra la conexión cada hora. Reconéctate con un clic; no volverás a ver la lista de permisos.</p>
+    <div class="ov-actions" style="justify-content:center"><button class="btn" onclick="doReconnect()">Reconectar</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="modal">
+  <div class="ov-card">
+    <h3 id="mTitle"></h3>
+    <p id="mText"></p>
+    <div class="ov-actions">
+      <button class="btn ghost" id="mCancel">Cancelar</button>
+      <button class="btn" id="mOk">Aceptar</button>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+
+<!-- Código de Google Apps Script para el recordatorio automático (se muestra en Administración › Recordatorios) -->
+<script type="text/plain" id="gasCode">/**
+ * Sistema DCD · Recordatorio automático de horas
+ * 1) Pegue este código en Extensiones > Apps Script de la hoja de cálculo del sistema.
+ * 2) Ejecute UNA vez la función instalarRecordatorio y acepte los permisos.
+ * El día, la hora y el mes se leen de la pestaña SYS_Config, así que se
+ * cambian desde el Sistema DCD sin volver a tocar este código.
+ */
+var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+
+function instalarRecordatorio() {
+  ScriptApp.getProjectTriggers().forEach(function (t) {
+    if (t.getHandlerFunction() === 'revisarRecordatorio') ScriptApp.deleteTrigger(t);
+  });
+  ScriptApp.newTrigger('revisarRecordatorio').timeBased().everyHours(1).create();
+  revisarRecordatorio();
+}
+
+function revisarRecordatorio() {
+  var ss = SpreadsheetApp.getActive();
+  var tz = ss.getSpreadsheetTimeZone();
+  var ahora = new Date();
+  var cfg = leerConfig_(ss);
+  guardarConfig_(ss, 'recordatorio_ultimo_chequeo', String(ahora.getTime()));
+  if (String(cfg.recordatorio_activo).toUpperCase() !== 'TRUE') return;
+
+  var dia = parseInt(cfg.recordatorio_dia, 10);
+  if (!dia) return;
+  var hora = parseInt(cfg.recordatorio_hora || '8', 10);
+  var y = Number(Utilities.formatDate(ahora, tz, 'yyyy'));
+  var m = Number(Utilities.formatDate(ahora, tz, 'M'));
+  var d = Number(Utilities.formatDate(ahora, tz, 'd'));
+  var h = Number(Utilities.formatDate(ahora, tz, 'H'));
+  var diaEfectivo = Math.min(dia, new Date(y, m, 0).getDate());
+  if (d !== diaEfectivo || h < hora) return;
+
+  var bandera = 'recordatorio_auto_' + y + '_' + m;
+  if (cfg[bandera] === 'enviado') return;
+
+  var anio = y, mes = m;
+  if (cfg.recordatorio_mes === 'anterior') { mes = m - 1; if (mes < 1) { mes = 12; anio--; } }
+
+  var soloConTareas = String(cfg.recordatorio_solo_tareas).toUpperCase() !== 'FALSE';
+  var lista = pendientes_(ss, anio, mes, soloConTareas);
+  var nota = String(cfg.recordatorio_nota || '').trim();
+  var enviados = 0;
+  lista.forEach(function (u) {
+    try {
+      MailApp.sendEmail(u.correo,
+        'Recordatorio · Registra tus horas de ' + MESES[mes - 1] + ' ' + anio,
+        'Hola ' + u.nombre + ',\n\nAún no has registrado tus horas de ' + MESES[mes - 1] + ' ' + anio +
+        ' en el Sistema DCD.\n\nPor favor, ingresa y completa tus tareas.' +
+        (nota ? '\n\n' + nota : '') + '\n\n— Desarrollo Curricular, CENFOTEC');
+      enviados++;
+    } catch (e) {}
+  });
+
+  guardarConfig_(ss, bandera, 'enviado');
+  guardarConfig_(ss, 'recordatorio_ultimo_envio',
+    Utilities.formatDate(ahora, tz, 'dd/MM/yyyy HH:mm') + ' · ' + enviados + ' persona(s) · horas de ' + MESES[mes - 1] + ' ' + anio);
+
+  if (String(cfg.recordatorio_resumen).toUpperCase() === 'TRUE' && cfg.correo_aviso) {
+    MailApp.sendEmail(cfg.correo_aviso, 'Resumen de recordatorios · ' + MESES[mes - 1] + ' ' + anio,
+      'Se enviaron ' + enviados + ' recordatorio(s):\n\n' +
+      (lista.map(function (u) { return '• ' + u.nombre; }).join('\n') || '(nadie estaba pendiente)') +
+      '\n\n— Sistema DCD');
+  }
+}
+
+function pendientes_(ss, anio, mes, soloConTareas) {
+  var usuarios = filas_(ss, 'SYS_Usuarios');
+  var tareas = filas_(ss, 'SYS_Tareas');
+  var registros = filas_(ss, 'SYS_Registros');
+  function delMes(r) { return Number(r.anio) === anio && Number(r.mes) === mes; }
+  return usuarios.filter(function (u) {
+    var correo = String(u.correo || '').toLowerCase();
+    if (!correo || String(u.activo).toUpperCase() !== 'TRUE') return false;
+    var tiene = tareas.some(function (t) { return delMes(t) && String(t.correo).toLowerCase() === correo; });
+    if (soloConTareas && !tiene) return false;
+    return !registros.some(function (r) {
+      return delMes(r) && String(r.correo).toLowerCase() === correo && r.horas !== '';
+    });
+  }).map(function (u) { return { correo: String(u.correo).toLowerCase(), nombre: u.nombre || u.correo }; });
+}
+
+function filas_(ss, nombre) {
+  var sh = ss.getSheetByName(nombre);
+  if (!sh) return [];
+  var v = sh.getDataRange().getValues();
+  var head = v.shift() || [];
+  return v.map(function (r) { var o = {}; head.forEach(function (h, i) { o[h] = r[i]; }); return o; });
+}
+
+function leerConfig_(ss) {
+  var cfg = {};
+  filas_(ss, 'SYS_Config').forEach(function (r) { if (r.clave) cfg[r.clave] = String(r.valor); });
+  return cfg;
+}
+
+function guardarConfig_(ss, clave, valor) {
+  var sh = ss.getSheetByName('SYS_Config');
+  if (!sh) { sh = ss.insertSheet('SYS_Config'); sh.appendRow(['clave', 'valor']); }
+  var v = sh.getDataRange().getValues();
+  for (var i = 1; i < v.length; i++) {
+    if (v[i][0] === clave) { sh.getRange(i + 1, 2).setNumberFormat('@').setValue(String(valor)); return; }
+  }
+  var fila = sh.getLastRow() + 1;
+  sh.getRange(fila, 1, 1, 2).setNumberFormat('@').setValues([[clave, String(valor)]]);
+}
+</script>
+
+<script>
+/* ============================================================
+   CONFIGURACIÓN
+============================================================ */
+const CLIENT_ID = '250127984812-g5ige3lkij1e4k09f0vrtijjd3ccrjmt.apps.googleusercontent.com';
+const SCOPES = [
+  'openid','email','profile',
+  'https://www.googleapis.com/auth/spreadsheets',
+  'https://www.googleapis.com/auth/drive.file',
+  'https://www.googleapis.com/auth/gmail.send',
+  'https://www.googleapis.com/auth/calendar.events'
+].join(' ');
+
+const ADMIN_PASS = 'DCD1234#';
+let SPREADSHEET_ID = localStorage.getItem('dcd_ss_id') || '1v5D_uUuqKAIlkecQ4O2DiLpmQ_aKU3C2sTCFv99ZSuA';
+const DRIVE_FOLDER = '1KRW-BbLzxKT8dWvRJa9xX_zzVchHHQfO';
+
+const TAB = {
+  USR:'SYS_Usuarios',    USR_HEAD:['correo','nombre','es_empleado','activo','rol'],
+  PRO:'SYS_Proyectos',   PRO_HEAD:['proyecto','activo','nombre_largo'],
+  TAR:'SYS_Tareas',      TAR_HEAD:['id','anio','mes','correo','proyecto','tarea','origen'],
+  REG:'SYS_Registros',   REG_HEAD:['id','anio','mes','correo','nombre','proyecto','tarea','horas','descripcion','timestamp'],
+  COM:'SYS_Comentarios', COM_HEAD:['anio','mes','correo','nombre','comentario','timestamp'],
+  CFG:'SYS_Config',      CFG_HEAD:['clave','valor']
+};
+
+const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const MESES_CORTO = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+
+const PROYECTOS_SEED = ['BAE en Inglés','MISOFT','BIROB','BIA (Bachillerato en IA)','BISIST','BISOFT','BIIND','MCON',
+  'Nuevos Microcursos','Actualización de Microcursos','Nuevos Técnicos','Colaboración otras escuelas','Investigación educativa','Otros'];
+
+/* ============================================================
+   ÍCONOS (SVG de trazo)
+============================================================ */
+const IC = {
+  home:'<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M9.5 21v-6h5v6"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',
+  download:'<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/>',
+  shield:'<path d="M12 3l7 3v5c0 4.5-3 8.5-7 10-4-1.5-7-5.5-7-10V6z"/>',
+  users:'<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  folder:'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>',
+  list:'<path d="M9 6h12M9 12h12M9 18h12"/><path d="M4 6h.01M4 12h.01M4 18h.01"/>',
+  check:'<path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+  bell:'<path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  trash:'<path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+  calendar:'<rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  cloud:'<path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>',
+  logout:'<path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/>',
+  left:'<path d="M15 18l-6-6 6-6"/>',
+  right:'<path d="M9 18l6-6-6-6"/>',
+  note:'<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+  menu:'<path d="M3 6h18M3 12h18M3 18h18"/>',
+  copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  msg:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+  inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
+  zap:'<path d="M13 2L3 14h9l-1 8 10-12h-9z"/>',
+  info:'<circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/>',
+  ok:'<circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/>',
+  alert:'<circle cx="12" cy="12" r="9"/><path d="M12 8v4M12 16h.01"/>',
+  table:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/>',
+  send:'<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>',
+  ext:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/>'
+};
+function ic(n,cls=''){ return `<svg class="ico ${cls}" viewBox="0 0 24 24">${IC[n]||''}</svg>`; }
+
+/* ============================================================
+   ESTADO / AUTH
+============================================================ */
+let token = null, tokenExp = 0, tokenClient = null, gisReady = false;
+let ME = { email:'', name:'', picture:'' };
+let CACHE = { usuarios:null, proyectos:null };
+let adminUnlocked = false;
+let pendingAfterToken = null;
+let SYS_PROMISE = null;
+let CURRENT = 'home';
+let REG = { anio:0, mes:0, dirty:false, items:[], removed:[], comentario:'', mail:false, adding:false, precargadas:0, pm:0, pa:0 };
+
+function saveSession(){ try{ localStorage.setItem('dcd_session', JSON.stringify({token, tokenExp, ME})); }catch(e){} }
+function loadSession(){ try{ return JSON.parse(localStorage.getItem('dcd_session')||'null'); }catch(e){ return null; } }
+function hasGrant(){ return localStorage.getItem('dcd_granted')==='1'; }
+
+window.onload = () => {
+  document.getElementById('btnLogout').innerHTML = ic('logout');
+  document.getElementById('btnMenu').innerHTML = ic('menu');
+  const s = loadSession();
+  if(s && s.token && s.tokenExp > Date.now()+60000){
+    token=s.token; tokenExp=s.tokenExp; ME=s.ME||ME;
+    enterApp();
+  }
+  const wait = setInterval(()=>{
+    if(window.google && google.accounts && google.accounts.oauth2){ clearInterval(wait); initAuth(); }
+  },120);
+};
+
+function initAuth(){
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id:CLIENT_ID, scope:SCOPES,
+    callback: async (resp)=>{
+      hideReconnect();
+      if(resp.error){ toast('No se otorgaron los permisos de Google','err'); setLoginBusy(false); return; }
+      token = resp.access_token;
+      tokenExp = Date.now() + (resp.expires_in? resp.expires_in*1000 : 3300*1000) - 60000;
+      localStorage.setItem('dcd_granted','1');
+      if(!ME.email){
+        try{
+          const u = await (await fetch('https://www.googleapis.com/oauth2/v3/userinfo',{headers:{Authorization:'Bearer '+token}})).json();
+          ME = { email:(u.email||'').toLowerCase(), name:u.name||u.email||'', picture:u.picture||'' };
+        }catch(e){}
+      }
+      saveSession();
+      setLoginBusy(false);
+      if(pendingAfterToken){ const f=pendingAfterToken; pendingAfterToken=null; f(); }
+      else if(!document.getElementById('app').classList.contains('on')) enterApp();
+    }
+  });
+  gisReady = true;
+  const b=document.getElementById('btnGoogle'); if(b) b.disabled=false;
+}
+
+function doLogin(){
+  if(!gisReady){ toast('Google aún está cargando, intenta de nuevo','err'); return; }
+  setLoginBusy(true);
+  tokenClient.requestAccessToken({ prompt: hasGrant()? '' : 'consent' });
+}
+function setLoginBusy(on){
+  const b=document.getElementById('btnGoogle');
+  if(b){ b.disabled=on; b.querySelector('span').textContent = on? 'Conectando…' : 'Ingresar con Google'; }
+}
+function ensureToken(cb){
+  if(token && Date.now() < tokenExp){ cb(); return; }
+  pendingAfterToken = cb;
+  showReconnect();
+}
+function showReconnect(){ document.getElementById('reconnect').classList.add('show'); }
+function hideReconnect(){ document.getElementById('reconnect').classList.remove('show'); }
+function doReconnect(){
+  if(!gisReady){ toast('Google aún está cargando…','err'); return; }
+  tokenClient.requestAccessToken({ prompt:'' });
+}
+
+function enterApp(){
+  document.getElementById('login').classList.add('hidden');
+  document.getElementById('app').classList.add('on');
+  document.getElementById('uName').textContent = ME.name;
+  document.getElementById('uEmail').textContent = ME.email;
+  document.getElementById('uAvatar').textContent = (ME.name||'?').trim().charAt(0).toUpperCase();
+  sysReady();
+  goHome();
+}
+function logout(){
+  token=null; adminUnlocked=false;
+  localStorage.removeItem('dcd_session');
+  location.reload();
+}
+
+/* ============================================================
+   NAVEGACIÓN
+============================================================ */
+const NAV = [
+  {v:'home', label:'Inicio', ic:'home'},
+  {v:'registrar', label:'Registrar horas', ic:'clock'},
+  {v:'reportes', label:'Reportes', ic:'download'},
+  {sec:'Administración'},
+  {v:'usuarios', label:'Usuarios', ic:'users', admin:true},
+  {v:'proyectos', label:'Proyectos', ic:'folder', admin:true},
+  {v:'tareas', label:'Asignar tareas', ic:'list', admin:true},
+  {v:'estado', label:'Control mensual', ic:'check', admin:true},
+  {v:'recordatorios', label:'Recordatorios', ic:'bell', admin:true}
+];
+const VIEWS = {
+  home:()=>goHome(), registrar:()=>viewRegistrar(), reportes:()=>viewReportes(),
+  usuarios:()=>admUsuarios(), proyectos:()=>admProyectos(), tareas:()=>admTareas(),
+  estado:()=>admEstado(), recordatorios:()=>admRecordatorios()
+};
+function renderNav(){
+  document.getElementById('nav').innerHTML = NAV.map(n=>{
+    if(n.sec) return `<div class="nav-sec">${n.sec}</div>`;
+    return `<button class="nav-item ${CURRENT===n.v?'active':''}" onclick="go('${n.v}')">${ic(n.ic)}<span>${n.label}</span>${n.admin&&!adminUnlocked? ic('lock','lk'):''}</button>`;
+  }).join('');
+}
+function setActive(v){ CURRENT=v; renderNav(); }
+async function go(v){
+  toggleSide(false);
+  if(CURRENT==='registrar' && v!=='registrar' && REG.dirty){
+    const ok=await confirmar('Cambios sin guardar','Tienes horas sin guardar en este mes. Si sales ahora, se descartan.',{ok:'Salir sin guardar',danger:true});
+    if(!ok) return;
+    REG.dirty=false;
+  }
+  const item=NAV.find(n=>n.v===v);
+  if(item && item.admin && !adminUnlocked){ viewAdminGate(v); return; }
+  VIEWS[v]();
+  window.scrollTo({top:0});
+}
+function toggleSide(on){
+  document.getElementById('side').classList.toggle('open',on);
+  document.getElementById('scrim').classList.toggle('open',on);
+}
+function setPage(title,sub,acts=''){
+  document.getElementById('pageHead').innerHTML =
+    `<div><h1>${title}</h1>${sub?`<p>${sub}</p>`:''}</div>${acts?`<div class="acts">${acts}</div>`:''}`;
+}
+
+/* ============================================================
+   CAPA DE API
+============================================================ */
+async function api(url, opts={}){
+  await new Promise(res=> ensureToken(res));
+  opts.headers = Object.assign({ 'Authorization':'Bearer '+token, 'Content-Type':'application/json' }, opts.headers||{});
+  let r = await fetch(url, opts);
+  if(r.status===401){ token=null; await new Promise(res=> ensureToken(res)); opts.headers['Authorization']='Bearer '+token; r = await fetch(url,opts); }
+  if(!r.ok){ const t=await r.text(); throw new Error('API '+r.status+': '+t.slice(0,300)); }
+  const ct=r.headers.get('content-type')||''; return ct.includes('json')? r.json() : r.text();
+}
+const SS = 'https://sheets.googleapis.com/v4/spreadsheets';
+
+async function listSheets(){
+  const d = await api(`${SS}/${SPREADSHEET_ID}?fields=sheets.properties(title,sheetId)`);
+  return d.sheets.map(s=>s.properties);
+}
+async function ensureTab(title, header, sheets){
+  if(!sheets.find(s=>s.title===title)){
+    await api(`${SS}/${SPREADSHEET_ID}:batchUpdate`, {method:'POST', body:JSON.stringify({requests:[{addSheet:{properties:{title}}}]})});
+    await writeHeader(title, header);
+  }
+}
+async function writeHeader(title, header){
+  await api(`${SS}/${SPREADSHEET_ID}/values/${enc(title)}!A1:${colLetter(header.length)}1?valueInputOption=RAW`,
+    {method:'PUT', body:JSON.stringify({values:[header]})});
+}
+function sysReady(){
+  if(!SYS_PROMISE) SYS_PROMISE = ensureSystem().catch(e=>{ SYS_PROMISE=null; toast('No se pudo preparar el sistema: '+e.message,'err'); throw e; });
+  return SYS_PROMISE;
+}
+async function ensureSystem(){
+  const sheets = await listSheets();
+  for(const [t,h] of [[TAB.USR,TAB.USR_HEAD],[TAB.PRO,TAB.PRO_HEAD],[TAB.TAR,TAB.TAR_HEAD],[TAB.REG,TAB.REG_HEAD],[TAB.COM,TAB.COM_HEAD],[TAB.CFG,TAB.CFG_HEAD]]){
+    await ensureTab(t,h,sheets);
+  }
+  // Actualizar encabezados de instalaciones previas (nombre_largo, origen)
+  const pro = await readTab(TAB.PRO);
+  if(pro.header.length < TAB.PRO_HEAD.length) await writeHeader(TAB.PRO, TAB.PRO_HEAD);
+  const tar = await readTab(TAB.TAR);
+  if(tar.header.length < TAB.TAR_HEAD.length) await writeHeader(TAB.TAR, TAB.TAR_HEAD);
+  if(pro.rows.length===0){
+    const vals = PROYECTOS_SEED.map(p=>[p,'TRUE','']);
+    await api(`${SS}/${SPREADSHEET_ID}/values/${enc(TAB.PRO)}!A2:C${vals.length+1}?valueInputOption=RAW`,
+      {method:'PUT', body:JSON.stringify({values:vals})});
+  }
+  const usr = await readTab(TAB.USR);
+  if(!usr.rows.find(r=> (r.correo||'').toLowerCase()===ME.email)){
+    await api(`${SS}/${SPREADSHEET_ID}/values/${enc(TAB.USR)}!A1:append?valueInputOption=RAW`,
+      {method:'POST', body:JSON.stringify({values:[[ME.email, ME.name,'TRUE','TRUE','admin']]})});
+  }
+  CACHE.usuarios=null; CACHE.proyectos=null;
+}
+async function readTab(title){
+  const d = await api(`${SS}/${SPREADSHEET_ID}/values/${enc(title)}?majorDimension=ROWS`);
+  const vals = d.values||[];
+  const header = vals[0]||[];
+  const rows = vals.slice(1).map(r=>{ const o={}; header.forEach((h,i)=>o[h]=(r[i]!==undefined?r[i]:'')); return o; });
+  return { header, rows };
+}
+async function replaceTab(title, header, objRows, mode='USER_ENTERED'){
+  await api(`${SS}/${SPREADSHEET_ID}/values/${enc(title)}!A2:Z100000:clear`, {method:'POST', body:'{}'});
+  if(objRows.length){
+    const values = objRows.map(o=> header.map(h=> o[h]!==undefined && o[h]!==null? o[h] : ''));
+    await api(`${SS}/${SPREADSHEET_ID}/values/${enc(title)}!A2?valueInputOption=${mode}`,
+      {method:'PUT', body:JSON.stringify({range:`${title}!A2`, majorDimension:'ROWS', values})});
+  }
+}
+async function appendRow(title, arr){
+  await api(`${SS}/${SPREADSHEET_ID}/values/${enc(title)}!A1:append?valueInputOption=USER_ENTERED`,
+    {method:'POST', body:JSON.stringify({values:[arr]})});
+}
+async function readConfig(){
+  const c=await readTab(TAB.CFG); const o={};
+  c.rows.forEach(r=>{ if(r.clave) o[r.clave]=r.valor; });
+  return o;
+}
+async function getConfig(clave){ return (await readConfig())[clave]||''; }
+async function setConfigMany(obj){
+  const c=await readTab(TAB.CFG);
+  const rows=c.rows.filter(x=>x.clave && !(x.clave in obj)).map(x=>({clave:x.clave,valor:x.valor}));
+  Object.entries(obj).forEach(([k,v])=>rows.push({clave:k,valor:String(v)}));
+  await replaceTab(TAB.CFG,TAB.CFG_HEAD,rows,'RAW');
+}
+async function setConfig(clave,valor){ await setConfigMany({[clave]:valor}); }
+
+function enc(s){ return encodeURIComponent(s); }
+function colLetter(n){ let s=''; while(n>0){ let m=(n-1)%26; s=String.fromCharCode(65+m)+s; n=(n-m-1)/26; } return s; }
+function uid(){ return Date.now().toString(36)+Math.random().toString(36).slice(2,7); }
+
+async function getUsuarios(force){ if(!CACHE.usuarios||force){ CACHE.usuarios=(await readTab(TAB.USR)).rows; } return CACHE.usuarios; }
+async function getProyectos(force){ if(!CACHE.proyectos||force){ CACHE.proyectos=(await readTab(TAB.PRO)).rows; } return CACHE.proyectos; }
+const isTrue = v => String(v).toUpperCase()==='TRUE'||v===true||v==='1'||v==='Sí'||v==='SI';
+const sameMail = (a,b) => (a||'').toLowerCase()===(b||'').toLowerCase();
+const r2 = n => Math.round(n*100)/100;
+
+/* ============================================================
+   UI HELPERS
+============================================================ */
+const V = () => document.getElementById('view');
+function loader(on,msg){ document.getElementById('loaderMsg').textContent=msg||'Cargando…'; document.getElementById('loader').classList.toggle('show',!!on); }
+let toastT=null;
+function toast(msg,type){
+  const t=document.getElementById('toast');
+  t.innerHTML=(type==='ok'?ic('ok'):type==='err'?ic('alert'):ic('info'))+`<span>${esc(msg)}</span>`;
+  t.className='show '+(type||'');
+  clearTimeout(toastT); toastT=setTimeout(()=>t.className=(type||''),3400);
+}
+function loadingPanel(msg){ return `<div class="panel"><div class="empty"><div class="spin"></div>${msg||'Cargando…'}</div></div>`; }
+function confirmar(title,text,{ok='Aceptar',danger=false}={}){
+  return new Promise(res=>{
+    const m=document.getElementById('modal');
+    document.getElementById('mTitle').textContent=title;
+    document.getElementById('mText').textContent=text;
+    const bOk=document.getElementById('mOk'), bC=document.getElementById('mCancel');
+    bOk.textContent=ok; bOk.className='btn'+(danger?' danger-solid':'');
+    const close=v=>{ m.classList.remove('show'); bOk.onclick=bC.onclick=null; res(v); };
+    bOk.onclick=()=>close(true); bC.onclick=()=>close(false);
+    m.classList.add('show'); setTimeout(()=>bOk.focus(),50);
+  });
+}
+function currentYM(){ const d=new Date(); return { anio:d.getFullYear(), mes:d.getMonth()+1 }; }
+function yearOptions(sel){ const y=new Date().getFullYear(); let o=''; for(let a=2023;a<=y+1;a++) o+=`<option value="${a}" ${a==sel?'selected':''}>${a}</option>`; return o; }
+function monthOptions(sel){ return MESES.map((m,i)=>`<option value="${i+1}" ${i+1==sel?'selected':''}>${m}</option>`).join(''); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+function fmtHora(h){ h=+h; const ap=h<12?'a. m.':'p. m.'; return `${h%12||12}:00 ${ap}`; }
+
+/* ============================================================
+   INICIO
+============================================================ */
+async function goHome(){
+  setActive('home');
+  const {anio,mes}=currentYM();
+  const first=esc((ME.name||'').split(' ')[0]||'');
+  setPage(`Hola, ${first}`, `Este es tu resumen de ${MESES[mes-1].toLowerCase()} de ${anio}.`);
+  V().innerHTML=`
+    <div class="kpis">
+      <div class="kpi"><div class="kpi-ic">${ic('list')}</div><div><div class="kpi-l">Tareas del mes</div><div class="kpi-v" id="kT">—</div></div></div>
+      <div class="kpi"><div class="kpi-ic">${ic('clock')}</div><div><div class="kpi-l">Horas registradas</div><div class="kpi-v" id="kH">—</div></div></div>
+      <div class="kpi"><div class="kpi-ic">${ic('check')}</div><div><div class="kpi-l">Estado del mes</div><div class="kpi-v" id="kE" style="font-size:15px;margin-top:4px">—</div></div></div>
+    </div>
+    <div class="section-title">Accesos rápidos</div>
+    <div class="actions-grid">
+      <button class="action primary" onclick="go('registrar')">${ic('clock')}<div><h3>Registrar horas</h3><p>Completa tus tareas del mes o crea una nueva.</p></div>${ic('right','arr')}</button>
+      <button class="action" onclick="go('reportes')">${ic('download')}<div><h3>Descargar reportes</h3><p>Excel mensual o histórico por proyecto.</p></div>${ic('right','arr')}</button>
+      <button class="action" onclick="go('estado')">${ic('shield')}<div><h3>Administración</h3><p>Asignaciones, control mensual y recordatorios.</p></div>${ic('right','arr')}</button>
+    </div>`;
+  try{ await sysReady(); fillHomeStatus(anio,mes); }catch(e){}
+}
+async function fillHomeStatus(anio,mes){
+  try{
+    const [tareas,regs]=await Promise.all([readTab(TAB.TAR),readTab(TAB.REG)]);
+    if(CURRENT!=='home') return;
+    const asign=tareas.rows.filter(t=>sameMail(t.correo,ME.email) && +t.anio===anio && +t.mes===mes);
+    const mine=regs.rows.filter(r=>sameMail(r.correo,ME.email) && +r.anio===anio && +r.mes===mes && r.horas!=='');
+    const total=mine.reduce((s,r)=>s+(parseFloat(r.horas)||0),0);
+    document.getElementById('kT').textContent=asign.length;
+    document.getElementById('kH').textContent=`${r2(total)} h`;
+    document.getElementById('kE').innerHTML= mine.length>0? '<span class="pill on"><span class="dot g"></span>Al día</span>'
+      : asign.length? '<span class="pill off"><span class="dot r"></span>Pendiente</span>' : '<span class="pill mute">Sin tareas aún</span>';
+  }catch(e){}
+}
+
+/* ============================================================
+   REPORTES
+============================================================ */
+async function viewReportes(){
+  setActive('reportes');
+  setPage('Reportes','Descarga en Excel las horas de un mes o el histórico completo de un proyecto.');
+  const {anio,mes}=currentYM();
+  V().innerHTML=`<div class="grid2">
+    <div class="panel">
+      <h3>${ic('calendar')}Reporte mensual</h3>
+      <div class="desc">Matriz de horas del mes con proyectos en filas, personas en columnas y totales.</div>
+      <div class="grid2" style="gap:12px">
+        <div><label class="f">Mes</label><select class="i" id="rfMes">${monthOptions(mes)}</select></div>
+        <div><label class="f">Año</label><select class="i" id="rfAnio">${yearOptions(anio)}</select></div>
+      </div>
+      <button class="btn" style="margin-top:16px;width:100%" onclick="genReporteFecha()">${ic('download')}Descargar Excel</button>
+    </div>
+    <div class="panel">
+      <h3>${ic('folder')}Histórico por proyecto</h3>
+      <div class="desc">Colaboradores en filas y meses en columnas, con una hoja por año y un resumen total.</div>
+      <div><label class="f">Proyecto</label><select class="i" id="rpProy"><option>Cargando…</option></select></div>
+      <button class="btn" style="margin-top:16px;width:100%" onclick="genReporteProyecto()">${ic('download')}Descargar Excel</button>
+    </div>
+  </div>
+  <div class="note">${ic('info')}<span>Cualquier persona del equipo puede descargar estos reportes.</span></div>`;
+  const pro=await getProyectos();
+  const sel=document.getElementById('rpProy');
+  if(sel) sel.innerHTML=pro.map(p=>`<option>${esc(p.proyecto)}</option>`).join('');
+}
+async function genReporteFecha(){
+  const mes=+document.getElementById('rfMes').value, anio=+document.getElementById('rfAnio').value;
+  loader(true,'Generando reporte…');
+  try{
+    const [regs,usuarios,proyectos] = await Promise.all([readTab(TAB.REG),getUsuarios(),getProyectos()]);
+    const rows = regs.rows.filter(r=> +r.anio===anio && +r.mes===mes);
+    const personas = usuarios.filter(u=>isTrue(u.activo)).map(u=>u.nombre);
+    const provs = proyectos.map(p=>p.proyecto);
+    const map={};
+    rows.forEach(r=>{ const p=r.proyecto||'Otros', n=r.nombre||r.correo; map[p]=map[p]||{}; map[p][n]=(map[p][n]||0)+(parseFloat(r.horas)||0); });
+    const proyRows = provs.filter(p=> map[p]).concat(Object.keys(map).filter(p=>!provs.includes(p)));
+    const aoa=[];
+    aoa.push([`Dedicación por proyecto y por recurso: ${MESES[mes-1].toUpperCase()} ${anio}`]);
+    aoa.push(['Proyecto',...personas,'TOTAL']);
+    const colTot={}; personas.forEach(p=>colTot[p]=0);
+    proyRows.forEach(p=>{
+      const row=[p]; let rt=0;
+      personas.forEach(n=>{ const v=(map[p]&&map[p][n])||0; row.push(v); rt+=v; colTot[n]+=v; });
+      row.push(rt); aoa.push(row);
+    });
+    const totRow=['TOTAL horas al mes']; let grand=0;
+    personas.forEach(n=>{ totRow.push(colTot[n]); grand+=colTot[n]; }); totRow.push(grand);
+    aoa.push(totRow);
+    const conLargo = proyRows.map(p=>proyectos.find(x=>x.proyecto===p)).filter(x=>x && (x.nombre_largo||'').trim()!=='');
+    if(conLargo.length){ aoa.push([]); conLargo.forEach(x=> aoa.push([`- ${x.proyecto}: ${x.nombre_largo}`])); }
+    const ws=XLSX.utils.aoa_to_sheet(aoa);
+    ws['!cols']=[{wch:42},...personas.map(()=>({wch:14})),{wch:10}];
+    const wb=XLSX.utils.book_new(); XLSX.utils.book_append_sheet(wb,ws,`${MESES_CORTO[mes-1]} ${anio}`);
+    XLSX.writeFile(wb,`Reporte_${MESES[mes-1]}_${anio}.xlsx`);
+    toast('Reporte descargado','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+async function genReporteProyecto(){
+  const proy=document.getElementById('rpProy').value;
+  loader(true,'Generando histórico…');
+  try{
+    const [regsAll,proyectos]=await Promise.all([readTab(TAB.REG),getProyectos()]);
+    const regs=regsAll.rows.filter(r=> (r.proyecto||'')===proy);
+    if(regs.length===0){ toast('Este proyecto no tiene horas registradas','err'); return; }
+    const pInfo=proyectos.find(p=>p.proyecto===proy);
+    const largo=(pInfo && (pInfo.nombre_largo||'').trim())? pInfo.nombre_largo.trim() : '';
+    const titulo= largo? `${proy} — ${largo}` : proy;
+    const anios=[...new Set(regs.map(r=>+r.anio))].sort();
+    const wb=XLSX.utils.book_new();
+    const histo={};
+    anios.forEach(a=>{
+      const rr=regs.filter(r=>+r.anio===a);
+      const personas=[...new Set(rr.map(r=>r.nombre||r.correo))];
+      const aoa=[[`Resumen de horas · ${titulo} · ${a}`],[],['Colaborador',...MESES_CORTO,'Total Horas']];
+      const colTot=new Array(12).fill(0); let grand=0;
+      personas.forEach(n=>{
+        const row=[n]; let tot=0;
+        for(let m=1;m<=12;m++){ const h=rr.filter(r=>r.nombre===n||r.correo===n).filter(r=>+r.mes===m).reduce((s,r)=>s+(parseFloat(r.horas)||0),0); row.push(h); tot+=h; colTot[m-1]+=h; }
+        row.push(tot); aoa.push(row); histo[n]=histo[n]||{}; histo[n][a]=tot; grand+=tot;
+      });
+      aoa.push(['Total General',...colTot,grand]);
+      const ws=XLSX.utils.aoa_to_sheet(aoa); ws['!cols']=[{wch:22},...MESES_CORTO.map(()=>({wch:7})),{wch:12}];
+      XLSX.utils.book_append_sheet(wb,ws,String(a));
+    });
+    const personas=Object.keys(histo);
+    const aoa=[[`Resumen histórico · ${titulo}`],[],['Colaborador',...anios.map(a=>'Horas '+a),'Total Histórico']];
+    const annTot={}; anios.forEach(a=>annTot[a]=0); let gTot=0;
+    personas.map(n=>({n,t:anios.reduce((s,a)=>s+(histo[n][a]||0),0)})).sort((a,b)=>b.t-a.t).forEach(({n,t})=>{
+      const row=[n]; anios.forEach(a=>{ const v=histo[n][a]||0; row.push(v); annTot[a]+=v; }); row.push(t); aoa.push(row); gTot+=t;
+    });
+    aoa.push(['Total Inversión Anual',...anios.map(a=>annTot[a]),gTot]);
+    const wsT=XLSX.utils.aoa_to_sheet(aoa); wsT['!cols']=[{wch:22},...anios.map(()=>({wch:14})),{wch:16}];
+    XLSX.utils.book_append_sheet(wb,wsT,'Total');
+    XLSX.writeFile(wb,`Resumen_de_horas_${proy.replace(/[^\w]+/g,'_')}.xlsx`);
+    toast('Histórico descargado','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+
+/* ============================================================
+   REGISTRAR HORAS (con tareas propias)
+============================================================ */
+async function viewRegistrar(){
+  setActive('registrar');
+  setPage('Registrar horas','Anota las horas de cada tarea. Si trabajaste en algo que no aparece en la lista, créalo como tarea propia.');
+  const {anio,mes}=currentYM();
+  Object.assign(REG,{anio,mes,dirty:false,items:[],removed:[],adding:false,mail:false});
+  V().innerHTML=`
+    <div class="panel">
+      <div class="month-nav">
+        <button class="mn-btn" onclick="regShift(-1)" title="Mes anterior">${ic('left')}</button>
+        <div class="mn-label">
+          <div class="mn-mes" id="mnMes">—</div>
+          <button class="mn-hoy hidden" id="mnHoy" onclick="regHoy()">Ir al mes actual</button>
+        </div>
+        <button class="mn-btn" onclick="regShift(1)" title="Mes siguiente">${ic('right')}</button>
+      </div>
+      <div class="pbar"><div class="pbar-fill" id="pbarFill"></div></div>
+      <div class="prog" id="regProg"></div>
+    </div>
+    <div id="misTareas"></div>`;
+  loadMisTareas();
+}
+async function regShift(d){
+  if(REG.dirty && !(await confirmar('Cambios sin guardar','Tienes cambios sin guardar en este mes. Si cambias de mes, se descartan.',{ok:'Descartar y cambiar',danger:true}))) return;
+  REG.mes+=d; if(REG.mes<1){REG.mes=12;REG.anio--;} if(REG.mes>12){REG.mes=1;REG.anio++;}
+  REG.dirty=false; REG.adding=false; loadMisTareas();
+}
+async function regHoy(){
+  if(REG.dirty && !(await confirmar('Cambios sin guardar','Tienes cambios sin guardar. Si vas al mes actual, se descartan.',{ok:'Descartar y continuar',danger:true}))) return;
+  const {anio,mes}=currentYM(); Object.assign(REG,{anio,mes,dirty:false,adding:false}); loadMisTareas();
+}
+function regHeaderRefresh(){
+  const {anio,mes}=currentYM();
+  document.getElementById('mnMes').textContent=`${MESES[REG.mes-1]} ${REG.anio}`;
+  document.getElementById('mnHoy').classList.toggle('hidden', REG.anio===anio && REG.mes===mes);
+}
+async function loadMisTareas(){
+  regHeaderRefresh();
+  const cont=document.getElementById('misTareas');
+  cont.innerHTML=loadingPanel('Cargando tus tareas…');
+  const mes=REG.mes, anio=REG.anio;
+  let pm=mes-1, pa=anio; if(pm<1){ pm=12; pa--; }
+  try{
+    await sysReady();
+    const [tareas,regs,coms]=await Promise.all([readTab(TAB.TAR),readTab(TAB.REG),readTab(TAB.COM),getProyectos()]);
+    if(REG.mes!==mes || REG.anio!==anio) return;
+    const mine=tareas.rows.filter(t=>sameMail(t.correo,ME.email) && +t.anio===anio && +t.mes===mes);
+    const prev = k => regs.rows.find(x=>sameMail(x.correo,ME.email) && +x.anio===anio && +x.mes===mes && x.tarea===k) || null;
+    const prevMonth = k => regs.rows.find(x=>sameMail(x.correo,ME.email) && +x.anio===pa && +x.mes===pm && x.tarea===k) || null;
+    const miCom = coms.rows.find(c=>sameMail(c.correo,ME.email) && +c.anio===anio && +c.mes===mes);
+    let precargadas=0;
+    REG.items = mine.map(t=>{
+      const p=prev(t.tarea);
+      let horas=(p && p.horas!==undefined && p.horas!=='')? String(p.horas) : '';
+      const desc=p? (p.descripcion||'') : '';
+      let pre=false;
+      if(!p){ const q=prevMonth(t.tarea); if(q && q.horas!=='' && q.horas!==undefined){ horas=String(q.horas); pre=true; precargadas++; } }
+      return { k:uid(), proyecto:t.proyecto||'—', tarea:t.tarea, horas, desc, pre, origen:t.origen==='propia'?'propia':'admin', nueva:false, showDesc:desc.trim()!=='' };
+    });
+    Object.assign(REG,{removed:[], comentario:miCom?miCom.comentario:'', dirty:false, precargadas, pm, pa});
+    renderMisTareas();
+  }catch(e){ cont.innerHTML=`<div class="panel"><div class="empty">Error: ${esc(e.message)}</div></div>`; }
+}
+function addFormHtml(){
+  const pro=(CACHE.proyectos||[]).filter(p=>isTrue(p.activo));
+  return `<div class="add-form">
+    <h4>${ic('plus')}Nueva tarea propia</h4>
+    <div class="add-grid">
+      <div><label class="f">Proyecto</label><select class="i" id="ntProy">${pro.map(p=>`<option>${esc(p.proyecto)}</option>`).join('')}</select></div>
+      <div><label class="f">Nombre de la tarea</label><input class="i" id="ntTarea" placeholder="Ej. Revisión del programa de curso SOFT-203" onkeydown="if(event.key==='Enter')agregarTareaPropia()"></div>
+    </div>
+    <div class="row-actions" style="margin-top:14px">
+      <button class="btn" onclick="agregarTareaPropia()">${ic('plus')}Añadir tarea</button>
+      <button class="btn ghost" onclick="toggleAdd(false)">Cancelar</button>
+    </div>
+  </div>`;
+}
+function stickyHtml(){
+  return `<div class="sticky-save ${REG.dirty?'dirty':''}" id="stickySave">
+    <div><div class="ss-total" id="regTotal">0 h</div><div class="ss-sub">total del mes</div></div>
+    <div class="ss-dirty"><span class="dot a"></span>Cambios sin guardar</div>
+    <div class="spacer"></div>
+    <button class="btn light" onclick="guardarMisHoras()">Guardar horas</button>
+  </div>`;
+}
+function renderMisTareas(){
+  const cont=document.getElementById('misTareas'); if(!cont) return;
+  const items=REG.items;
+  if(!items.length){
+    cont.innerHTML=`<div class="panel">
+        <div class="empty">${ic('inbox','big')}
+          <b>No tienes tareas para ${MESES[REG.mes-1]} ${REG.anio}</b>
+          <p>Puedes crear tus propias tareas y registrar sus horas, o pedirle al administrador que te las asigne.</p>
+          ${REG.adding?'':`<button class="btn" style="margin-top:18px" onclick="toggleAdd(true)">${ic('plus')}Crear una tarea</button>`}
+        </div>
+        ${REG.adding?addFormHtml():''}
+      </div>
+      ${REG.removed.length? stickyHtml() : ''}`;
+    sumRegTotal(); focusAdd(); return;
+  }
+  const grupos=[]; const idx={};
+  items.forEach(it=>{
+    if(!(it.proyecto in idx)){ idx[it.proyecto]=grupos.length; grupos.push({proyecto:it.proyecto,items:[]}); }
+    grupos[idx[it.proyecto]].items.push(it);
+  });
+  let html = REG.precargadas? `<div class="note">${ic('zap')}<span>Se precargaron <b>${REG.precargadas}</b> tarea(s) con tus horas de ${MESES[REG.pm-1]} ${REG.pa} como punto de partida. Revisa, ajusta y guarda.</span></div>` : '';
+  grupos.forEach(g=>{
+    html+=`<div class="proj-group">
+      <div class="proj-head"><span class="ptitle">${esc(g.proyecto)}</span><span class="subtotal" data-proj="${esc(g.proyecto)}">0 h</span></div>
+      ${g.items.map(it=>`<div class="task-row" data-k="${it.k}">
+        <div class="tr-top">
+          <div class="tr-name"><span>${esc(it.tarea)}</span>
+            ${it.pre?'<span class="pill pre">Precargada</span>':''}
+            ${it.origen==='propia'?'<span class="pill own">Propia</span>':''}
+            ${it.nueva?'<span class="pill blue">Nueva</span>':''}
+          </div>
+          <div class="tr-controls">
+            <div class="stepper">
+              <button type="button" onclick="stepH('${it.k}',-0.5)" title="Restar media hora">−</button>
+              <input class="regH" data-k="${it.k}" type="number" min="0" step="0.25" value="${esc(it.horas)}" placeholder="0" oninput="setH('${it.k}',this.value)">
+              <button type="button" onclick="stepH('${it.k}',0.5)" title="Sumar media hora">+</button>
+            </div>
+            <button type="button" class="tool-btn ${it.desc.trim()?'has':''}" onclick="toggleDesc('${it.k}')" title="Nota sobre el trabajo">${ic('note')}Nota</button>
+            ${it.origen==='propia'?`<button type="button" class="tool-btn del" onclick="quitarPropia('${it.k}')" title="Quitar tarea propia">${ic('trash')}</button>`:''}
+          </div>
+        </div>
+        <div class="tr-desc ${it.showDesc?'':'hidden'}">
+          <input class="i" type="text" value="${esc(it.desc)}" placeholder="¿En qué consistió el trabajo? (opcional)" oninput="setD('${it.k}',this.value)">
+        </div>
+      </div>`).join('')}
+    </div>`;
+  });
+  html += REG.adding? addFormHtml()
+    : `<button class="add-btn" onclick="toggleAdd(true)">${ic('plus')}Crear tarea propia<span>¿Trabajaste en algo que no está en la lista?</span></button>`;
+  html += `<div class="panel">
+      <label class="f">Comentario para el administrador (opcional)</label>
+      <textarea class="i" id="regCom" rows="2" placeholder="Ej. Este mes dediqué más tiempo a X porque…" oninput="REG.comentario=this.value;markDirty()">${esc(REG.comentario)}</textarea>
+      <label class="chk" style="margin-top:12px"><input type="checkbox" ${REG.mail?'checked':''} onchange="REG.mail=this.checked"> Enviarme copia de mis horas por correo</label>
+    </div>
+    ${stickyHtml()}`;
+  cont.innerHTML=html;
+  sumRegTotal(); focusAdd();
+}
+function focusAdd(){ if(REG.adding) setTimeout(()=>{ const i=document.getElementById('ntTarea'); if(i) i.focus(); },30); }
+function findItem(k){ return REG.items.find(i=>i.k===k); }
+function setH(k,v){ const it=findItem(k); if(!it) return; it.horas=v; markDirty(); sumRegTotal(); }
+function setD(k,v){
+  const it=findItem(k); if(!it) return; it.desc=v; markDirty();
+  const row=document.querySelector(`.task-row[data-k="${k}"] .tool-btn`); if(row) row.classList.toggle('has',v.trim()!=='');
+}
+function stepH(k,delta){
+  const it=findItem(k); if(!it) return;
+  let v=Math.max(0,(parseFloat(it.horas)||0)+delta); v=r2(v);
+  it.horas=(v===0 && delta<0)? '' : String(v);
+  const inp=document.querySelector(`.regH[data-k="${k}"]`); if(inp) inp.value=it.horas;
+  markDirty(); sumRegTotal();
+}
+function toggleDesc(k){
+  const it=findItem(k); if(!it) return; it.showDesc=!it.showDesc;
+  const wrap=document.querySelector(`.task-row[data-k="${k}"] .tr-desc`);
+  wrap.classList.toggle('hidden',!it.showDesc);
+  if(it.showDesc) wrap.querySelector('input').focus();
+}
+function toggleAdd(on){
+  if(on && !(CACHE.proyectos||[]).some(p=>isTrue(p.activo))){ toast('No hay proyectos vigentes; pídele al administrador que añada uno','err'); return; }
+  REG.adding=on; renderMisTareas();
+}
+function agregarTareaPropia(){
+  const proyecto=document.getElementById('ntProy').value;
+  const tarea=document.getElementById('ntTarea').value.trim();
+  if(!tarea){ toast('Escribe el nombre de la tarea','err'); return; }
+  if(REG.items.some(i=>i.tarea.toLowerCase()===tarea.toLowerCase())){ toast('Ya tienes una tarea con ese nombre este mes','err'); return; }
+  const k=uid();
+  const restaurada=REG.removed.indexOf(tarea);
+  if(restaurada>-1) REG.removed.splice(restaurada,1);
+  REG.items.push({k,proyecto,tarea,horas:'',desc:'',pre:false,origen:'propia',nueva:restaurada===-1,showDesc:false});
+  REG.adding=false; markDirty(); renderMisTareas();
+  setTimeout(()=>{ const i=document.querySelector(`.regH[data-k="${k}"]`); if(i){ i.focus(); i.scrollIntoView({block:'center',behavior:'smooth'}); } },40);
+  toast('Tarea añadida. Anota sus horas y guarda.','ok');
+}
+async function quitarPropia(k){
+  const it=findItem(k); if(!it) return;
+  const ok=await confirmar('Quitar tarea propia',`Se quitará "${it.tarea}" y sus horas de este mes al guardar.`,{ok:'Quitar',danger:true});
+  if(!ok) return;
+  if(!it.nueva) REG.removed.push(it.tarea);
+  REG.items=REG.items.filter(i=>i.k!==k);
+  markDirty(); renderMisTareas();
+}
+function markDirty(){
+  REG.dirty=true;
+  const s=document.getElementById('stickySave'); if(s) s.classList.add('dirty');
+}
+function sumRegTotal(){
+  let s=0,filled=0; const sub={};
+  REG.items.forEach(it=>{
+    const v=parseFloat(it.horas)||0; s+=v; if(it.horas!=='') filled++;
+    sub[it.proyecto]=(sub[it.proyecto]||0)+v;
+    const row=document.querySelector(`.task-row[data-k="${it.k}"]`); if(row) row.classList.toggle('filled', v>0);
+  });
+  document.querySelectorAll('.subtotal').forEach(el=>{ el.textContent=r2(sub[el.dataset.proj]||0)+' h'; });
+  const el=document.getElementById('regTotal'); if(el) el.textContent=r2(s)+' h';
+  const n=REG.items.length;
+  const pr=document.getElementById('regProg'); if(pr) pr.innerHTML= n? `<b>${filled}</b> de ${n} tareas con horas` : 'Sin tareas este mes';
+  const pb=document.getElementById('pbarFill'); if(pb) pb.style.width= n? (filled/n*100)+'%' : '0';
+}
+window.addEventListener('beforeunload',(e)=>{ if(REG.dirty){ e.preventDefault(); e.returnValue=''; } });
+
+async function guardarMisHoras(){
+  const mes=REG.mes, anio=REG.anio;
+  loader(true,'Guardando…');
+  try{
+    await sysReady();
+    const usuarios=await getUsuarios();
+    const meU=usuarios.find(u=>sameMail(u.correo,ME.email));
+    const nombre=meU? meU.nombre : ME.name;
+    // 1) Tareas propias nuevas o quitadas
+    const nuevas=REG.items.filter(i=>i.nueva);
+    if(nuevas.length || REG.removed.length){
+      const tareas=await readTab(TAB.TAR);
+      const rows=tareas.rows.filter(t=> !(sameMail(t.correo,ME.email) && +t.anio===anio && +t.mes===mes && t.origen==='propia' && REG.removed.includes(t.tarea)));
+      nuevas.forEach(n=> rows.push({id:uid(),anio,mes,correo:ME.email,proyecto:n.proyecto,tarea:n.tarea,origen:'propia'}));
+      await replaceTab(TAB.TAR,TAB.TAR_HEAD,rows);
+    }
+    // 2) Horas
+    const entradas=REG.items.map(i=>({ tarea:i.tarea, proyecto:i.proyecto, horas:(i.horas===''?'':parseFloat(i.horas)||0), descripcion:i.desc }));
+    await upsertRegistros(ME.email, nombre, anio, mes, entradas, REG.removed);
+    // 3) Comentario
+    const comTxt=(REG.comentario||'').trim();
+    const coms=await readTab(TAB.COM);
+    const keep=coms.rows.filter(c=> !(sameMail(c.correo,ME.email) && +c.anio===anio && +c.mes===mes));
+    if(comTxt) keep.push({anio,mes,correo:ME.email,nombre,comentario:comTxt,timestamp:new Date().toISOString()});
+    await replaceTab(TAB.COM,TAB.COM_HEAD,keep);
+    // 4) Copia por correo
+    if(REG.mail){
+      const total=entradas.reduce((s,e)=>s+(parseFloat(e.horas)||0),0);
+      const body=entradas.filter(e=>e.horas!==''&&e.horas!==0).map(e=>`• ${e.proyecto} — ${e.tarea}: ${e.horas} h`).join('\n');
+      sendMail(ME.email,`Horas registradas · ${MESES[mes-1]} ${anio}`,
+        `Hola ${nombre},\n\nRegistraste ${r2(total)} h en ${MESES[mes-1]} ${anio}:\n\n${body}\n\n— Sistema DCD, CENFOTEC`).catch(()=>{});
+    }
+    toast('Horas guardadas correctamente','ok');
+    REG.dirty=false;
+    checkTodosRegistraron(anio,mes).catch(()=>{});
+    loadMisTareas();
+  }catch(e){ toast('Error al guardar: '+e.message,'err'); } finally{ loader(false); }
+}
+
+// Reemplaza los registros de (correo, año, mes, tarea) y borra los de tareas quitadas
+async function upsertRegistros(correo, nombre, anio, mes, entradas, quitar=[]){
+  const reg=await readTab(TAB.REG);
+  const keep=reg.rows.filter(r=> !(sameMail(r.correo,correo) && +r.anio===anio && +r.mes===mes &&
+    (entradas.some(e=>e.tarea===r.tarea) || quitar.includes(r.tarea))));
+  const nowIso=new Date().toISOString();
+  const nuevos=entradas.filter(e=>e.horas!=='').map(e=>({
+    id:uid(), anio, mes, correo, nombre, proyecto:e.proyecto, tarea:e.tarea, horas:e.horas, descripcion:e.descripcion, timestamp:nowIso
+  }));
+  await replaceTab(TAB.REG, TAB.REG_HEAD, keep.concat(nuevos));
+}
+
+/* ============================================================
+   ADMINISTRADOR · acceso
+============================================================ */
+function viewAdminGate(target){
+  CURRENT=target; renderNav();
+  setPage('Administración','Esta sección requiere la contraseña de administrador.');
+  V().innerHTML=`<div class="panel lock">
+      <div class="lock-ic">${ic('lock')}</div>
+      <h3 style="justify-content:center">Acceso administrador</h3>
+      <div class="desc">Ingresa la contraseña para continuar.</div>
+      <input class="i" id="admPass" type="password" placeholder="Contraseña" style="max-width:280px;margin:0 auto 14px;display:block" onkeydown="if(event.key==='Enter')tryAdmin('${target}')">
+      <button class="btn" onclick="tryAdmin('${target}')">Entrar</button>
+    </div>`;
+  setTimeout(()=>document.getElementById('admPass').focus(),100);
+}
+function tryAdmin(target){
+  if(document.getElementById('admPass').value===ADMIN_PASS){ adminUnlocked=true; VIEWS[target](); }
+  else toast('Contraseña incorrecta','err');
+}
+
+/* ---- Usuarios ---- */
+async function admUsuarios(){
+  setActive('usuarios');
+  setPage('Usuarios','El correo es la clave que asocia a cada persona con sus tareas y horas.',
+    `<button class="btn sec" onclick="respaldarDrive()">${ic('cloud')}Respaldar a Drive</button>`);
+  V().innerHTML=loadingPanel('Cargando usuarios…');
+  const us=await getUsuarios(true);
+  const rows=us.map((u,i)=>`<tr>
+      <td style="font-weight:600">${esc(u.nombre)}</td>
+      <td>${esc(u.correo)}</td>
+      <td><label class="chk"><input type="checkbox" ${isTrue(u.es_empleado)?'checked':''} onchange="setUsr(${i},'es_empleado',this.checked)"> Empleado</label></td>
+      <td>${isTrue(u.activo)?'<span class="pill on">Activo</span>':'<span class="pill off">Inactivo</span>'}</td>
+      <td><div class="row-actions">
+        <button class="btn mini sec" onclick="setUsr(${i},'activo',${!isTrue(u.activo)})">${isTrue(u.activo)?'Desactivar':'Activar'}</button>
+        <button class="btn mini danger" onclick="delUsr(${i})">${ic('trash')}</button>
+      </div></td></tr>`).join('');
+  V().innerHTML=`
+    <div class="panel">
+      <h3>${ic('plus')}Añadir usuario</h3>
+      <div class="grid2" style="margin-top:14px">
+        <div><label class="f">Nombre</label><input class="i" id="nuNombre" placeholder="Nombre completo"></div>
+        <div><label class="f">Correo</label><input class="i" id="nuCorreo" placeholder="persona@ucenfotec.ac.cr"></div>
+      </div>
+      <div class="toolbar" style="margin-top:14px;justify-content:space-between">
+        <label class="chk"><input type="checkbox" id="nuEmp" checked> Es empleado (el administrador le llena las horas)</label>
+        <button class="btn" onclick="addUsr()">Añadir usuario</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Usuarios registrados <span class="pill mute">${us.length}</span></h3>
+      <div class="tbl-wrap" style="margin-top:14px"><table>
+        <thead><tr><th>Nombre</th><th>Correo</th><th>Tipo</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="5" class="empty">Aún no hay usuarios.</td></tr>'}</tbody>
+      </table></div>
+    </div>`;
+}
+async function addUsr(){
+  const nombre=document.getElementById('nuNombre').value.trim();
+  const correo=document.getElementById('nuCorreo').value.trim().toLowerCase();
+  if(!nombre||!correo){ toast('Completa nombre y correo','err'); return; }
+  loader(true,'Guardando…');
+  try{
+    const us=await getUsuarios(true);
+    if(us.find(u=>sameMail(u.correo,correo))){ toast('Ese correo ya existe','err'); return; }
+    await appendRow(TAB.USR,[correo,nombre,document.getElementById('nuEmp').checked?'TRUE':'FALSE','TRUE','colaborador']);
+    await getUsuarios(true); toast('Usuario añadido','ok'); admUsuarios();
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+async function setUsr(i,field,val){
+  loader(true,'Guardando…');
+  try{ const us=await getUsuarios(true); us[i][field]=val?'TRUE':'FALSE'; await replaceTab(TAB.USR,TAB.USR_HEAD,us); await getUsuarios(true); admUsuarios(); toast('Actualizado','ok'); }
+  catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+async function delUsr(i){
+  const us=await getUsuarios(true);
+  if(!(await confirmar('Eliminar usuario',`¿Eliminar a ${us[i].nombre}? Sus horas registradas se conservan en los reportes.`,{ok:'Eliminar',danger:true}))) return;
+  loader(true,'Eliminando…');
+  try{ us.splice(i,1); await replaceTab(TAB.USR,TAB.USR_HEAD,us); await getUsuarios(true); admUsuarios(); toast('Usuario eliminado','ok'); }
+  catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+
+/* ---- Proyectos ---- */
+async function admProyectos(){
+  setActive('proyectos');
+  setPage('Proyectos','El nombre largo aparece en los reportes. Los proyectos inactivos siguen disponibles en los históricos.');
+  V().innerHTML=loadingPanel('Cargando proyectos…');
+  const pro=await getProyectos(true);
+  const rows=pro.map((p,i)=>`<tr>
+      <td style="font-weight:600">${esc(p.proyecto)}</td>
+      <td style="min-width:260px"><input class="i nlInput" data-i="${i}" value="${esc(p.nombre_largo||'')}" placeholder="Nombre largo para reportes…"></td>
+      <td>${isTrue(p.activo)?'<span class="pill on">Vigente</span>':'<span class="pill off">Inactivo</span>'}</td>
+      <td><div class="row-actions">
+        <button class="btn mini sec" onclick="toggleProy(${i})">${isTrue(p.activo)?'Marcar inactivo':'Marcar vigente'}</button>
+        <button class="btn mini danger" onclick="delProy(${i})">${ic('trash')}</button>
+      </div></td></tr>`).join('');
+  V().innerHTML=`
+    <div class="panel">
+      <h3>${ic('plus')}Añadir proyecto</h3>
+      <div class="toolbar" style="margin-top:14px">
+        <div class="grow"><label class="f">Nombre corto</label><input class="i" id="npProy" placeholder="Ej. BIA"></div>
+        <div class="grow" style="flex:2"><label class="f">Nombre largo (opcional)</label><input class="i" id="npLargo" placeholder="Ej. Bachillerato en Inteligencia Artificial"></div>
+        <button class="btn" onclick="addProy()">Añadir</button>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Proyectos <span class="pill mute">${pro.length}</span></h3>
+      <div class="tbl-wrap" style="margin-top:14px"><table>
+        <thead><tr><th>Proyecto</th><th>Nombre largo (reportes)</th><th>Vigencia</th><th>Acciones</th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="4" class="empty">Sin proyectos.</td></tr>'}</tbody>
+      </table></div>
+      <div class="row-actions" style="margin-top:16px"><button class="btn" onclick="guardarNombresLargos()">Guardar nombres largos</button></div>
+    </div>`;
+}
+async function guardarNombresLargos(){
+  loader(true,'Guardando…');
+  try{
+    const pro=await getProyectos(true);
+    document.querySelectorAll('.nlInput').forEach(inp=>{ pro[+inp.dataset.i].nombre_largo=inp.value.trim(); });
+    await replaceTab(TAB.PRO,TAB.PRO_HEAD,pro); await getProyectos(true);
+    toast('Nombres largos guardados','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+async function addProy(){
+  const n=document.getElementById('npProy').value.trim(); if(!n){ toast('Escribe un nombre','err'); return; }
+  const largo=document.getElementById('npLargo').value.trim();
+  loader(true,'Guardando…');
+  try{ const pro=await getProyectos(true); if(pro.find(p=>p.proyecto===n)){ toast('Ya existe','err'); return; }
+    await appendRow(TAB.PRO,[n,'TRUE',largo]); await getProyectos(true); admProyectos(); toast('Proyecto añadido','ok'); }
+  catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+async function toggleProy(i){
+  loader(true,'Guardando…');
+  try{ const pro=await getProyectos(true); pro[i].activo=isTrue(pro[i].activo)?'FALSE':'TRUE'; await replaceTab(TAB.PRO,TAB.PRO_HEAD,pro); await getProyectos(true); admProyectos(); toast('Vigencia actualizada','ok'); }
+  catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+async function delProy(i){
+  const pro=await getProyectos(true);
+  if(!(await confirmar('Eliminar proyecto',`¿Eliminar el proyecto "${pro[i].proyecto}"? Si solo dejó de estar vigente, conviene marcarlo como inactivo.`,{ok:'Eliminar',danger:true}))) return;
+  loader(true,'Eliminando…');
+  try{ pro.splice(i,1); await replaceTab(TAB.PRO,TAB.PRO_HEAD,pro); await getProyectos(true); admProyectos(); toast('Eliminado','ok'); }
+  catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+
+/* ---- Asignar tareas ---- */
+let asignBuffer=[];
+async function admTareas(){
+  setActive('tareas');
+  setPage('Asignar tareas','Elige a la persona y el mes. Puedes traer las tareas del mes anterior y ajustarlas. Las tareas que la persona creó aparecen marcadas como propias.');
+  V().innerHTML=loadingPanel();
+  const {anio,mes}=currentYM();
+  const [us]=await Promise.all([getUsuarios(true),getProyectos(true)]);
+  const uopts=us.map(u=>`<option value="${esc(u.correo)}">${esc(u.nombre)} — ${esc(u.correo)}</option>`).join('');
+  V().innerHTML=`
+    <div class="panel">
+      <div class="toolbar">
+        <div class="grow" style="flex:2"><label class="f">Persona</label><select class="i" id="atCorreo" onchange="cargarAsignacion()">${uopts}</select></div>
+        <div class="grow"><label class="f">Mes</label><select class="i" id="atMes" onchange="cargarAsignacion()">${monthOptions(mes)}</select></div>
+        <div class="grow"><label class="f">Año</label><select class="i" id="atAnio" onchange="cargarAsignacion()">${yearOptions(anio)}</select></div>
+      </div>
+    </div>
+    <div id="atBody"></div>`;
+  cargarAsignacion();
+}
+async function cargarAsignacion(){
+  const cont=document.getElementById('atBody');
+  cont.innerHTML=loadingPanel();
+  const correo=document.getElementById('atCorreo').value, mes=+document.getElementById('atMes').value, anio=+document.getElementById('atAnio').value;
+  await sysReady();
+  const tareas=await readTab(TAB.TAR);
+  asignBuffer=tareas.rows.filter(t=>sameMail(t.correo,correo) && +t.anio===anio && +t.mes===mes)
+    .map(t=>({proyecto:t.proyecto,tarea:t.tarea,origen:t.origen||'admin'}));
+  renderAsignacion();
+}
+async function traerMesAnterior(){
+  const correo=document.getElementById('atCorreo').value; const mes=+document.getElementById('atMes').value, anio=+document.getElementById('atAnio').value;
+  let pm=mes-1, pa=anio; if(pm<1){ pm=12; pa--; }
+  const tareas=await readTab(TAB.TAR);
+  const prev=tareas.rows.filter(t=>sameMail(t.correo,correo) && +t.anio===pa && +t.mes===pm);
+  if(prev.length===0){ toast(`Sin tareas en ${MESES[pm-1]} ${pa}`,'err'); return; }
+  prev.forEach(t=>{ if(!asignBuffer.some(b=>b.tarea===t.tarea)) asignBuffer.push({proyecto:t.proyecto,tarea:t.tarea,origen:t.origen||'admin'}); });
+  renderAsignacion(); toast(`Traídas ${prev.length} tarea(s) de ${MESES[pm-1]}`,'ok');
+}
+function addAsign(){
+  const pro=(CACHE.proyectos||[]).filter(p=>isTrue(p.activo));
+  asignBuffer.push({proyecto:pro[0]?pro[0].proyecto:'Otros',tarea:'',origen:'admin'});
+  renderAsignacion();
+  setTimeout(()=>{ const ins=document.querySelectorAll('.asgT'); if(ins.length) ins[ins.length-1].focus(); },30);
+}
+function renderAsignacion(){
+  const cont=document.getElementById('atBody');
+  const pro=CACHE.proyectos||[];
+  const provOpts=v=>pro.map(p=>`<option ${p.proyecto===v?'selected':''}>${esc(p.proyecto)}</option>`).join('');
+  const rows=asignBuffer.map((t,i)=>`<tr>
+      <td style="min-width:220px"><select class="i" onchange="asignBuffer[${i}].proyecto=this.value">${provOpts(t.proyecto)}</select></td>
+      <td><input class="i asgT" value="${esc(t.tarea)}" oninput="asignBuffer[${i}].tarea=this.value" placeholder="Descripción de la tarea"></td>
+      <td>${t.origen==='propia'?'<span class="pill own">Propia</span>':'<span class="pill blue">Asignada</span>'}</td>
+      <td><button class="btn mini danger" onclick="asignBuffer.splice(${i},1);renderAsignacion()" title="Quitar">${ic('trash')}</button></td>
+    </tr>`).join('');
+  cont.innerHTML=`
+    <div class="panel">
+      <div class="toolbar" style="margin-bottom:14px">
+        <h3 style="flex:1;margin:0">Tareas del mes <span class="pill mute">${asignBuffer.length}</span></h3>
+        <button class="btn sec mini" onclick="traerMesAnterior()">Traer del mes anterior</button>
+        <button class="btn mini" onclick="addAsign()">${ic('plus')}Añadir tarea</button>
+      </div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th style="width:30%">Proyecto</th><th>Tarea</th><th>Origen</th><th></th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="4"><div class="empty" style="padding:24px">Sin tareas. Añade una o trae las del mes anterior.</div></td></tr>'}</tbody>
+      </table></div>
+      <div class="toolbar" style="margin-top:16px;justify-content:space-between">
+        <label class="chk"><input type="checkbox" id="atMail"> Notificar por correo a la persona</label>
+        <button class="btn ok" onclick="guardarAsignacion()">Guardar asignación</button>
+      </div>
+    </div>`;
+}
+async function guardarAsignacion(){
+  const correo=document.getElementById('atCorreo').value.toLowerCase(), mes=+document.getElementById('atMes').value, anio=+document.getElementById('atAnio').value;
+  const limpio=asignBuffer.filter(t=>t.tarea.trim()!=='');
+  loader(true,'Guardando asignación…');
+  try{
+    await sysReady();
+    const tareas=await readTab(TAB.TAR);
+    const keep=tareas.rows.filter(t=> !(sameMail(t.correo,correo) && +t.anio===anio && +t.mes===mes));
+    const nuevos=limpio.map(t=>({id:uid(),anio,mes,correo,proyecto:t.proyecto,tarea:t.tarea.trim(),origen:t.origen||'admin'}));
+    await replaceTab(TAB.TAR,TAB.TAR_HEAD,keep.concat(nuevos));
+    if(document.getElementById('atMail').checked){
+      const us=await getUsuarios(); const u=us.find(x=>sameMail(x.correo,correo));
+      const lista=limpio.map(t=>`• ${t.proyecto} — ${t.tarea}`).join('\n');
+      sendMail(correo,`Tareas asignadas · ${MESES[mes-1]} ${anio}`,
+        `Hola ${u?u.nombre:''},\n\nSe te asignaron estas tareas para ${MESES[mes-1]} ${anio}:\n\n${lista}\n\nIngresa al Sistema DCD para registrar tus horas.\n\n— Desarrollo Curricular, CENFOTEC`).catch(()=>{});
+    }
+    toast('Asignación guardada','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+
+/* ---- Control mensual ---- */
+let ESTADO={anio:0,mes:0,data:[],edit:null};
+async function admEstado(){
+  setActive('estado');
+  setPage('Control mensual','Revisa quién ya registró, envía recordatorios y corrige o completa horas cuando haga falta.',
+    `<button class="btn sec" onclick="crearRecordatorio()">${ic('calendar')}Evento de cierre en Calendar</button>`);
+  const {anio,mes}=currentYM();
+  V().innerHTML=loadingPanel();
+  const correoAviso=await getConfig('correo_aviso').catch(()=>'');
+  V().innerHTML=`
+    <div class="panel">
+      <div class="toolbar">
+        <div class="grow"><label class="f">Mes</label><select class="i" id="esMes" onchange="cargarEstado()">${monthOptions(mes)}</select></div>
+        <div class="grow"><label class="f">Año</label><select class="i" id="esAnio" onchange="cargarEstado()">${yearOptions(anio)}</select></div>
+        <label class="chk" style="padding-bottom:12px"><input type="checkbox" id="esSoloEmp" checked onchange="cargarEstado()"> Solo empleados</label>
+      </div>
+      <div class="toolbar" style="margin-top:14px">
+        <div class="grow" style="flex:2"><label class="f">Correo de aviso cuando todos hayan registrado</label>
+          <input class="i" id="cfCorreoAviso" type="email" placeholder="jefatura@ucenfotec.ac.cr" value="${esc(correoAviso)}"></div>
+        <button class="btn sec" onclick="guardarCorreoAviso()">Guardar correo</button>
+      </div>
+    </div>
+    <div id="esBody"></div>`;
+  cargarEstado();
+}
+async function guardarCorreoAviso(){
+  const v=document.getElementById('cfCorreoAviso').value.trim();
+  loader(true,'Guardando…');
+  try{ await setConfig('correo_aviso',v); toast(v?'Correo de aviso guardado':'Correo de aviso desactivado','ok'); }
+  catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+async function cargarEstado(){
+  const cont=document.getElementById('esBody');
+  cont.innerHTML=loadingPanel();
+  const mes=+document.getElementById('esMes').value, anio=+document.getElementById('esAnio').value, soloEmp=document.getElementById('esSoloEmp').checked;
+  const [us,regs,tareas,coms]=await Promise.all([getUsuarios(true),readTab(TAB.REG),readTab(TAB.TAR),readTab(TAB.COM)]);
+  let people=us.filter(u=>isTrue(u.activo)); if(soloEmp) people=people.filter(u=>isTrue(u.es_empleado));
+  let nReg=0,nPend=0;
+  const data=people.map(u=>{
+    const rr=regs.rows.filter(r=>sameMail(r.correo,u.correo) && +r.anio===anio && +r.mes===mes && r.horas!=='');
+    const asign=tareas.rows.filter(t=>sameMail(t.correo,u.correo) && +t.anio===anio && +t.mes===mes).length;
+    const total=rr.reduce((s,r)=>s+(parseFloat(r.horas)||0),0);
+    const completo=rr.length>0; completo? nReg++ : nPend++;
+    const com=coms.rows.find(c=>sameMail(c.correo,u.correo) && +c.anio===anio && +c.mes===mes);
+    return {u,asign,total,completo,com};
+  });
+  ESTADO={anio,mes,data,edit:null};
+  const rows=data.map(({u,asign,total,completo,com},i)=>`<tr>
+      <td style="font-weight:600">${esc(u.nombre)} ${com?`<span title="Dejó un comentario" style="color:var(--azul2);vertical-align:middle">${ic('msg')}</span>`:''}</td>
+      <td>${asign} tarea(s)</td>
+      <td><b>${r2(total)} h</b></td>
+      <td>${completo?'<span class="pill on"><span class="dot g"></span>Registró</span>':'<span class="pill off"><span class="dot r"></span>Pendiente</span>'}</td>
+      <td><div class="row-actions">
+        <button class="btn mini sec" onclick="editarHoras(${i})">Editar horas</button>
+        ${!completo?`<button class="btn mini" onclick="recordarPersona(${i})">${ic('mail')}Recordar</button>`:''}
+      </div></td>
+    </tr>`).join('');
+  const comentarios=data.filter(d=>d.com).map(d=>`
+      <div class="comment-view"><div class="meta">${esc(d.u.nombre)} · ${MESES[mes-1]} ${anio}</div>${esc(d.com.comentario)}</div>`).join('');
+  cont.innerHTML=`<div class="panel">
+      <div class="chips">
+        <div class="chip g"><span class="num">${nReg}</span> Registraron</div>
+        <div class="chip r"><span class="num">${nPend}</span> Pendientes</div>
+        <div class="chip b"><span class="num">${people.length}</span> Total</div>
+        ${nPend>0?`<button class="btn mini" style="margin-left:auto" onclick="recordarPendientes()">${ic('send')}Recordar a los ${nPend} pendientes</button>`:''}
+        ${nPend===0&&people.length>0?`<span class="pill on" style="margin-left:auto">Todos registraron</span>`:''}
+      </div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Persona</th><th>Tareas</th><th>Total</th><th>Estado</th><th>Acciones</th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="5"><div class="empty" style="padding:24px">Sin personas para el filtro seleccionado.</div></td></tr>'}</tbody>
+      </table></div>
+    </div>
+    ${comentarios?`<div class="panel"><h3>${ic('msg')}Comentarios del mes</h3><div class="desc">Notas que dejaron las personas al registrar sus horas.</div>${comentarios}</div>`:''}`;
+}
+function textoRecordatorio(nombre,anio,mes,nota){
+  return `Hola ${nombre},\n\nAún no has registrado tus horas de ${MESES[mes-1]} ${anio} en el Sistema DCD.\n\nPor favor, ingresa y completa tus tareas.${nota?'\n\n'+nota:''}\n\n— Desarrollo Curricular, CENFOTEC`;
+}
+async function recordarPersona(i){
+  const {u}=ESTADO.data[i];
+  loader(true,'Enviando recordatorio…');
+  try{
+    await sendMail(u.correo,`Recordatorio · Registra tus horas de ${MESES[ESTADO.mes-1]} ${ESTADO.anio}`, textoRecordatorio(u.nombre,ESTADO.anio,ESTADO.mes));
+    toast(`Recordatorio enviado a ${u.nombre}`,'ok');
+  }catch(e){ toast('No se pudo enviar: '+e.message,'err'); } finally{ loader(false); }
+}
+async function recordarPendientes(){
+  const pend=ESTADO.data.filter(d=>!d.completo).map(d=>d.u);
+  if(!(await confirmar('Enviar recordatorios',`Se enviará un correo a ${pend.length} persona(s) que no han registrado ${MESES[ESTADO.mes-1]} ${ESTADO.anio}.`,{ok:'Enviar'}))) return;
+  loader(true,'Enviando recordatorios…');
+  let ok=0;
+  for(const u of pend){
+    try{ await sendMail(u.correo,`Recordatorio · Registra tus horas de ${MESES[ESTADO.mes-1]} ${ESTADO.anio}`, textoRecordatorio(u.nombre,ESTADO.anio,ESTADO.mes)); ok++; }catch(e){}
+  }
+  loader(false);
+  toast(`Recordatorios enviados: ${ok} de ${pend.length}`, ok===pend.length?'ok':'err');
+}
+async function checkTodosRegistraron(anio,mes){
+  const cfg=await readConfig();
+  const correo=cfg.correo_aviso; if(!correo) return;
+  const flag=`aviso_${anio}_${mes}`;
+  if(cfg[flag]==='enviado') return;
+  const [us,regs,tareas]=await Promise.all([getUsuarios(true),readTab(TAB.REG),readTab(TAB.TAR)]);
+  const conTareas=us.filter(u=>isTrue(u.activo) && tareas.rows.some(t=>sameMail(t.correo,u.correo) && +t.anio===anio && +t.mes===mes));
+  if(conTareas.length===0) return;
+  const todos=conTareas.every(u=> regs.rows.some(r=>sameMail(r.correo,u.correo) && +r.anio===anio && +r.mes===mes && r.horas!==''));
+  if(!todos) return;
+  const lista=conTareas.map(u=>{
+    const tot=regs.rows.filter(r=>sameMail(r.correo,u.correo) && +r.anio===anio && +r.mes===mes).reduce((s,r)=>s+(parseFloat(r.horas)||0),0);
+    return `• ${u.nombre}: ${r2(tot)} h`;
+  }).join('\n');
+  await sendMail(correo,`Todos registraron sus horas · ${MESES[mes-1]} ${anio}`,
+    `Buenas,\n\nTodas las personas con tareas asignadas ya registraron sus horas de ${MESES[mes-1]} ${anio}:\n\n${lista}\n\nYa puedes generar los reportes del mes.\n\n— Sistema DCD, CENFOTEC`);
+  await setConfig(flag,'enviado');
+}
+async function editarHoras(i){
+  const {u}=ESTADO.data[i]; const {anio,mes}=ESTADO;
+  const cont=document.getElementById('esBody');
+  loader(true,'Cargando tareas…');
+  try{
+    const [tareas,regs]=await Promise.all([readTab(TAB.TAR),readTab(TAB.REG)]);
+    const asign=tareas.rows.filter(t=>sameMail(t.correo,u.correo) && +t.anio===anio && +t.mes===mes);
+    if(asign.length===0){ toast('Esta persona no tiene tareas este mes. Asígnale tareas primero.','err'); return; }
+    const prev=k=> regs.rows.find(x=>sameMail(x.correo,u.correo) && +x.anio===anio && +x.mes===mes && x.tarea===k) || {};
+    ESTADO.edit={correo:u.correo,nombre:u.nombre,anio,mes};
+    let html=`<div class="panel">
+      <button class="btn ghost mini" style="margin-bottom:12px" onclick="cargarEstado()">${ic('left')}Volver al control</button>
+      <h3>Editar horas · ${esc(u.nombre)}</h3><div class="desc">${MESES[mes-1]} ${anio}. Corrige o completa las horas de cada tarea.</div>`;
+    asign.forEach((t,j)=>{ const p=prev(t.tarea);
+      html+=`<div class="task-card"><div class="head"><span class="pill blue">${esc(t.proyecto||'—')}</span><span class="name">${esc(t.tarea)}</span>${t.origen==='propia'?'<span class="pill own">Propia</span>':''}</div>
+        <div class="grid2">
+          <div><label class="f">Horas</label><input class="i edH" data-j="${j}" data-t="${esc(t.tarea)}" data-p="${esc(t.proyecto||'')}" type="number" min="0" step="0.25" value="${p.horas!==undefined&&p.horas!==''?esc(p.horas):''}" placeholder="0"></div>
+          <div><label class="f">Descripción</label><input class="i edD" data-j="${j}" value="${esc(p.descripcion||'')}"></div>
+        </div></div>`;
+    });
+    html+=`<div class="row-actions" style="margin-top:12px"><button class="btn ok" onclick="guardarHorasAdmin()">Guardar</button>
+      <button class="btn ghost" onclick="cargarEstado()">Cancelar</button></div></div>`;
+    cont.innerHTML=html;
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+async function guardarHorasAdmin(){
+  const {correo,nombre,anio,mes}=ESTADO.edit;
+  loader(true,'Guardando…');
+  try{
+    const entradas=[...document.querySelectorAll('.edH')].map(h=>{
+      const d=document.querySelector(`.edD[data-j="${h.dataset.j}"]`);
+      return { tarea:h.dataset.t, proyecto:h.dataset.p, horas:(h.value===''?'':parseFloat(h.value)||0), descripcion:d?d.value:'' };
+    });
+    await upsertRegistros(correo,nombre,anio,mes,entradas);
+    toast('Horas actualizadas','ok'); cargarEstado();
+    checkTodosRegistraron(anio,mes).catch(()=>{});
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+
+/* ---- Recordatorios automáticos ---- */
+function rcLeer(){
+  return {
+    activo: document.getElementById('rcActivo').checked,
+    dia: Math.min(31,Math.max(1,parseInt(document.getElementById('rcDia').value,10)||1)),
+    hora: +document.getElementById('rcHora').value,
+    mes: document.getElementById('rcMes').value,
+    soloTareas: document.getElementById('rcSoloTareas').checked,
+    resumen: document.getElementById('rcResumen').checked,
+    nota: document.getElementById('rcNota').value.trim()
+  };
+}
+function mesObjetivo(modo, ref=new Date()){
+  let anio=ref.getFullYear(), mes=ref.getMonth()+1;
+  if(modo==='anterior'){ mes--; if(mes<1){ mes=12; anio--; } }
+  return {anio,mes};
+}
+function proximoEnvio(dia,hora){
+  const now=new Date(); let y=now.getFullYear(), m=now.getMonth();
+  for(let k=0;k<3;k++){
+    const d=Math.min(dia,new Date(y,m+1,0).getDate());
+    const dt=new Date(y,m,d,hora);
+    if(dt>now) return dt;
+    m++; if(m>11){ m=0; y++; }
+  }
+  return null;
+}
+function rcResumen(){
+  const c=rcLeer();
+  const box=document.getElementById('rcSummary'); if(!box) return;
+  if(!c.activo){ box.innerHTML='El recordatorio automático está <b>desactivado</b>. Actívalo para que el sistema envíe los correos sin que tengas que hacerlo a mano.'; return; }
+  const prox=proximoEnvio(c.dia,c.hora);
+  const objetivo=mesObjetivo(c.mes, prox||new Date());
+  const diaTxt = c.dia>=29? `${c.dia} (o el último día, si el mes es más corto)` : c.dia;
+  box.innerHTML=`Cada mes, el día <b>${diaTxt}</b> a las <b>${fmtHora(c.hora)}</b>, se enviará un correo a quienes no hayan registrado sus horas del <b>${c.mes==='anterior'?'mes anterior':'mes en curso'}</b>${c.soloTareas?' y tengan tareas asignadas':''}.`+
+    (prox?`<br>Próximo envío: <b>${prox.getDate()} de ${MESES[prox.getMonth()].toLowerCase()} de ${prox.getFullYear()}</b>, con las horas de ${MESES[objetivo.mes-1].toLowerCase()} ${objetivo.anio}.`:'');
+}
+async function calcularPendientes(anio,mes,soloTareas){
+  const [us,regs,tareas]=await Promise.all([getUsuarios(true),readTab(TAB.REG),readTab(TAB.TAR)]);
+  return us.filter(u=>{
+    if(!u.correo || !isTrue(u.activo)) return false;
+    const tiene=tareas.rows.some(t=>sameMail(t.correo,u.correo) && +t.anio===anio && +t.mes===mes);
+    if(soloTareas && !tiene) return false;
+    return !regs.rows.some(r=>sameMail(r.correo,u.correo) && +r.anio===anio && +r.mes===mes && r.horas!=='');
+  });
+}
+async function admRecordatorios(){
+  setActive('recordatorios');
+  setPage('Recordatorios automáticos','Programa un correo mensual para quienes aún no reportan sus horas.');
+  V().innerHTML=loadingPanel();
+  await sysReady();
+  const cfg=await readConfig();
+  const activo=isTrue(cfg.recordatorio_activo);
+  const dia=parseInt(cfg.recordatorio_dia||'5',10);
+  const hora=parseInt(cfg.recordatorio_hora||'8',10);
+  const modo=cfg.recordatorio_mes||'anterior';
+  const soloT=cfg.recordatorio_solo_tareas===undefined? true : isTrue(cfg.recordatorio_solo_tareas);
+  const resumen=isTrue(cfg.recordatorio_resumen);
+  const chk=parseInt(cfg.recordatorio_ultimo_chequeo||'0',10);
+  const minutos=chk? Math.round((Date.now()-chk)/60000) : null;
+  let estado;
+  if(chk && minutos<150){
+    estado=`<div class="status-row g">${ic('ok')}<div><b>Script conectado</b><small>Última revisión hace ${minutos<1?'menos de un minuto':minutos+' min'}. Revisa cada hora si toca enviar.</small></div></div>`;
+  }else if(chk){
+    estado=`<div class="status-row a">${ic('alert')}<div><b>El script no responde</b><small>Última revisión: ${new Date(chk).toLocaleString('es-CR')}. Vuelve a ejecutar instalarRecordatorio en Apps Script.</small></div></div>`;
+  }else{
+    estado=`<div class="status-row r">${ic('alert')}<div><b>Script sin instalar</b><small>La configuración se guarda, pero los correos no saldrán hasta completar la instalación de abajo (una sola vez).</small></div></div>`;
+  }
+  const ultimo=cfg.recordatorio_ultimo_envio? `<div class="status-row">${ic('mail')}<div><b>Último envío automático</b><small>${esc(cfg.recordatorio_ultimo_envio)}</small></div></div>` : '';
+  const horas=Array.from({length:24},(_,h)=>`<option value="${h}" ${h===hora?'selected':''}>${fmtHora(h)}</option>`).join('');
+  const sheetUrl=`https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit`;
+  V().innerHTML=`
+    <div class="grid2" style="grid-template-columns:3fr 2fr;align-items:start">
+      <div class="panel">
+        <label class="switch"><input type="checkbox" id="rcActivo" ${activo?'checked':''} onchange="rcResumen()"><span class="track"></span>Recordatorio automático</label>
+        <div class="grid4" style="margin-top:20px">
+          <div><label class="f">Día del mes</label><input class="i" id="rcDia" type="number" min="1" max="31" value="${dia}" oninput="rcResumen()"></div>
+          <div><label class="f">Hora</label><select class="i" id="rcHora" onchange="rcResumen()">${horas}</select></div>
+          <div><label class="f">Horas a recordar</label><select class="i" id="rcMes" onchange="rcResumen()">
+            <option value="anterior" ${modo==='anterior'?'selected':''}>Del mes anterior</option>
+            <option value="actual" ${modo==='actual'?'selected':''}>Del mes en curso</option></select></div>
+        </div>
+        <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
+          <label class="chk"><input type="checkbox" id="rcSoloTareas" ${soloT?'checked':''} onchange="rcResumen()"> Solo a quienes tienen tareas asignadas ese mes</label>
+          <label class="chk"><input type="checkbox" id="rcResumen" ${resumen?'checked':''}> Enviar un resumen al correo de aviso (Control mensual)</label>
+        </div>
+        <div style="margin-top:16px"><label class="f">Mensaje adicional (opcional)</label>
+          <textarea class="i" id="rcNota" rows="2" placeholder="Ej. El reporte consolidado se envía a Rectoría el día 10.">${esc(cfg.recordatorio_nota||'')}</textarea></div>
+        <div class="summary-box" id="rcSummary"></div>
+        <div class="toolbar" style="margin-top:18px;justify-content:space-between">
+          <button class="btn sec" onclick="enviarAhora()">${ic('send')}Enviar ahora a los pendientes</button>
+          <button class="btn" onclick="guardarRecordatorio()">Guardar configuración</button>
+        </div>
+      </div>
+      <div>
+        <div class="panel">
+          <h3>${ic('bell')}Estado</h3>
+          <div style="margin-top:14px">${estado}${ultimo}</div>
+          <div id="rcPend" class="desc" style="margin:8px 0 0">Calculando pendientes…</div>
+        </div>
+        <div class="panel">
+          <h3>${ic('info')}¿Cómo funciona?</h3>
+          <div class="desc" style="margin:6px 0 0">Un pequeño script de Google, guardado en la hoja del sistema, revisa cada hora esta configuración y envía los correos el día indicado, aunque nadie tenga abierta la aplicación. Los cambios que guardes aquí se aplican solos.</div>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <details class="more" ${chk?'':'open'}>
+        <summary>Instalación del script (una sola vez)</summary>
+        <ol class="steps">
+          <li>Abre la hoja de cálculo del sistema: <a href="${sheetUrl}" target="_blank" rel="noopener" style="color:var(--azul2);font-weight:600">abrir hoja</a>.</li>
+          <li>En el menú, entra a <b>Extensiones › Apps Script</b>, borra el contenido del editor y pega el código.</li>
+          <li>Guarda, selecciona la función <b>instalarRecordatorio</b> en la barra superior y presiona <b>Ejecutar</b>. Acepta los permisos.</li>
+          <li>Recarga esta página: el estado debe aparecer como <b>Script conectado</b>.</li>
+        </ol>
+        <div class="toolbar" style="margin-bottom:10px"><button class="btn sec mini" onclick="copiarScript()">${ic('copy')}Copiar código</button>
+          <span class="desc" style="margin:0">Los correos salen desde la cuenta de quien instale el script.</span></div>
+        <div class="code" id="gasView"></div>
+      </details>
+    </div>`;
+  document.getElementById('gasView').textContent=document.getElementById('gasCode').textContent.trim();
+  rcResumen();
+  // Pendientes en este momento para el mes objetivo
+  const obj=mesObjetivo(modo);
+  calcularPendientes(obj.anio,obj.mes,soloT).then(p=>{
+    const el=document.getElementById('rcPend'); if(!el) return;
+    el.innerHTML= p.length? `En este momento hay <b>${p.length}</b> persona(s) pendiente(s) de ${MESES[obj.mes-1].toLowerCase()} ${obj.anio}: ${p.map(u=>esc(u.nombre)).join(', ')}.`
+      : `Nadie está pendiente de ${MESES[obj.mes-1].toLowerCase()} ${obj.anio} en este momento.`;
+  }).catch(()=>{});
+}
+async function guardarRecordatorio(){
+  const c=rcLeer();
+  loader(true,'Guardando…');
+  try{
+    await setConfigMany({
+      recordatorio_activo:c.activo?'TRUE':'FALSE', recordatorio_dia:c.dia, recordatorio_hora:c.hora,
+      recordatorio_mes:c.mes, recordatorio_solo_tareas:c.soloTareas?'TRUE':'FALSE',
+      recordatorio_resumen:c.resumen?'TRUE':'FALSE', recordatorio_nota:c.nota
+    });
+    toast(c.activo?'Recordatorio automático guardado':'Recordatorio automático desactivado','ok');
+    admRecordatorios();
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
+}
+async function enviarAhora(){
+  const c=rcLeer(); const {anio,mes}=mesObjetivo(c.mes);
+  loader(true,'Buscando pendientes…');
+  let pend=[];
+  try{ pend=await calcularPendientes(anio,mes,c.soloTareas); }catch(e){ toast('Error: '+e.message,'err'); return; } finally{ loader(false); }
+  if(!pend.length){ toast(`Nadie está pendiente de ${MESES[mes-1]} ${anio}`,'ok'); return; }
+  if(!(await confirmar('Enviar ahora',`Se enviará el recordatorio de ${MESES[mes-1]} ${anio} a ${pend.length} persona(s), desde tu cuenta de correo.`,{ok:'Enviar'}))) return;
+  loader(true,'Enviando…'); let ok=0;
+  for(const u of pend){
+    try{ await sendMail(u.correo,`Recordatorio · Registra tus horas de ${MESES[mes-1]} ${anio}`, textoRecordatorio(u.nombre,anio,mes,c.nota)); ok++; }catch(e){}
+  }
+  loader(false);
+  toast(`Recordatorios enviados: ${ok} de ${pend.length}`, ok===pend.length?'ok':'err');
+}
+async function copiarScript(){
+  try{ await navigator.clipboard.writeText(document.getElementById('gasCode').textContent.trim()); toast('Código copiado','ok'); }
+  catch(e){ toast('No se pudo copiar; selecciónalo manualmente','err'); }
+}
+
+/* ============================================================
+   GOOGLE DRIVE · CALENDAR · GMAIL
+============================================================ */
+async function respaldarDrive(){
+  loader(true,'Generando respaldo…');
+  try{
+    const [usuarios,proyectos,tareas,registros]=await Promise.all([readTab(TAB.USR),readTab(TAB.PRO),readTab(TAB.TAR),readTab(TAB.REG)]);
+    const data={ generado:new Date().toISOString(), por:ME.email, usuarios:usuarios.rows, proyectos:proyectos.rows, tareas:tareas.rows, registros:registros.rows };
+    const meta={ name:`respaldo_DCD_${new Date().toISOString().slice(0,10)}.json`, parents:[DRIVE_FOLDER], mimeType:'application/json' };
+    const boundary='dcd'+Date.now();
+    const body=`--${boundary}\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n${JSON.stringify(meta)}\r\n`+
+               `--${boundary}\r\nContent-Type: application/json\r\n\r\n${JSON.stringify(data)}\r\n--${boundary}--`;
+    await new Promise(res=>ensureToken(res));
+    const r=await fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart',{
+      method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':`multipart/related; boundary=${boundary}`}, body});
+    if(!r.ok) throw new Error((await r.text()).slice(0,200));
+    toast('Respaldo guardado en Drive','ok');
+  }catch(e){ toast('Error al respaldar: '+e.message,'err'); } finally{ loader(false); }
+}
+async function crearRecordatorio(){
+  const mes=+document.getElementById('esMes').value, anio=+document.getElementById('esAnio').value;
+  const last=new Date(anio,mes,0).getDate();
+  const pad=n=>String(n).padStart(2,'0');
+  const day=`${anio}-${pad(mes)}-${pad(last)}`;
+  loader(true,'Creando evento…');
+  try{
+    await api('https://www.googleapis.com/calendar/v3/calendars/primary/events',{method:'POST',body:JSON.stringify({
+      summary:`Cierre de horas DCD · ${MESES[mes-1]} ${anio}`,
+      description:'Recordatorio: cerrar y registrar las horas del mes en el Sistema DCD (CENFOTEC).',
+      start:{date:day}, end:{date:day},
+      reminders:{useDefault:false, overrides:[{method:'popup',minutes:600},{method:'email',minutes:1440}]}
+    })});
+    toast(`Evento creado para el ${last} de ${MESES[mes-1]}`,'ok');
+  }catch(e){ toast('Error al crear evento: '+e.message,'err'); } finally{ loader(false); }
+}
+async function sendMail(to,subject,text){
+  const raw = `To: ${to}\r\nSubject: =?UTF-8?B?${btoa(unescape(encodeURIComponent(subject)))}?=\r\nContent-Type: text/plain; charset="UTF-8"\r\n\r\n${text}`;
+  const b64=btoa(unescape(encodeURIComponent(raw))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  await api('https://gmail.googleapis.com/gmail/v1/users/me/messages/send',{method:'POST',body:JSON.stringify({raw:b64})});
+}
+</script>
+</body>
+</html>
