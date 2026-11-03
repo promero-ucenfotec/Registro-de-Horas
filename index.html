@@ -307,6 +307,22 @@
   .tool-btn.has{color:var(--azul);border-color:#cfe0fa;background:var(--celeste-soft)}
   .tool-btn.del:hover{color:var(--alerta);border-color:#f3d3d3;background:var(--alerta-soft)}
   .tr-desc{margin-top:11px}
+  .tr-quick{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:10px}
+  .tr-quick .ql{font-size:11.5px;font-weight:600;color:var(--tinta3);margin-right:2px}
+  .qchip{height:30px;padding:0 12px;border-radius:20px;border:1.5px solid var(--linea);background:#fff;font-size:12.5px;font-weight:700;color:var(--azul);transition:.12s}
+  .qchip:hover{border-color:var(--azul2);background:var(--celeste-soft)}
+  .qchip:active{transform:scale(.95)}
+  .qchip.clr{color:var(--tinta3);font-weight:600}
+  .qchip.clr:hover{color:var(--alerta);border-color:#f3d3d3;background:var(--alerta-soft)}
+  .save-row{width:38px;height:38px;border-radius:9px;display:inline-flex;align-items:center;justify-content:center;border:1.5px solid var(--linea);color:var(--tinta3);background:#fff;transition:.15s}
+  .save-row .ico{width:17px;height:17px}
+  .save-row.pend{background:var(--azul2);border-color:var(--azul2);color:#fff;box-shadow:0 4px 12px rgba(0,106,234,.3)}
+  .save-row.pend:hover{background:var(--azul-hover)}
+  .save-row.ok{color:var(--ok);border-color:#cfe8da;background:var(--ok-soft)}
+  .task-row.changed{box-shadow:inset 3px 0 0 #d9a21b}
+  .kbd-hint{font-size:11.5px;color:var(--tinta3);text-align:right;margin-top:6px}
+  kbd{font-family:inherit;font-size:11px;font-weight:700;background:#fff;border:1px solid var(--linea);border-bottom-width:2px;border-radius:5px;padding:1px 6px;color:var(--tinta2)}
+  @media(max-width:700px){.tr-controls{width:100%}.tr-controls .stepper{flex:1}.tr-controls .stepper input{flex:1}}
 
   .add-btn{width:100%;display:flex;align-items:center;gap:12px;padding:16px 18px;border:1.5px dashed #c9d6ea;border-radius:var(--radio);color:var(--azul);font-weight:700;font-size:14px;transition:.15s;background:#fff;margin-bottom:18px;text-align:left}
   .add-btn:hover{border-color:var(--azul2);background:#fbfdff}
@@ -461,6 +477,7 @@
  * El día, la hora y el mes se leen de la pestaña SYS_Config, así que se
  * cambian desde el Sistema DCD sin volver a tocar este código.
  */
+var APP_URL = 'https://promero-ucenfotec.github.io/Registro-de-Horas/';
 var MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 
 function instalarRecordatorio() {
@@ -504,7 +521,7 @@ function revisarRecordatorio() {
       MailApp.sendEmail(u.correo,
         'Recordatorio · Registra tus horas de ' + MESES[mes - 1] + ' ' + anio,
         'Hola ' + u.nombre + ',\n\nAún no has registrado tus horas de ' + MESES[mes - 1] + ' ' + anio +
-        ' en el Sistema DCD.\n\nPor favor, ingresa y completa tus tareas.' +
+        ' en el Sistema DCD.\n\nRecuerda registrarlas en este enlace:\n' + APP_URL + '\n\nAhí podrás completar tus tareas del mes.' +
         (nota ? '\n\n' + nota : '') + '\n\n— Desarrollo Curricular, CENFOTEC');
       enviados++;
     } catch (e) {}
@@ -577,6 +594,7 @@ const SCOPES = [
   'https://www.googleapis.com/auth/calendar.events'
 ].join(' ');
 
+const APP_URL = 'https://promero-ucenfotec.github.io/Registro-de-Horas/';
 const ADMIN_PASS = 'DCD1234#';
 let SPREADSHEET_ID = localStorage.getItem('dcd_ss_id') || '1v5D_uUuqKAIlkecQ4O2DiLpmQ_aKU3C2sTCFv99ZSuA';
 const DRIVE_FOLDER = '1KRW-BbLzxKT8dWvRJa9xX_zzVchHHQfO';
@@ -622,6 +640,7 @@ const IC = {
   menu:'<path d="M3 6h18M3 12h18M3 18h18"/>',
   copy:'<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
   lock:'<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+  save:'<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/>',
   x:'<path d="M18 6L6 18M6 6l12 12"/>',
   msg:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
   inbox:'<path d="M22 12h-6l-2 3h-4l-2-3H2"/><path d="M5.45 5.11L2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z"/>',
@@ -1158,7 +1177,7 @@ function renderMisTareas(){
   grupos.forEach(g=>{
     html+=`<div class="proj-group">
       <div class="proj-head"><span class="ptitle">${esc(g.proyecto)}</span><span class="subtotal" data-proj="${esc(g.proyecto)}">0 h</span></div>
-      ${g.items.map(it=>`<div class="task-row" data-k="${it.k}">
+      ${g.items.map(it=>`<div class="task-row ${it.cambio?'changed':''}" data-k="${it.k}">
         <div class="tr-top">
           <div class="tr-name"><span>${esc(it.tarea)}</span>
             ${it.pre?'<span class="pill pre">Precargada</span>':''}
@@ -1169,15 +1188,21 @@ function renderMisTareas(){
           <div class="tr-controls">
             <div class="stepper">
               <button type="button" onclick="stepH('${it.k}',-0.5)" title="Restar media hora">−</button>
-              <input class="regH" data-k="${it.k}" type="number" min="0" step="0.25" value="${esc(it.horas)}" placeholder="0" oninput="setH('${it.k}',this.value)">
+              <input class="regH" data-k="${it.k}" type="number" inputmode="decimal" min="0" step="0.25" value="${esc(it.horas)}" placeholder="0 h" oninput="setH('${it.k}',this.value)" onkeydown="enterGuarda(event)" onfocus="this.select()">
               <button type="button" onclick="stepH('${it.k}',0.5)" title="Sumar media hora">+</button>
             </div>
-            <button type="button" class="tool-btn ${it.desc.trim()?'has':''}" onclick="toggleDesc('${it.k}')" title="Nota sobre el trabajo">${ic('note')}Nota</button>
+            <button type="button" class="tool-btn nota-btn ${it.desc.trim()?'has':''}" onclick="toggleDesc('${it.k}')" title="Nota sobre el trabajo">${ic('note')}<span class="nb-t">Nota</span></button>
             ${it.origen==='propia'?`<button type="button" class="tool-btn del" onclick="quitarPropia('${it.k}')" title="Quitar tarea propia">${ic('trash')}</button>`:''}
+            <button type="button" class="save-row ${it.cambio?'pend':(it.horas!==''?'ok':'')}" data-k="${it.k}" onclick="guardarMisHoras()" title="${it.cambio?'Guardar (Enter)':'Guardado'}">${it.cambio?ic('save'):ic('check')}</button>
           </div>
         </div>
+        <div class="tr-quick">
+          <span class="ql">Sumar</span>
+          ${[0.5,1,2,4].map(q=>`<button type="button" class="qchip" onclick="stepH('${it.k}',${q})">+${q===0.5?'½':q} h</button>`).join('')}
+          ${it.horas!==''?`<button type="button" class="qchip clr" onclick="limpiarH('${it.k}')" title="Dejar en cero">Borrar</button>`:''}
+        </div>
         <div class="tr-desc ${it.showDesc?'':'hidden'}">
-          <input class="i" type="text" value="${esc(it.desc)}" placeholder="¿En qué consistió el trabajo? (opcional)" oninput="setD('${it.k}',this.value)">
+          <input class="i" type="text" value="${esc(it.desc)}" placeholder="¿En qué consistió el trabajo? (opcional) · Enter para guardar" oninput="setD('${it.k}',this.value)" onkeydown="enterGuarda(event)">
         </div>
       </div>`).join('')}
     </div>`;
@@ -1189,23 +1214,39 @@ function renderMisTareas(){
       <textarea class="i" id="regCom" rows="2" placeholder="Ej. Este mes dediqué más tiempo a X porque…" oninput="REG.comentario=this.value;markDirty()">${esc(REG.comentario)}</textarea>
       <label class="chk" style="margin-top:12px"><input type="checkbox" ${REG.mail?'checked':''} onchange="REG.mail=this.checked"> Enviarme copia de mis horas por correo</label>
     </div>
-    ${stickyHtml()}`;
+    ${stickyHtml()}
+    <div class="kbd-hint">Presiona <kbd>Enter</kbd> en cualquier casilla de horas para guardar</div>`;
   cont.innerHTML=html;
   sumRegTotal(); focusAdd();
 }
 function focusAdd(){ if(REG.adding) setTimeout(()=>{ const i=document.getElementById('ntTarea'); if(i) i.focus(); },30); }
 function findItem(k){ return REG.items.find(i=>i.k===k); }
-function setH(k,v){ const it=findItem(k); if(!it) return; it.horas=v; markDirty(); sumRegTotal(); }
+function marcarCambio(it){
+  it.cambio=true;
+  const row=document.querySelector(`.task-row[data-k="${it.k}"]`); if(row) row.classList.add('changed');
+  const b=document.querySelector(`.save-row[data-k="${it.k}"]`);
+  if(b && !b.classList.contains('pend')){ b.className='save-row pend'; b.innerHTML=ic('save'); b.title='Guardar (Enter)'; }
+}
+function enterGuarda(e){ if(e.key==='Enter'){ e.preventDefault(); e.target.blur(); guardarMisHoras(); } }
+document.addEventListener('keydown',e=>{
+  if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='s' && CURRENT==='registrar'){ e.preventDefault(); guardarMisHoras(); }
+});
+function limpiarH(k){
+  const it=findItem(k); if(!it) return; it.horas=''; marcarCambio(it); markDirty(); renderMisTareas();
+}
+function setH(k,v){ const it=findItem(k); if(!it) return; it.horas=v; marcarCambio(it); markDirty(); sumRegTotal(); }
 function setD(k,v){
-  const it=findItem(k); if(!it) return; it.desc=v; markDirty();
-  const row=document.querySelector(`.task-row[data-k="${k}"] .tool-btn`); if(row) row.classList.toggle('has',v.trim()!=='');
+  const it=findItem(k); if(!it) return; it.desc=v; marcarCambio(it); markDirty();
+  const row=document.querySelector(`.task-row[data-k="${k}"] .nota-btn`); if(row) row.classList.toggle('has',v.trim()!=='');
 }
 function stepH(k,delta){
   const it=findItem(k); if(!it) return;
   let v=Math.max(0,(parseFloat(it.horas)||0)+delta); v=r2(v);
   it.horas=(v===0 && delta<0)? '' : String(v);
+  const hadVal=document.querySelector(`.task-row[data-k="${k}"] .qchip.clr`);
   const inp=document.querySelector(`.regH[data-k="${k}"]`); if(inp) inp.value=it.horas;
-  markDirty(); sumRegTotal();
+  marcarCambio(it); markDirty();
+  if(!!hadVal !== (it.horas!=='')) renderMisTareas(); else sumRegTotal();
 }
 function toggleDesc(k){
   const it=findItem(k); if(!it) return; it.showDesc=!it.showDesc;
@@ -1273,9 +1314,12 @@ function sumRegTotal(){
 window.addEventListener('beforeunload',(e)=>{ if(REG.dirty){ e.preventDefault(); e.returnValue=''; } });
 
 async function guardarMisHoras(){
+  if(REG.saving) return;
+  if(!REG.dirty){ toast('No hay cambios por guardar'); return; }
   const mes=REG.mes, anio=REG.anio;
   const totalMes=REG.items.reduce((s,i)=>s+(parseFloat(i.horas)||0),0);
   if(REG.max>0 && totalMes>REG.max+1e-9){ toast(`El tope de este mes es ${r2(REG.max)} h. Ajusta tus horas antes de guardar.`,'err'); return; }
+  REG.saving=true;
   loader(true,'Guardando…');
   try{
     await sysReady();
@@ -1317,7 +1361,7 @@ async function guardarMisHoras(){
     REG.dirty=false;
     checkTodosRegistraron(anio,mes).catch(()=>{});
     loadMisTareas();
-  }catch(e){ toast('Error al guardar: '+e.message,'err'); } finally{ loader(false); }
+  }catch(e){ toast('Error al guardar: '+e.message,'err'); } finally{ loader(false); REG.saving=false; }
 }
 
 // Reemplaza los registros de (correo, año, mes, tarea) y borra los de tareas quitadas
@@ -1918,7 +1962,7 @@ async function guardarAsignacion(){
       const us=await getUsuarios(); const u=us.find(x=>sameMail(x.correo,correo));
       const lista=limpio.map(t=>`• ${t.proyecto} — ${t.tarea}`).join('\n');
       sendMail(correo,`Tareas asignadas · ${MESES[mes-1]} ${anio}`,
-        `Hola ${u?u.nombre:''},\n\nSe te asignaron estas tareas para ${MESES[mes-1]} ${anio}:\n\n${lista}\n\nIngresa al Sistema DCD para registrar tus horas.\n\n— Desarrollo Curricular, CENFOTEC`).catch(()=>{});
+        `Hola ${u?u.nombre:''},\n\nSe te asignaron estas tareas para ${MESES[mes-1]} ${anio}:\n\n${lista}\n\nRegistra tus horas en este enlace:\n${APP_URL}\n\n— Desarrollo Curricular, CENFOTEC`).catch(()=>{});
     }
     toast('Asignación guardada','ok');
   }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
@@ -1999,7 +2043,7 @@ async function cargarEstado(){
     ${comentarios?`<div class="panel"><h3>${ic('msg')}Comentarios del mes</h3><div class="desc">Notas que dejaron las personas al registrar sus horas.</div>${comentarios}</div>`:''}`;
 }
 function textoRecordatorio(nombre,anio,mes,nota){
-  return `Hola ${nombre},\n\nAún no has registrado tus horas de ${MESES[mes-1]} ${anio} en el Sistema DCD.\n\nPor favor, ingresa y completa tus tareas.${nota?'\n\n'+nota:''}\n\n— Desarrollo Curricular, CENFOTEC`;
+  return `Hola ${nombre},\n\nAún no has registrado tus horas de ${MESES[mes-1]} ${anio} en el Sistema DCD.\n\nRecuerda registrarlas en este enlace:\n${APP_URL}\n\nAhí podrás completar tus tareas del mes.${nota?'\n\n'+nota:''}\n\n— Desarrollo Curricular, CENFOTEC`;
 }
 async function recordarPersona(i){
   const {u}=ESTADO.data[i];
