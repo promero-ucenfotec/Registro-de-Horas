@@ -249,12 +249,12 @@
   .wk-allday > div{border-left:1px solid var(--linea);padding:4px;min-width:0}
   .wk-allday .wk-gut-l{border-left:none;font-size:10px;color:var(--tinta3);text-align:right;padding:6px 6px 0 0;line-height:1.2}
   .wk-adev{font-size:11px;background:#eef1f6;color:var(--tinta2);border-radius:5px;padding:2px 6px;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .wk-scroll{max-height:620px;overflow-y:auto;position:relative}
+  .wk-scroll{overflow-y:auto;position:relative}
   .wk-times{position:relative}
   .wk-hr{position:absolute;right:8px;transform:translateY(-50%);font-size:11px;color:var(--tinta3);font-weight:600}
   .wk-col{position:relative;border-left:1px solid var(--linea);cursor:crosshair;touch-action:none;user-select:none;-webkit-user-select:none;
     background-image:linear-gradient(to bottom,#e7ebf2 1px,transparent 1px),linear-gradient(to bottom,#f3f5f9 1px,transparent 1px);
-    background-size:100% 48px,100% 24px}
+    background-size:100% var(--hh,48px),100% calc(var(--hh,48px) / 2)}
   .wk-col.out{cursor:not-allowed;background-color:#f7f8fb;background-image:repeating-linear-gradient(45deg,#eef1f6 0 6px,transparent 6px 12px)}
   .wk-ev{position:absolute;left:3px;right:3px;background:#eef1f6;border-left:3px solid #aab6c9;border-radius:6px;padding:3px 6px;font-size:11px;color:var(--tinta2);overflow:hidden;z-index:1;cursor:pointer;line-height:1.25}
   .wk-ev:hover{background:#e3e9f3}
@@ -2056,7 +2056,20 @@ async function upsertRegistros(correo, nombre, anio, mes, entradas, quitar=[]){
    - Clic sobre una reunión del Calendar la registra con su horario.
    - Cada bloque suma sus horas a la tarea elegida; al borrarlo, se restan.
 ============================================================ */
-const HH=48; // píxeles por hora
+// Píxeles por hora: se calcula según la altura de la pantalla para que de 7:00 a 20:00 se vea sin scroll
+let HH=48;
+const HORA_INI=7, HORA_FIN=20;
+function calcHH(){
+  const reservado=300; // barra del calendario, encabezado de días y barra de guardar
+  return Math.max(26, Math.min(48, Math.floor((window.innerHeight-reservado)/(HORA_FIN-HORA_INI))));
+}
+let calResizeT=null;
+window.addEventListener('resize',()=>{
+  clearTimeout(calResizeT);
+  calResizeT=setTimeout(()=>{
+    if(CURRENT==='registrar' && REG.vista==='cal' && REG.calModo==='semana' && !document.getElementById('pop') && calcHH()!==HH) renderMisTareas();
+  },200);
+});
 const DIAS_C=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 const DIAS_L=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const PALETA=['#006aea','#1f8a4c','#d9822b','#8e44ad','#c0392b','#0f8f8f','#b8860b','#2c4f9e','#d6336c','#5d6b85'];
@@ -2088,8 +2101,13 @@ function setVista(v){
   REG.vista=v;
   document.querySelectorAll('#segVista button').forEach(b=>b.classList.toggle('active',b.dataset.v===v));
   cerrarPop(); renderMisTareas();
+  if(v==='cal') enfocarCalendario();
 }
-function setCalModo(m){ REG.calModo=m; cerrarPop(); renderMisTareas(); }
+function setCalModo(m){ REG.calModo=m; cerrarPop(); renderMisTareas(); if(m==='semana') enfocarCalendario(); }
+// Lleva la página hasta el calendario para que quede completo en pantalla
+function enfocarCalendario(){
+  setTimeout(()=>{ const p=document.querySelector('.cal-panel'); if(p) window.scrollTo({top:p.getBoundingClientRect().top+window.scrollY-12,behavior:'smooth'}); },30);
+}
 function shiftSemana(d){ REG.semana=addDays(REG.semana,7*d); cerrarPop(); renderMisTareas(); }
 function irSemana(f){ REG.semana=mondayOf(parseYmd(f)); REG.calModo='semana'; REG.calScroll=null; renderMisTareas(); }
 function toggleEventos(on){
@@ -2134,6 +2152,7 @@ function eventosDia(f){
 /* ---- Render ---- */
 function renderCalendario(){
   const cont=document.getElementById('misTareas'); if(!cont) return;
+  HH=calcHH();
   ajustarSemana();
   if(REG.verEventos) loadEventos();
   const semana=REG.calModo==='semana';
@@ -2188,7 +2207,7 @@ function weekHtml(){
   }).join('');
   return `<div class="wk"><div class="wk-inner">
       <div class="wk-head"><div></div>${head}</div>${allRow}
-      <div class="wk-scroll" id="wkScroll"><div class="wk-grid" id="wkGrid" style="height:${24*HH}px"><div class="wk-times">${horas}</div>${cols}</div></div>
+      <div class="wk-scroll" id="wkScroll" style="max-height:${(HORA_FIN-HORA_INI)*HH+2}px"><div class="wk-grid" id="wkGrid" style="height:${24*HH}px;--hh:${HH}px"><div class="wk-times">${horas}</div>${cols}</div></div>
     </div></div>`;
 }
 function monthHtml(){
@@ -2249,8 +2268,9 @@ function legendHtml(){
 /* ---- Arrastre sobre la semana ---- */
 function initWeek(){
   const sc=document.getElementById('wkScroll'), grid=document.getElementById('wkGrid'); if(!sc||!grid) return;
-  sc.scrollTop = REG.calScroll!=null? REG.calScroll : 7*HH;
-  sc.addEventListener('scroll',()=>{ REG.calScroll=sc.scrollTop; });
+  // La posición se recuerda en horas, para que siga siendo correcta si cambia el tamaño de la pantalla
+  sc.scrollTop = (REG.calScroll!=null? REG.calScroll : HORA_INI)*HH;
+  sc.addEventListener('scroll',()=>{ REG.calScroll=sc.scrollTop/HH; });
   grid.addEventListener('pointerdown',wkDown);
   grid.addEventListener('pointermove',wkMove);
   grid.addEventListener('pointerup',wkUp);
