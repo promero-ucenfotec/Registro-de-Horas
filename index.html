@@ -150,6 +150,70 @@
   .az button.active{background:var(--azul2);border-color:var(--azul2);color:#fff}
   .az button:disabled{opacity:.3;cursor:default}
 
+  /* ====== NUEVOS ELEMENTOS ====== */
+  .wk-sem{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12.5px;font-weight:600;color:var(--tinta2);margin-bottom:12px}
+  .wk-sem .ico{width:15px;height:15px;color:var(--azul2)}
+  .wk-sem .cap-bar{flex:1;min-width:120px;max-width:260px;margin:0}
+  .sem-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .sem-item{border:1px solid var(--linea);border-radius:10px;padding:8px 12px;background:#fbfcfe;min-width:150px;font-size:12px;color:var(--tinta2)}
+  .sem-item b{display:block;font-size:15px;color:var(--tinta)}
+  .sem-item .cap-bar{margin-top:6px}
+  .pick-list{max-height:320px;overflow:auto;display:flex;flex-direction:column;gap:6px;margin-top:12px}
+  .pick-item{display:flex;align-items:center;gap:10px;padding:9px 11px;border:1px solid var(--linea);border-radius:10px;font-size:13px;cursor:pointer;background:#fbfcfe}
+  .pick-item:hover{border-color:var(--celeste)}
+  .pick-item small{display:block;color:var(--tinta3);font-size:11.5px}
+  .pick-item input{width:16px;height:16px;accent-color:var(--azul2);flex-shrink:0}
+  .edit-form{margin-top:12px;padding:12px;border:1.5px solid var(--celeste);border-radius:10px;background:#fbfdff}
+  .proy-pick{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px;max-height:200px;overflow:auto;margin-top:10px;padding:10px;border:1px solid var(--linea);border-radius:10px}
+  .pill.max{background:#fff2e8;color:#b05a12}
+  .task-row.excede{box-shadow:inset 3px 0 0 var(--alerta)}
+  .ov-card.wide{max-width:520px}
+  .add-row{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .add-row .add-btn{flex:1;min-width:240px;margin-bottom:0}
+  /* El "0 h" de fondo desaparece al escribir en la casilla de horas */
+  .stepper input:focus::placeholder,input.edH:focus::placeholder{color:transparent}
+
+  /* Términos de uso */
+  .ov-card.terms{max-width:660px;max-height:88vh;display:flex;flex-direction:column;padding:0;overflow:hidden}
+  .terms-head{padding:24px 28px 14px;border-bottom:1px solid var(--linea)}
+  .terms-head .eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:10.5px;color:var(--azul2);font-weight:700;margin-bottom:6px}
+  .terms-body{padding:18px 28px;overflow-y:auto;font-size:13.5px;color:var(--tinta);line-height:1.6}
+  .terms-body h4{font-size:13px;color:var(--azul);text-transform:uppercase;letter-spacing:.6px;margin:16px 0 6px}
+  .terms-body h4:first-child{margin-top:0}
+  .terms-body ul{padding-left:20px;margin:0}
+  .terms-body li{margin-bottom:5px}
+  .terms-body li b{color:var(--tinta)}
+  .terms-foot{padding:14px 28px 20px;border-top:1px solid var(--linea);background:#fafbfd}
+  .terms-foot .ov-actions{margin-top:12px}
+  .login-terms{margin-top:14px;font-size:12px;font-weight:600;color:var(--azul2);text-decoration:underline}
+
+  /* Aviso previo al ingreso con Google */
+  .pre-steps{list-style:none;margin:14px 0 0;display:flex;flex-direction:column;gap:8px;font-size:13.5px;color:var(--tinta)}
+  .pre-steps li{display:flex;gap:10px;align-items:flex-start}
+  .pre-steps .n{width:22px;height:22px;border-radius:50%;background:var(--celeste-soft);color:var(--azul);font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+  .g-mock{margin-top:16px;border:1px solid #dadce0;border-radius:12px;background:#fff;overflow:hidden;font-size:12.5px;color:#3c4043;position:relative}
+  .g-mock .gm-tag{position:absolute;top:8px;right:10px;font-size:10px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--ambar);background:var(--ambar-soft);padding:2px 8px;border-radius:20px}
+  .g-mock .gm-head{padding:14px 16px 10px;border-bottom:1px solid #eee;font-weight:600;font-size:13px;color:#202124}
+  .g-mock .gm-row{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;border-bottom:1px solid #f1f3f4}
+  .g-mock .gm-row:last-child{border-bottom:none}
+  .g-mock .gm-all{background:#eef4ff;font-weight:700;color:#1a3d7c;box-shadow:inset 3px 0 0 var(--azul2)}
+  .g-mock .gm-box{width:16px;height:16px;border-radius:3px;background:#1a73e8;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px}
+  .g-mock .gm-box svg{width:12px;height:12px;stroke:#fff;stroke-width:3;fill:none}
+  .g-mock .gm-hint{margin-left:auto;font-size:11px;font-weight:800;color:var(--azul2);white-space:nowrap}
+  .pre-miss{margin-top:12px;padding:10px 12px;border-radius:10px;background:var(--alerta-soft);border:1px solid #f3d3d3;color:#9b2c2c;font-size:13px}
+  .pre-miss ul{margin:6px 0 0 18px}
+
+  /* Sugerencias */
+  .sug-btn{display:flex;align-items:center;gap:11px;width:100%;padding:10px 12px;margin-top:auto;margin-bottom:10px;border-radius:10px;border:1.5px dashed #c9d6ea;color:var(--azul);font-weight:700;font-size:13px;transition:.12s;text-align:left}
+  .sug-btn:hover{background:var(--celeste-soft);border-color:var(--azul2)}
+  .sug-btn .q{width:24px;height:24px;border-radius:50%;background:var(--azul2);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex-shrink:0}
+  .sug-btn small{display:block;font-weight:500;color:var(--tinta3);font-size:11.5px}
+  .side .me{margin-top:0}
+
+  /* Comunicados */
+  .preview-mail{background:#fbfcfe;border:1px solid var(--linea);border-radius:12px;padding:16px 18px;font-size:13px;white-space:pre-wrap;line-height:1.6;color:var(--tinta)}
+  .preview-mail .pm-subj{font-weight:800;color:var(--azul);margin-bottom:10px;white-space:normal}
+
   /* ====== VISTA CALENDARIO ====== */
   .seg{display:inline-flex;background:#e9eef7;padding:4px;border-radius:11px;gap:2px}
   .seg button{padding:7px 14px;border-radius:8px;font-weight:600;font-size:13px;color:var(--tinta2);display:inline-flex;gap:7px;align-items:center;transition:.12s}
@@ -428,8 +492,9 @@
       <svg width="19" height="19" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
       <span>Ingresar con Google</span>
     </button>
-    <div class="login-hint">Solo la primera vez se piden los permisos.<br>Después, un clic y listo.</div>
+    <div class="login-hint">La primera vez, Google te pedirá permisos: <b>marca todas las casillas</b> para que el sistema funcione completo.<br>Después, un clic y listo.</div>
     <div class="login-foot">Ingresa con tu cuenta institucional de Google para continuar.</div>
+    <button class="login-terms" onclick="abrirTerminos(false)">Términos de uso y manejo de datos</button>
   </div>
 </div>
 
@@ -441,6 +506,9 @@
       <div><div class="bt">Sistema de Horas</div><div class="bs">Desarrollo Curricular</div></div>
     </div>
     <nav id="nav"></nav>
+    <button class="sug-btn" onclick="abrirSugerencia()" title="Enviar una sugerencia a los administradores">
+      <span class="q">?</span><span>¿Tienes una sugerencia?<small>Escríbele a los administradores</small></span>
+    </button>
     <div class="me">
       <div class="avatar" id="uAvatar">?</div>
       <div class="info"><div class="nm" id="uName">—</div><div class="em" id="uEmail">—</div></div>
@@ -449,7 +517,7 @@
   </aside>
   <div class="scrim" id="scrim" onclick="toggleSide(false)"></div>
   <div class="content">
-    <div class="mobilebar"><button class="icon-btn" onclick="toggleSide(true)" id="btnMenu"></button><b>Sistema de Horas</b></div>
+    <div class="mobilebar"><button class="icon-btn" onclick="toggleSide(true)" id="btnMenu"></button><b>Sistema de Horas</b><button class="icon-btn" style="margin-left:auto;color:var(--azul2);font-weight:800;font-size:17px" onclick="abrirSugerencia()" title="Enviar una sugerencia">?</button></div>
     <main>
       <div class="page-head" id="pageHead"></div>
       <div id="view"></div>
@@ -474,6 +542,76 @@
     <div class="ov-actions">
       <button class="btn ghost" id="mCancel">Cancelar</button>
       <button class="btn" id="mOk">Aceptar</button>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="sugModal">
+  <div class="ov-card wide">
+    <h3>Enviar una sugerencia</h3>
+    <p>Cuéntanos qué mejorarías o qué problema encontraste. El mensaje llega a los administradores del sistema desde tu correo, así que podrán responderte directamente.</p>
+    <div style="margin-top:16px"><label class="f">Tipo</label>
+      <select class="i" id="sgTipo"><option>Sugerencia</option><option>Problema</option><option>Duda</option></select></div>
+    <div style="margin-top:12px"><label class="f">Mensaje</label>
+      <textarea class="i" id="sgTexto" rows="5" placeholder="Ej. Sería útil poder duplicar una tarea del mes anterior con sus horas."></textarea></div>
+    <div class="ov-actions">
+      <button class="btn ghost" onclick="document.getElementById('sugModal').classList.remove('show')">Cancelar</button>
+      <button class="btn" id="sgOk" onclick="enviarSugerencia()">Enviar</button>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="preLogin">
+  <div class="ov-card wide" style="max-height:92vh;overflow-y:auto">
+    <h3 id="plTitle">Antes de continuar con Google</h3>
+    <p id="plText">Para que el Sistema DCD funcione, en la ventana de Google debes <b>activar todos los permisos</b>. Si dejas alguno sin marcar, no podrás usar la plataforma.</p>
+    <div id="plMiss"></div>
+    <ol class="pre-steps">
+      <li><span class="n">1</span><span>Elige tu cuenta institucional.</span></li>
+      <li><span class="n">2</span><span>Marca la casilla <b>"Seleccionar todo"</b> o marca cada casilla una por una, como en el ejemplo.</span></li>
+      <li><span class="n">3</span><span>Presiona <b>Continuar</b> en Google.</span></li>
+    </ol>
+    <div class="g-mock" aria-label="Ejemplo de la ventana de permisos de Google">
+      <span class="gm-tag">Ejemplo</span>
+      <div class="gm-head">Sistema DCD quiere acceder a tu cuenta de Google</div>
+      <div class="gm-row gm-all"><span class="gm-box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span><span>Seleccionar todo</span><span class="gm-hint">← márcala</span></div>
+      <div class="gm-row"><span class="gm-box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span><span>Ver, editar, crear y borrar tus hojas de cálculo de Google</span></div>
+      <div class="gm-row"><span class="gm-box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span><span>Ver, editar, crear y borrar solo los archivos de Google Drive que usas con esta app</span></div>
+      <div class="gm-row"><span class="gm-box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span><span>Enviar correo electrónico en tu nombre</span></div>
+      <div class="gm-row"><span class="gm-box"><svg viewBox="0 0 24 24"><path d="M5 12l5 5 9-10"/></svg></span><span>Ver y editar eventos en todos tus calendarios</span></div>
+    </div>
+    <div style="font-size:11.5px;color:var(--tinta3);margin-top:6px">El texto exacto puede variar un poco según el idioma de tu cuenta.</div>
+    <label class="chk" style="margin-top:16px"><input type="checkbox" id="plChk" onchange="document.getElementById('plOk').disabled=!this.checked"> Entendido: marcaré todas las casillas de permisos.</label>
+    <div class="ov-actions">
+      <button class="btn ghost" onclick="cerrarPreLogin()">Cancelar</button>
+      <button class="btn" id="plOk" disabled onclick="continuarGoogle()">Continuar a Google</button>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="terms" style="z-index:97">
+  <div class="ov-card terms">
+    <div class="terms-head">
+      <div class="eyebrow">Sistema DCD · Universidad CENFOTEC</div>
+      <h3 style="margin:0">Términos de uso y manejo de datos</h3>
+    </div>
+    <div class="terms-body" id="termsBody"></div>
+    <div class="terms-foot">
+      <div id="termsMsg" style="display:flex;gap:8px;align-items:center;font-size:12.5px;font-weight:600;color:var(--ambar);margin-bottom:10px">Para usar el Sistema DCD debes leer y aceptar estos términos. Solo se te pedirá una vez.</div>
+      <label class="chk" id="termsChkWrap"><input type="checkbox" id="termsChk" onchange="document.getElementById('termsOk').disabled=!this.checked"> He leído y acepto los términos de uso y el manejo de mis datos.</label>
+      <div class="ov-actions">
+        <button class="btn ghost" id="termsNo">No acepto</button>
+        <button class="btn" id="termsOk" disabled>Aceptar y continuar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="overlay" id="pickModal">
+  <div class="ov-card wide">
+    <h3 id="pkTitle"></h3>
+    <p id="pkText"></p>
+    <label class="chk" style="margin-top:14px"><input type="checkbox" id="pkAll" checked onchange="document.querySelectorAll('#pkList input').forEach(i=>i.checked=this.checked)"> Seleccionar todas</label>
+    <div class="pick-list" id="pkList"></div>
+    <div class="ov-actions">
+      <button class="btn ghost" id="pkCancel">Cancelar</button>
+      <button class="btn" id="pkOk">Traer seleccionadas</button>
     </div>
   </div>
 </div>
@@ -605,14 +743,15 @@ const SCOPES = [
 ].join(' ');
 
 const APP_URL = 'https://promero-ucenfotec.github.io/Registro-de-Horas/';
-const ADMIN_PASS = 'DCD1234#';
 let SPREADSHEET_ID = localStorage.getItem('dcd_ss_id') || '1v5D_uUuqKAIlkecQ4O2DiLpmQ_aKU3C2sTCFv99ZSuA';
 const DRIVE_FOLDER = '1KRW-BbLzxKT8dWvRJa9xX_zzVchHHQfO';
 
 const TAB = {
-  USR:'SYS_Usuarios',    USR_HEAD:['correo','nombre','es_empleado','activo','rol','max_horas'],
+  USR:'SYS_Usuarios',    USR_HEAD:['correo','nombre','es_empleado','activo','rol','max_horas','max_semanal','terminos_aceptados','terminos_version','terminos_fecha'],
+  ADM:'SYS_Administradores', ADM_HEAD:['correo','nombre','activo','nota'],
+  SUG:'SYS_Sugerencias', SUG_HEAD:['fecha','correo','nombre','tipo','mensaje','enviada_a'],
   PRO:'SYS_Proyectos',   PRO_HEAD:['proyecto','activo','nombre_largo'],
-  TAR:'SYS_Tareas',      TAR_HEAD:['id','anio','mes','correo','proyecto','tarea','origen'],
+  TAR:'SYS_Tareas',      TAR_HEAD:['id','anio','mes','correo','proyecto','tarea','origen','max_horas'],
   REG:'SYS_Registros',   REG_HEAD:['id','anio','mes','correo','nombre','proyecto','tarea','horas','descripcion','timestamp'],
   COM:'SYS_Comentarios', COM_HEAD:['anio','mes','correo','nombre','comentario','timestamp'],
   CFG:'SYS_Config',      CFG_HEAD:['clave','valor'],
@@ -661,6 +800,8 @@ const IC = {
   table:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/>',
   send:'<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>',
   ext:'<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14L21 3"/>',
+  edit:'<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.1 2.1 0 0 1 3 3L12 15l-4 1 1-4z"/>',
+  import:'<path d="M3 15v4a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/>',
   bellOff:'<path d="M13.73 21a2 2 0 0 1-3.46 0"/><path d="M18.63 13A17.89 17.89 0 0 1 18 8"/><path d="M6.26 6.26A5.86 5.86 0 0 0 6 8c0 7-3 9-3 9h14"/><path d="M18 8a6 6 0 0 0-9.33-5"/><path d="M1 1l22 22"/>'
 };
 function ic(n,cls=''){ return `<svg class="ico ${cls}" viewBox="0 0 24 24">${IC[n]||''}</svg>`; }
@@ -671,13 +812,17 @@ function ic(n,cls=''){ return `<svg class="ico ${cls}" viewBox="0 0 24 24">${IC[
 let token = null, tokenExp = 0, tokenClient = null, gisReady = false;
 let ME = { email:'', name:'', picture:'' };
 let CACHE = { usuarios:null, proyectos:null };
-let adminUnlocked = false;
+let IS_ADMIN = false;   // se define con la hoja SYS_Administradores
+let TERMS_OK = false;   // se confirma con la hoja SYS_Usuarios
 let pendingAfterToken = null;
 let SYS_PROMISE = null;
 let CURRENT = 'home';
 let REG = { max:0, anio:0, mes:0, dirty:false, items:[], removed:[], comentario:'', mail:false, adding:false, precargadas:0, pm:0, pa:0 };
 
-function saveSession(){ try{ localStorage.setItem('dcd_session', JSON.stringify({token, tokenExp, ME})); }catch(e){} }
+// Permiso amplio de Drive: solo se pide a administradores, y solo para compartir la hoja del sistema
+const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive';
+let GRANTED = '', pendingFail = null;
+function saveSession(){ try{ localStorage.setItem('dcd_session', JSON.stringify({token, tokenExp, ME, GRANTED})); }catch(e){} }
 function loadSession(){ try{ return JSON.parse(localStorage.getItem('dcd_session')||'null'); }catch(e){ return null; } }
 function hasGrant(){ return localStorage.getItem('dcd_granted')==='1'; }
 
@@ -686,7 +831,7 @@ window.onload = () => {
   document.getElementById('btnMenu').innerHTML = ic('menu');
   const s = loadSession();
   if(s && s.token && s.tokenExp > Date.now()+60000){
-    token=s.token; tokenExp=s.tokenExp; ME=s.ME||ME;
+    token=s.token; tokenExp=s.tokenExp; ME=s.ME||ME; GRANTED=s.GRANTED||'';
     enterApp();
   }
   const wait = setInterval(()=>{
@@ -697,9 +842,30 @@ window.onload = () => {
 function initAuth(){
   tokenClient = google.accounts.oauth2.initTokenClient({
     client_id:CLIENT_ID, scope:SCOPES,
+    error_callback: ()=>{
+      setLoginBusy(false);
+      if(pendingFail){ const f=pendingFail; pendingFail=null; pendingAfterToken=null; f(); }
+    },
     callback: async (resp)=>{
       hideReconnect();
-      if(resp.error){ toast('No se otorgaron los permisos de Google','err'); setLoginBusy(false); return; }
+      if(resp.error){
+        toast('No se otorgaron los permisos de Google','err'); setLoginBusy(false);
+        if(pendingFail){ const f=pendingFail; pendingFail=null; pendingAfterToken=null; f(); }
+        return;
+      }
+      pendingFail=null;
+      // Si en el ingreso quedaron casillas sin marcar, no se entra a la app: se explica y se ofrece repetir
+      if(!pendingAfterToken){
+        const faltan=permisosFaltantes(resp.scope);
+        if(faltan.length){
+          setLoginBusy(false);
+          localStorage.removeItem('dcd_granted');
+          try{ google.accounts.oauth2.revoke(resp.access_token,()=>{}); }catch(e){}
+          abrirPreLogin(faltan);
+          return;
+        }
+      }
+      GRANTED = resp.scope || GRANTED;
       token = resp.access_token;
       tokenExp = Date.now() + (resp.expires_in? resp.expires_in*1000 : 3300*1000) - 60000;
       localStorage.setItem('dcd_granted','1');
@@ -721,8 +887,43 @@ function initAuth(){
 
 function doLogin(){
   if(!gisReady){ toast('Google aún está cargando, intenta de nuevo','err'); return; }
+  // La primera vez se muestra el aviso de permisos antes de ir a Google
+  if(!hasGrant()){ abrirPreLogin(); return; }
   setLoginBusy(true);
-  tokenClient.requestAccessToken({ prompt: hasGrant()? '' : 'consent' });
+  tokenClient.requestAccessToken({ prompt:'' });
+}
+
+/* ---- Aviso de permisos antes de autenticarse ---- */
+const PERMISOS_BASE = {
+  'https://www.googleapis.com/auth/spreadsheets':'Hojas de cálculo de Google',
+  'https://www.googleapis.com/auth/drive.file':'Archivos de Google Drive usados con esta app',
+  'https://www.googleapis.com/auth/gmail.send':'Enviar correo electrónico en tu nombre',
+  'https://www.googleapis.com/auth/calendar.events':'Eventos de tus calendarios'
+};
+function permisosFaltantes(scopeStr){
+  const g=String(scopeStr||'').split(' ');
+  return Object.keys(PERMISOS_BASE).filter(s=>!g.includes(s));
+}
+function abrirPreLogin(faltan=[]){
+  const miss=document.getElementById('plMiss');
+  if(faltan.length){
+    document.getElementById('plTitle').textContent='Faltan permisos por activar';
+    document.getElementById('plText').innerHTML='Iniciaste sesión, pero no marcaste todas las casillas en la ventana de Google. Sin ellas no puedes usar la plataforma. Vuelve a intentarlo y activa <b>todos</b> los permisos.';
+    miss.innerHTML=`<div class="pre-miss"><b>Quedaron sin marcar:</b><ul>${faltan.map(s=>`<li>${esc(PERMISOS_BASE[s])}</li>`).join('')}</ul></div>`;
+  }else{
+    document.getElementById('plTitle').textContent='Antes de continuar con Google';
+    document.getElementById('plText').innerHTML='Para que el Sistema DCD funcione, en la ventana de Google debes <b>activar todos los permisos</b>. Si dejas alguno sin marcar, no podrás usar la plataforma.';
+    miss.innerHTML='';
+  }
+  document.getElementById('plChk').checked=false;
+  document.getElementById('plOk').disabled=true;
+  document.getElementById('preLogin').classList.add('show');
+}
+function cerrarPreLogin(){ document.getElementById('preLogin').classList.remove('show'); setLoginBusy(false); }
+function continuarGoogle(){
+  document.getElementById('preLogin').classList.remove('show');
+  setLoginBusy(true);
+  tokenClient.requestAccessToken({ prompt:'consent' });
 }
 function setLoginBusy(on){
   const b=document.getElementById('btnGoogle');
@@ -732,6 +933,17 @@ function ensureToken(cb){
   if(token && Date.now() < tokenExp){ cb(); return; }
   pendingAfterToken = cb;
   showReconnect();
+}
+function tieneDrive(){ return String(GRANTED||'').split(' ').includes(DRIVE_SCOPE); }
+// Debe llamarse directamente desde un clic (antes de cualquier await) para que Google pueda abrir su ventana
+function pedirDrive(){
+  if(tieneDrive()) return Promise.resolve(true);
+  if(!gisReady){ toast('Google aún está cargando, intenta de nuevo','err'); return Promise.resolve(false); }
+  return new Promise(res=>{
+    pendingAfterToken=()=>res(tieneDrive());
+    pendingFail=()=>res(false);
+    tokenClient.requestAccessToken({ scope:SCOPES+' '+DRIVE_SCOPE, include_granted_scopes:true, prompt:'' });
+  });
 }
 function showReconnect(){ document.getElementById('reconnect').classList.add('show'); }
 function hideReconnect(){ document.getElementById('reconnect').classList.remove('show'); }
@@ -746,11 +958,128 @@ function enterApp(){
   document.getElementById('uName').textContent = ME.name;
   document.getElementById('uEmail').textContent = ME.email;
   document.getElementById('uAvatar').textContent = (ME.name||'?').trim().charAt(0).toUpperCase();
+  verificarTerminos();
   sysReady();
   goHome();
+  cargarRol();
+}
+
+/* ============================================================
+   TÉRMINOS DE USO (se aceptan una vez por persona y versión)
+============================================================ */
+const TERMS_V = 'v1'; // si cambian los términos, sube a 'v2' y todos deberán aceptarlos de nuevo
+function termsKey(){ return 'dcd_terms_'+(ME.email||''); }
+function termsContent(){
+  return `
+  <h4>¿Qué es esta aplicación?</h4>
+  <ul>
+    <li>Es una herramienta interna del Departamento de Desarrollo Curricular y Docente (DCD) de la Universidad CENFOTEC.</li>
+    <li>Sirve para registrar las horas dedicadas a cada proyecto y generar los reportes de dedicación del departamento.</li>
+  </ul>
+  <h4>¿Qué datos tuyos utiliza?</h4>
+  <ul>
+    <li><b>Tu nombre y tu correo de Google:</b> te identifican y te asocian con tus tareas.</li>
+    <li><b>Tus registros:</b> las tareas, las horas, las notas y los comentarios que escribes.</li>
+    <li><b>Tus bloques de calendario:</b> las franjas de tiempo que marcas en la vista de calendario de la aplicación.</li>
+    <li><b>Tus sugerencias:</b> los mensajes que envías con el botón de sugerencias, que llegan por correo a los administradores y quedan anotados en la hoja del sistema.</li>
+  </ul>
+  <h4>Permisos de Google y para qué se usa cada uno</h4>
+  <ul>
+    <li><b>Perfil y correo:</b> iniciar tu sesión y saber quién eres.</li>
+    <li><b>Hojas de cálculo:</b> leer y guardar los datos del sistema. La aplicación solo abre la hoja de cálculo del DCD; no abre ni modifica tus otras hojas.</li>
+    <li><b>Google Drive (solo archivos creados por la aplicación):</b> guardar los respaldos que genera el administrador. No tiene acceso al resto de tu Drive.</li>
+    <li><b>Google Drive para compartir (solo administradores):</b> dar o quitar el permiso de edición de la hoja del sistema a las personas que se agregan o eliminan como usuarias. Google lo presenta como un acceso amplio a Drive, pero la aplicación solo lo usa sobre la hoja del sistema, y únicamente se pide a quien administra.</li>
+    <li><b>Gmail (solo envío):</b> enviar los correos que tú pides, como la copia de tus horas. Si eres administrador, también los recordatorios y los comunicados. La aplicación no lee tu bandeja de entrada.</li>
+    <li><b>Google Calendar:</b> mostrar tus reuniones como referencia en la vista de calendario y crear el evento de cierre de mes cuando el administrador lo solicita. Tus reuniones no se guardan en el sistema; solo se guarda el título de una reunión si tú decides registrarla como bloque de trabajo.</li>
+  </ul>
+  <h4>¿Dónde se guarda la información?</h4>
+  <ul>
+    <li>En una hoja de cálculo de Google del DCD, dentro de la cuenta institucional.</li>
+    <li>Tu navegador guarda la sesión por aproximadamente una hora para no pedirte ingresar a cada momento.</li>
+    <li>La información no se vende ni se comparte con terceros ajenos a la Universidad.</li>
+  </ul>
+  <h4>¿Quién puede ver tus datos?</h4>
+  <ul>
+    <li>Las personas con perfil de administrador, definidas por el DCD en la hoja del sistema, pueden ver tus tareas, horas y comentarios.</li>
+    <li>Los reportes mensuales y por proyecto, que cualquier persona del equipo puede descargar, muestran las horas de cada persona por proyecto.</li>
+    <li>Tu reporte propio solo incluye tus datos.</li>
+  </ul>
+  <h4>¿Para qué se usan?</h4>
+  <ul>
+    <li>Para el control de la dedicación por proyecto y la elaboración de reportes del departamento.</li>
+    <li>Para enviarte recordatorios cuando no has registrado tus horas y comunicados sobre el sistema.</li>
+    <li>No se usan con ningún otro fin.</li>
+  </ul>
+  <h4>Tus opciones</h4>
+  <ul>
+    <li>Puedes pedirle al administrador del DCD que corrija o elimine tus datos.</li>
+    <li>Puedes quitar los permisos en cualquier momento desde la configuración de seguridad de tu cuenta de Google; sin ellos, la aplicación deja de funcionar para ti.</li>
+    <li>Si un administrador te desactiva, dejas de recibir correos del sistema, pero tus horas se conservan en los reportes.</li>
+  </ul>
+  <h4>Registro de tu aceptación</h4>
+  <ul>
+    <li>Al aceptar, queda anotado en la hoja del sistema junto a tu usuario, con la fecha y la versión de estos términos.</li>
+    <li>Si los términos cambian, se te pedirá aceptarlos de nuevo antes de seguir usando la aplicación.</li>
+  </ul>`;
+}
+function abrirTerminos(requerido){
+  const ov=document.getElementById('terms');
+  document.getElementById('termsBody').innerHTML=termsContent();
+  document.getElementById('termsBody').scrollTop=0;
+  const chk=document.getElementById('termsChk'), ok=document.getElementById('termsOk'), no=document.getElementById('termsNo');
+  document.getElementById('termsChkWrap').classList.toggle('hidden',!requerido);
+  document.getElementById('termsMsg').classList.toggle('hidden',!requerido);
+  chk.checked=false;
+  if(requerido){
+    ok.textContent='Aceptar y continuar'; ok.disabled=true; ok.onclick=aceptarTerminos;
+    no.classList.remove('hidden'); no.onclick=rechazarTerminos;
+  }else{
+    ok.textContent='Cerrar'; ok.disabled=false; ok.onclick=()=>ov.classList.remove('show');
+    no.classList.add('hidden');
+  }
+  ov.classList.add('show');
+}
+// La hoja SYS_Usuarios manda: columnas terminos_aceptados (Sí/No), terminos_version y terminos_fecha.
+// Si el administrador cambia "Sí" por "No" en la hoja, a la persona se le vuelven a pedir.
+function terminosAceptados(u){ return !!u && isTrue(u.terminos_aceptados) && String(u.terminos_version||'').trim()===TERMS_V; }
+async function verificarTerminos(){
+  try{ TERMS_OK = localStorage.getItem(termsKey())===TERMS_V; }catch(e){ TERMS_OK=false; }
+  try{
+    await sysReady();
+    const u=(await getUsuarios(true)).find(x=>sameMail(x.correo,ME.email));
+    if(terminosAceptados(u)){
+      TERMS_OK=true; try{ localStorage.setItem(termsKey(),TERMS_V); }catch(e){}
+      return;
+    }
+    TERMS_OK=false; try{ localStorage.removeItem(termsKey()); }catch(e){}
+  }catch(e){ if(TERMS_OK) return; }
+  abrirTerminos(true);
+}
+async function aceptarTerminos(){
+  const ok=document.getElementById('termsOk'); ok.disabled=true; ok.textContent='Guardando…';
+  try{
+    await sysReady();
+    const us=await getUsuarios(true);
+    let u=us.find(x=>sameMail(x.correo,ME.email));
+    if(!u){ u={correo:ME.email,nombre:ME.name,es_empleado:'FALSE',activo:'TRUE',rol:'colaborador'}; us.push(u); }
+    u.terminos_aceptados='Sí'; u.terminos_version=TERMS_V;
+    u.terminos_fecha=new Date().toLocaleString('es-CR',{dateStyle:'short',timeStyle:'short'});
+    await replaceTab(TAB.USR,TAB.USR_HEAD,us); await getUsuarios(true);
+    TERMS_OK=true; try{ localStorage.setItem(termsKey(),TERMS_V); }catch(e){}
+    document.getElementById('terms').classList.remove('show');
+    toast('Gracias, quedaron aceptados los términos de uso','ok');
+  }catch(e){
+    ok.disabled=false; ok.textContent='Aceptar y continuar';
+    toast('No se pudo registrar tu aceptación: '+e.message,'err');
+  }
+}
+async function rechazarTerminos(){
+  document.getElementById('terms').classList.remove('show');
+  const ok=await confirmar('No aceptaste los términos','Para usar el Sistema DCD es necesario aceptar los términos de uso. Se cerrará tu sesión; puedes volver a ingresar cuando quieras.',{ok:'Cerrar sesión',danger:true});
+  if(ok) logout(); else abrirTerminos(true);
 }
 function logout(){
-  token=null; adminUnlocked=false;
+  token=null; IS_ADMIN=false; TERMS_OK=false;
   localStorage.removeItem('dcd_session');
   location.reload();
 }
@@ -767,18 +1096,31 @@ const NAV = [
   {v:'proyectos', label:'Proyectos', ic:'folder', admin:true},
   {v:'tareas', label:'Asignar tareas', ic:'list', admin:true},
   {v:'estado', label:'Control mensual', ic:'check', admin:true},
-  {v:'recordatorios', label:'Recordatorios', ic:'bell', admin:true}
+  {v:'recordatorios', label:'Recordatorios', ic:'bell', admin:true},
+  {v:'comunicados', label:'Comunicados', ic:'send', admin:true}
 ];
 const VIEWS = {
   home:()=>goHome(), registrar:()=>viewRegistrar(), reportes:()=>viewReportes(),
   usuarios:()=>admUsuarios(), proyectos:()=>admProyectos(), tareas:()=>admTareas(),
-  estado:()=>admEstado(), recordatorios:()=>admRecordatorios()
+  estado:()=>admEstado(), recordatorios:()=>admRecordatorios(), comunicados:()=>admComunicados()
 };
 function renderNav(){
-  document.getElementById('nav').innerHTML = NAV.map(n=>{
+  // La sección de administración solo aparece para quienes están en SYS_Administradores
+  document.getElementById('nav').innerHTML = NAV.filter(n=>IS_ADMIN || !(n.admin || n.sec)).map(n=>{
     if(n.sec) return `<div class="nav-sec">${n.sec}</div>`;
-    return `<button class="nav-item ${CURRENT===n.v?'active':''}" onclick="go('${n.v}')">${ic(n.ic)}<span>${n.label}</span>${n.admin&&!adminUnlocked? ic('lock','lk'):''}</button>`;
+    return `<button class="nav-item ${CURRENT===n.v?'active':''}" onclick="go('${n.v}')">${ic(n.ic)}<span>${n.label}</span></button>`;
   }).join('');
+}
+async function cargarRol(){
+  try{
+    await sysReady();
+    const a=(await readTab(TAB.ADM)).rows;
+    IS_ADMIN=a.some(r=>sameMail(String(r.correo).trim(),ME.email) && (String(r.activo||'').trim()==='' || isTrue(r.activo)));
+  }catch(e){ IS_ADMIN=false; }
+  renderNav();
+  const acc=document.getElementById('homeActions'); if(acc) acc.innerHTML=accionesHtml();
+  const item=NAV.find(n=>n.v===CURRENT);
+  if(item && item.admin && !IS_ADMIN) viewSinAcceso();
 }
 function setActive(v){ CURRENT=v; renderNav(); }
 async function go(v){
@@ -788,8 +1130,9 @@ async function go(v){
     if(!ok) return;
     REG.dirty=false;
   }
+  if(!TERMS_OK){ abrirTerminos(true); return; }
   const item=NAV.find(n=>n.v===v);
-  if(item && item.admin && !adminUnlocked){ viewAdminGate(v); return; }
+  if(item && item.admin && !IS_ADMIN){ viewSinAcceso(); return; }
   VIEWS[v]();
   window.scrollTo({top:0});
 }
@@ -835,8 +1178,22 @@ function sysReady(){
 }
 async function ensureSystem(){
   const sheets = await listSheets();
-  for(const [t,h] of [[TAB.USR,TAB.USR_HEAD],[TAB.PRO,TAB.PRO_HEAD],[TAB.TAR,TAB.TAR_HEAD],[TAB.REG,TAB.REG_HEAD],[TAB.COM,TAB.COM_HEAD],[TAB.CFG,TAB.CFG_HEAD],[TAB.BLQ,TAB.BLQ_HEAD]]){
+  for(const [t,h] of [[TAB.USR,TAB.USR_HEAD],[TAB.PRO,TAB.PRO_HEAD],[TAB.TAR,TAB.TAR_HEAD],[TAB.REG,TAB.REG_HEAD],[TAB.COM,TAB.COM_HEAD],[TAB.CFG,TAB.CFG_HEAD],[TAB.BLQ,TAB.BLQ_HEAD],[TAB.SUG,TAB.SUG_HEAD]]){
     await ensureTab(t,h,sheets);
+  }
+  // Hoja de administradores: se crea una sola vez, con quien la crea como primer administrador,
+  // y queda protegida para que solo esa persona (y la dueña del archivo) puedan editarla.
+  if(!sheets.find(s=>s.title===TAB.ADM)){
+    const r=await api(`${SS}/${SPREADSHEET_ID}:batchUpdate`,{method:'POST',body:JSON.stringify({requests:[{addSheet:{properties:{title:TAB.ADM}}}]})});
+    await writeHeader(TAB.ADM,TAB.ADM_HEAD);
+    await api(`${SS}/${SPREADSHEET_ID}/values/${enc(TAB.ADM)}!A2:D2?valueInputOption=RAW`,
+      {method:'PUT', body:JSON.stringify({values:[[ME.email, ME.name, 'Sí', 'Administrador inicial']]})});
+    try{
+      const sheetId=r.replies[0].addSheet.properties.sheetId;
+      await api(`${SS}/${SPREADSHEET_ID}:batchUpdate`,{method:'POST',body:JSON.stringify({requests:[{addProtectedRange:{protectedRange:{
+        range:{sheetId}, description:'Administradores del Sistema DCD: solo editable por la persona responsable', warningOnly:false,
+        editors:{users:[ME.email]}}}}]})});
+    }catch(e){ console.warn('No se pudo proteger la hoja de administradores',e); }
   }
   // Actualizar encabezados de instalaciones previas (nombre_largo, origen)
   const pro = await readTab(TAB.PRO);
@@ -853,7 +1210,7 @@ async function ensureSystem(){
   const usr = await readTab(TAB.USR);
   if(!usr.rows.find(r=> (r.correo||'').toLowerCase()===ME.email)){
     await api(`${SS}/${SPREADSHEET_ID}/values/${enc(TAB.USR)}!A1:append?valueInputOption=RAW`,
-      {method:'POST', body:JSON.stringify({values:[[ME.email, ME.name,'TRUE','TRUE','admin']]})});
+      {method:'POST', body:JSON.stringify({values:[[ME.email, ME.name,'FALSE','TRUE','colaborador']]})});
   }
   CACHE.usuarios=null; CACHE.proyectos=null;
 }
@@ -904,9 +1261,65 @@ async function getProyectos(force){
   if(!CACHE.proyectos||force){ CACHE.proyectos=(await readTab(TAB.PRO)).rows.sort((a,b)=>cmp(a.proyecto,b.proyecto)); }
   return CACHE.proyectos;
 }
-const isTrue = v => String(v).toUpperCase()==='TRUE'||v===true||v==='1'||v==='Sí'||v==='SI';
+// Acepta TRUE, VERDADERO, Sí/Si/SÍ, 1 o X (como se escriba en la hoja)
+const isTrue = v => v===true || ['TRUE','VERDADERO','SI','1','X'].includes(String(v==null?'':v).normalize('NFD').replace(/[̀-ͯ]/g,'').trim().toUpperCase());
 const sameMail = (a,b) => (a||'').toLowerCase()===(b||'').toLowerCase();
 const r2 = n => Math.round(n*100)/100;
+
+// Jornada: días hábiles del mes y tope mensual (directo o calculado desde el semanal)
+function habiles(anio,mes){
+  let n=0; const last=new Date(anio,mes,0).getDate();
+  for(let d=1; d<=last; d++){ const w=new Date(anio,mes-1,d).getDay(); if(w>0 && w<6) n++; }
+  return n;
+}
+function topeMes(u,anio,mes){
+  if(!u) return 0;
+  const m=parseFloat(u.max_horas)||0; if(m>0) return m;
+  const s=parseFloat(u.max_semanal)||0;
+  return s>0? r2(s*habiles(anio,mes)/5) : 0;
+}
+function textoJornada(u,anio,mes){
+  const s=parseFloat(u&&u.max_semanal)||0, t=topeMes(u,anio,mes);
+  if(!t) return '';
+  const mm=MESES[mes-1].toLowerCase();
+  return s>0? `${r2(s)} h semanales · ${r2(t)} h en ${mm}` : `${r2(t)} h en ${mm}`;
+}
+function proyOpts(sel){
+  const pro=(CACHE.proyectos||[]).filter(p=>isTrue(p.activo) || p.proyecto===sel);
+  const lista=pro.some(p=>p.proyecto===sel)||!sel? pro : [{proyecto:sel}].concat(pro);
+  return lista.map(p=>`<option ${p.proyecto===sel?'selected':''}>${esc(p.proyecto)}</option>`).join('');
+}
+// Cambia el nombre (y opcionalmente el proyecto) de una tarea en tareas, horas y bloques
+async function renombrarTareas(correo,anio,mes,cambios,tablas=['TAR','REG','BLQ']){
+  const specs={TAR:[TAB.TAR,TAB.TAR_HEAD,'USER_ENTERED'],REG:[TAB.REG,TAB.REG_HEAD,'USER_ENTERED'],BLQ:[TAB.BLQ,TAB.BLQ_HEAD,'RAW']};
+  for(const k of tablas){
+    const [t,h,mode]=specs[k];
+    const d=await readTab(t); let n=0;
+    d.rows.forEach(r=>{
+      if(!(sameMail(r.correo,correo) && +r.anio===anio && +r.mes===mes)) return;
+      const c=cambios.find(x=>x.de===r.tarea); if(!c) return;
+      r.tarea=c.a; if(c.proyecto) r.proyecto=c.proyecto; n++;
+    });
+    if(n) await replaceTab(t,h,d.rows,mode);
+  }
+}
+// Ventana para elegir elementos de una lista (todos marcados por defecto)
+function elegir(title,text,items,okTxt='Traer seleccionadas'){
+  return new Promise(res=>{
+    const m=document.getElementById('pickModal');
+    document.getElementById('pkTitle').textContent=title;
+    document.getElementById('pkText').textContent=text;
+    document.getElementById('pkAll').checked=true;
+    document.getElementById('pkList').innerHTML=items.map((it,i)=>`<label class="pick-item"><input type="checkbox" value="${i}" checked onchange="pkSync()"><span><b>${esc(it.label)}</b>${it.sub?`<small>${esc(it.sub)}</small>`:''}</span></label>`).join('');
+    const ok=document.getElementById('pkOk'), c=document.getElementById('pkCancel');
+    ok.textContent=okTxt;
+    const close=v=>{ m.classList.remove('show'); ok.onclick=c.onclick=null; res(v); };
+    ok.onclick=()=>close([...document.querySelectorAll('#pkList input:checked')].map(i=>+i.value));
+    c.onclick=()=>close(null);
+    m.classList.add('show');
+  });
+}
+function pkSync(){ const all=[...document.querySelectorAll('#pkList input')]; document.getElementById('pkAll').checked=all.every(i=>i.checked); }
 
 /* ============================================================
    UI HELPERS
@@ -981,6 +1394,7 @@ async function goHome(){
   const first=esc((ME.name||'').split(' ')[0]||'');
   setPage(`Hola, ${first}`, `Este es tu resumen de ${MESES[mes-1].toLowerCase()} de ${anio}.`);
   V().innerHTML=`
+    <div id="homeNews"></div>
     <div class="kpis">
       <div class="kpi"><div class="kpi-ic">${ic('list')}</div><div><div class="kpi-l">Tareas del mes</div><div class="kpi-v" id="kT">—</div></div></div>
       <div class="kpi"><div class="kpi-ic">${ic('clock')}</div><div><div class="kpi-l">Horas registradas</div><div class="kpi-v" id="kH">—</div></div></div>
@@ -990,10 +1404,37 @@ async function goHome(){
     <div class="actions-grid">
       <button class="action primary" onclick="go('registrar')">${ic('clock')}<div><h3>Registrar horas</h3><p>Completa tus tareas del mes o crea una nueva.</p></div>${ic('right','arr')}</button>
       <button class="action" onclick="go('reportes')">${ic('download')}<div><h3>Descargar reportes</h3><p>Excel mensual o histórico por proyecto.</p></div>${ic('right','arr')}</button>
-      <button class="action" onclick="go('estado')">${ic('shield')}<div><h3>Administración</h3><p>Asignaciones, control mensual y recordatorios.</p></div>${ic('right','arr')}</button>
     </div>`;
-  try{ await sysReady(); fillHomeStatus(anio,mes); }catch(e){}
+  document.querySelector('.actions-grid').id='homeActions';
+  document.getElementById('homeActions').innerHTML=accionesHtml();
+  try{ await sysReady(); fillHomeStatus(anio,mes); mostrarNovedades(); }catch(e){}
 }
+function accionesHtml(){
+  return `<button class="action primary" onclick="go('registrar')">${ic('clock')}<div><h3>Registrar horas</h3><p>Completa tus tareas del mes o crea una nueva.</p></div>${ic('right','arr')}</button>
+    <button class="action" onclick="go('reportes')">${ic('download')}<div><h3>Descargar reportes</h3><p>Tu reporte propio, el mensual o el histórico por proyecto.</p></div>${ic('right','arr')}</button>
+    ${IS_ADMIN
+      ? `<button class="action" onclick="go('estado')">${ic('shield')}<div><h3>Administración</h3><p>Asignaciones, control mensual y recordatorios.</p></div>${ic('right','arr')}</button>`
+      : `<button class="action" onclick="abrirTerminos(false)">${ic('shield')}<div><h3>Manejo de tus datos</h3><p>Consulta los términos de uso que aceptaste.</p></div>${ic('right','arr')}</button>`}`;
+}
+// Novedades del último comunicado, visibles en Inicio hasta que la persona las marque como leídas
+async function mostrarNovedades(){
+  try{
+    const cfg=await readConfig();
+    const el=document.getElementById('homeNews'); if(!el || CURRENT!=='home') return;
+    const ver=cfg.comunicado_version||'';
+    if(!ver || !isTrue(cfg.comunicado_mostrar)) return;
+    let visto=false; try{ visto=localStorage.getItem('dcd_novedad_'+ver)==='1'; }catch(e){}
+    if(visto) return;
+    el.innerHTML=`<div class="panel" style="border-left:4px solid var(--azul2)">
+      <h3>${ic('zap')}Novedades · versión ${esc(ver)}</h3>
+      <div class="desc" style="white-space:pre-wrap;margin:8px 0 14px">${esc(formatoNotas(cfg.comunicado_texto||''))}</div>
+      <button class="btn mini sec" onclick="cerrarNovedades('${esc(ver)}')">Entendido</button>
+    </div>`;
+  }catch(e){}
+}
+function cerrarNovedades(ver){ try{ localStorage.setItem('dcd_novedad_'+ver,'1'); }catch(e){} const el=document.getElementById('homeNews'); if(el) el.innerHTML=''; }
+// Las líneas que empiezan con "-" o "*" se convierten en viñetas
+function formatoNotas(t){ return String(t||'').split('\n').map(l=>l.replace(/^\s*[-*]\s+/,'• ')).join('\n').trim(); }
 async function fillHomeStatus(anio,mes){
   try{
     const [tareas,regs]=await Promise.all([readTab(TAB.TAR),readTab(TAB.REG)]);
@@ -1024,6 +1465,16 @@ async function viewReportes(){
         <div><label class="f">Año</label><select class="i" id="rfAnio">${yearOptions(anio)}</select></div>
       </div>
       <label class="chk" style="margin-top:14px"><input type="checkbox" id="rfOcultar" checked> Ocultar proyectos y personas sin horas</label>
+      <div style="margin-top:10px">
+        <label class="chk"><input type="checkbox" id="rfTodos" checked onchange="toggleTodosProy(this.checked)"> Todos los proyectos</label>
+        <div class="hidden" id="rfProysWrap">
+          <div class="proy-pick" id="rfProys"></div>
+          <div class="row-actions" style="margin-top:8px">
+            <button class="btn ghost mini" onclick="marcarProys(true)">Marcar todos</button>
+            <button class="btn ghost mini" onclick="marcarProys(false)">Quitar todos</button>
+          </div>
+        </div>
+      </div>
       <button class="btn" style="margin-top:16px;width:100%" onclick="genReporteFecha()">${ic('download')}Descargar Excel</button>
     </div>
     <div class="panel">
@@ -1034,14 +1485,75 @@ async function viewReportes(){
       <button class="btn" style="margin-top:16px;width:100%" onclick="genReporteProyecto()">${ic('download')}Descargar Excel</button>
     </div>
   </div>
+  <div class="panel">
+    <h3>${ic('clock')}Mi reporte</h3>
+    <div class="desc">Todas tus tareas con sus horas, de un mes, de un año completo o de todo tu historial.</div>
+    <div class="toolbar">
+      <div class="grow"><label class="f">Mes</label><select class="i" id="mrMes"><option value="0">Todos los meses</option>${monthOptions(mes)}</select></div>
+      <div class="grow"><label class="f">Año</label><select class="i" id="mrAnio"><option value="0">Todo el historial</option>${yearOptions(anio)}</select></div>
+      <button class="btn" onclick="genMiReporte()">${ic('download')}Descargar mi reporte</button>
+    </div>
+  </div>
   <div class="note">${ic('info')}<span>Cualquier persona del equipo puede descargar estos reportes. Las personas desactivadas siguen apareciendo; si desmarcas la casilla, el reporte incluye también las filas y columnas en cero.</span></div>`;
   const pro=await getProyectos();
   const sel=document.getElementById('rpProy');
   if(sel) sel.innerHTML=pro.map(p=>`<option>${esc(p.proyecto)}</option>`).join('');
+  const pk=document.getElementById('rfProys');
+  if(pk) pk.innerHTML=pro.map(p=>`<label class="chk"><input type="checkbox" class="rfP" value="${esc(p.proyecto)}" checked> ${esc(p.proyecto)}</label>`).join('');
+}
+function toggleTodosProy(on){
+  document.getElementById('rfProysWrap').classList.toggle('hidden',on);
+  if(on) marcarProys(true);
+}
+function marcarProys(on){ document.querySelectorAll('.rfP').forEach(i=>i.checked=on); }
+async function genMiReporte(){
+  const mes=+document.getElementById('mrMes').value, anio=+document.getElementById('mrAnio').value;
+  loader(true,'Generando tu reporte…');
+  try{
+    const [regsAll,usuarios]=await Promise.all([readTab(TAB.REG),getUsuarios()]);
+    const regs=regsAll.rows.filter(r=>sameMail(r.correo,ME.email) && r.horas!=='' && (parseFloat(r.horas)||0)!==0
+      && (!anio || +r.anio===anio) && (!anio || !mes || +r.mes===mes));
+    const periodo = !anio? 'todo el historial' : mes? `${MESES[mes-1]} ${anio}` : `todo ${anio}`;
+    if(!regs.length){ toast(`No tienes horas registradas en ${periodo}`,'err'); return; }
+    regs.sort((a,b)=>(+a.anio-+b.anio)||(+a.mes-+b.mes)||cmp(a.proyecto,b.proyecto)||cmp(a.tarea,b.tarea));
+    const meU=usuarios.find(u=>sameMail(u.correo,ME.email));
+    const nombre=meU? meU.nombre : ME.name;
+    const h=r=>parseFloat(r.horas)||0;
+    const total=regs.reduce((s,r)=>s+h(r),0);
+    const wb=XLSX.utils.book_new();
+    // Detalle de tareas
+    const det=[[`Reporte de horas · ${nombre} · ${periodo}`],[],['Año','Mes','Proyecto','Tarea','Horas','Descripción']];
+    regs.forEach(r=>det.push([+r.anio,MESES[+r.mes-1]||r.mes,r.proyecto,r.tarea,h(r),r.descripcion||'']));
+    det.push([],['','','','TOTAL',r2(total)]);
+    const ws1=XLSX.utils.aoa_to_sheet(det); ws1['!cols']=[{wch:7},{wch:12},{wch:28},{wch:48},{wch:8},{wch:50}];
+    XLSX.utils.book_append_sheet(wb,ws1,'Detalle');
+    // Resumen por proyecto
+    const porP={}; regs.forEach(r=>{ porP[r.proyecto]=(porP[r.proyecto]||0)+h(r); });
+    const res=[[`Horas por proyecto · ${periodo}`],[],['Proyecto','Horas','% del total']];
+    Object.entries(porP).sort((a,b)=>b[1]-a[1]).forEach(([p,v])=>res.push([p,r2(v),r2(v/total*100)]));
+    res.push(['TOTAL',r2(total),100]);
+    const ws2=XLSX.utils.aoa_to_sheet(res); ws2['!cols']=[{wch:30},{wch:10},{wch:12}];
+    XLSX.utils.book_append_sheet(wb,ws2,'Por proyecto');
+    // Resumen por mes cuando el periodo abarca varios meses
+    const meses=[...new Set(regs.map(r=>`${r.anio}-${r.mes}`))];
+    if(meses.length>1){
+      const pm=[[`Horas por mes · ${periodo}`],[],['Año','Mes','Horas']];
+      meses.forEach(k=>{ const [a,m]=k.split('-').map(Number); pm.push([a,MESES[m-1],r2(regs.filter(r=>+r.anio===a&&+r.mes===m).reduce((s,r)=>s+h(r),0))]); });
+      pm.push(['','TOTAL',r2(total)]);
+      const ws3=XLSX.utils.aoa_to_sheet(pm); ws3['!cols']=[{wch:7},{wch:12},{wch:10}];
+      XLSX.utils.book_append_sheet(wb,ws3,'Por mes');
+    }
+    const tag=!anio?'historial':mes?`${MESES[mes-1]}_${anio}`:String(anio);
+    XLSX.writeFile(wb,`Mis_horas_${tag}.xlsx`);
+    toast('Tu reporte se descargó','ok');
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
 }
 async function genReporteFecha(){
   const mes=+document.getElementById('rfMes').value, anio=+document.getElementById('rfAnio').value;
   const ocultar=document.getElementById('rfOcultar').checked;
+  const todosP=document.getElementById('rfTodos').checked;
+  const elegidos=todosP? null : new Set([...document.querySelectorAll('.rfP:checked')].map(i=>i.value));
+  if(elegidos && !elegidos.size){ toast('Elige al menos un proyecto','err'); return; }
   loader(true,'Generando reporte…');
   try{
     const [regs,usuarios,proyectos] = await Promise.all([readTab(TAB.REG),getUsuarios(),getProyectos()]);
@@ -1055,6 +1567,7 @@ async function genReporteFecha(){
     let personas=nombresUsr.concat(extrasN);
     const provs=proyectos.map(p=>p.proyecto);
     let proyRows=provs.concat(Object.keys(map).filter(p=>!provs.includes(p)).sort(cmp));
+    if(elegidos) proyRows=proyRows.filter(p=>elegidos.has(p));
     if(ocultar){
       personas=personas.filter(n=>proyRows.some(p=>celda(p,n)!==0));
       proyRows=proyRows.filter(p=>personas.some(n=>celda(p,n)!==0));
@@ -1200,10 +1713,13 @@ async function loadMisTareas(){
       const desc=p? (p.descripcion||'') : '';
       let pre=false;
       if(!p){ const q=prevMonth(t.tarea); if(q && q.horas!=='' && q.horas!==undefined){ horas=String(q.horas); pre=true; precargadas++; } }
-      return { k:uid(), proyecto:t.proyecto||'—', tarea:t.tarea, horas, desc, pre, origen:t.origen==='propia'?'propia':'admin', nueva:false, showDesc:desc.trim()!=='' };
+      return { k:uid(), proyecto:t.proyecto||'—', tarea:t.tarea, horas, desc, pre, origen:t.origen==='propia'?'propia':'admin', nueva:false, showDesc:desc.trim()!=='', max:parseFloat(t.max_horas)||0 };
     });
+    REG.prevTareas=tareas.rows.filter(t=>sameMail(t.correo,ME.email) && +t.anio===pa && +t.mes===pm);
     const meU=(await getUsuarios(true)).find(u=>sameMail(u.correo,ME.email));
-    REG.max = meU? (parseFloat(meU.max_horas)||0) : 0;
+    REG.max = topeMes(meU,anio,mes);
+    REG.semanal = meU? (parseFloat(meU.max_semanal)||0) : 0;
+    REG.jornada = textoJornada(meU,anio,mes);
     Object.assign(REG,{removed:[], comentario:miCom?miCom.comentario:'', dirty:false, precargadas, pm, pa});
     renderMisTareas();
   }catch(e){ cont.innerHTML=`<div class="panel"><div class="empty">Error: ${esc(e.message)}</div></div>`; }
@@ -1214,13 +1730,42 @@ function addFormHtml(){
     <h4>${ic('plus')}Nueva tarea propia</h4>
     <div class="add-grid">
       <div><label class="f">Proyecto</label><select class="i" id="ntProy">${pro.map(p=>`<option>${esc(p.proyecto)}</option>`).join('')}</select></div>
-      <div><label class="f">Nombre de la tarea</label><input class="i" id="ntTarea" placeholder="Ej. Revisión del programa de curso SOFT-203" onkeydown="if(event.key==='Enter')agregarTareaPropia()"></div>
+      <div><label class="f">Nombre de la tarea</label><input class="i" id="ntTarea" placeholder="Ej. Revisión del programa de curso SOFT-203" onkeydown="if(event.key==='Enter'){event.preventDefault();agregarTareaPropia();}if(event.key==='Escape')toggleAdd(false)" onblur="tareaBlur(event)"></div>
     </div>
     <div class="row-actions" style="margin-top:14px">
-      <button class="btn" onclick="agregarTareaPropia()">${ic('plus')}Añadir tarea</button>
-      <button class="btn ghost" onclick="toggleAdd(false)">Cancelar</button>
+      <button class="btn" onmousedown="event.preventDefault()" onclick="agregarTareaPropia()">${ic('plus')}Añadir tarea</button>
+      <button class="btn ghost" onmousedown="event.preventDefault()" onclick="toggleAdd(false)">Cancelar</button>
+      <span class="desc" style="margin:0">Se guarda sola al salir del campo.</span>
     </div>
   </div>`;
+}
+// Al salir del campo del nombre, la tarea se guarda sin necesidad de Enter
+function tareaBlur(e){
+  if(e.relatedTarget && e.relatedTarget.id==='ntProy') return;
+  if(e.target.value.trim()) agregarTareaPropia();
+}
+function botonesAgregarHtml(){
+  const ya=new Set(REG.items.map(i=>i.tarea.toLowerCase()));
+  const nPrev=(REG.prevTareas||[]).filter(t=>!ya.has(String(t.tarea).toLowerCase())).length;
+  return `<div class="add-row">
+    <button class="add-btn" onclick="toggleAdd(true)">${ic('plus')}Crear tarea propia<span>¿Trabajaste en algo que no está en la lista?</span></button>
+    ${nPrev?`<button class="add-btn" onclick="traerMisTareas()">${ic('import')}Traer tareas de ${MESES[REG.pm-1]}<span>${nPrev} disponible(s)</span></button>`:''}
+  </div>`;
+}
+async function traerMisTareas(){
+  const ya=new Set(REG.items.map(i=>i.tarea.toLowerCase()));
+  const cand=(REG.prevTareas||[]).filter(t=>!ya.has(String(t.tarea).toLowerCase()));
+  if(!cand.length){ toast(`No hay tareas nuevas que traer de ${MESES[REG.pm-1]}`,'err'); return; }
+  const sel=await elegir(`Traer tareas de ${MESES[REG.pm-1]} ${REG.pa}`,
+    'Todas vienen marcadas. Desmarca las que no vas a trabajar este mes.',
+    cand.map(t=>({label:t.tarea,sub:t.proyecto})));
+  if(!sel || !sel.length) return;
+  sel.forEach(i=>{
+    const t=cand[i]; const r=REG.removed.indexOf(t.tarea); if(r>-1) REG.removed.splice(r,1);
+    REG.items.push({k:uid(),proyecto:t.proyecto||'Otros',tarea:t.tarea,horas:'',desc:'',pre:false,origen:'propia',nueva:r===-1,showDesc:false,max:parseFloat(t.max_horas)||0});
+  });
+  markDirty();
+  await guardarMisHoras();
 }
 function stickyHtml(){
   return `<div class="sticky-save ${REG.dirty?'dirty':''}" id="stickySave">
@@ -1240,7 +1785,10 @@ function renderMisTareas(){
         <div class="empty">${ic('inbox','big')}
           <b>No tienes tareas para ${MESES[REG.mes-1]} ${REG.anio}</b>
           <p>Puedes crear tus propias tareas y registrar sus horas, o pedirle al administrador que te las asigne.</p>
-          ${REG.adding?'':`<button class="btn" style="margin-top:18px" onclick="toggleAdd(true)">${ic('plus')}Crear una tarea</button>`}
+          ${REG.adding?'':`<div class="row-actions" style="justify-content:center;margin-top:18px">
+            <button class="btn" onclick="toggleAdd(true)">${ic('plus')}Crear una tarea</button>
+            ${(REG.prevTareas||[]).length?`<button class="btn sec" onclick="traerMisTareas()">${ic('import')}Traer tareas de ${MESES[REG.pm-1]}</button>`:''}
+          </div>`}
         </div>
         ${REG.adding?addFormHtml():''}
       </div>
@@ -1262,6 +1810,7 @@ function renderMisTareas(){
             ${it.pre?'<span class="pill pre">Precargada</span>':''}
             ${it.origen==='propia'?'<span class="pill own">Propia</span>':''}
             ${it.nueva?'<span class="pill blue">Nueva</span>':''}
+            ${it.max?`<span class="pill max" title="Límite definido por el administrador">Máx. ${r2(it.max)} h</span>`:''}
             ${horasCal(it.tarea)?`<span class="pill mute">${ic('calendar')}${horasCal(it.tarea)} h en calendario</span>`:''}
           </div>
           <div class="tr-controls">
@@ -1271,10 +1820,21 @@ function renderMisTareas(){
               <button type="button" onclick="stepH('${it.k}',0.5)" title="Sumar media hora">+</button>
             </div>
             <button type="button" class="tool-btn nota-btn ${it.desc.trim()?'has':''}" onclick="toggleDesc('${it.k}')" title="Nota sobre el trabajo">${ic('note')}<span class="nb-t">Nota</span></button>
-            ${it.origen==='propia'?`<button type="button" class="tool-btn del" onclick="quitarPropia('${it.k}')" title="Quitar tarea propia">${ic('trash')}</button>`:''}
+            ${it.origen==='propia'?`<button type="button" class="tool-btn ${it.editando?'has':''}" onclick="editarTarea('${it.k}')" title="Editar nombre o proyecto">${ic('edit')}</button>
+            <button type="button" class="tool-btn del" onclick="quitarPropia('${it.k}')" title="Quitar tarea propia">${ic('trash')}</button>`:''}
             <button type="button" class="save-row ${it.cambio?'pend':(it.horas!==''?'ok':'')}" data-k="${it.k}" onclick="guardarMisHoras()" title="${it.cambio?'Guardar (Enter)':'Guardado'}">${it.cambio?ic('save'):ic('check')}</button>
           </div>
         </div>
+        ${it.editando?`<div class="edit-form">
+          <div class="add-grid">
+            <div><label class="f">Proyecto</label><select class="i" id="etProy">${proyOpts(it.proyecto)}</select></div>
+            <div><label class="f">Nombre de la tarea</label><input class="i" id="etNom" value="${esc(it.tarea)}" onkeydown="if(event.key==='Enter')guardarEdicionTarea('${it.k}');if(event.key==='Escape')editarTarea('${it.k}')"></div>
+          </div>
+          <div class="row-actions" style="margin-top:10px">
+            <button class="btn mini" onclick="guardarEdicionTarea('${it.k}')">${ic('save')}Guardar cambios</button>
+            <button class="btn mini ghost" onclick="editarTarea('${it.k}')">Cancelar</button>
+          </div>
+        </div>`:''}
         <div class="tr-quick">
           <span class="ql">Sumar</span>
           ${[0.5,1,2,4].map(q=>`<button type="button" class="qchip" onclick="stepH('${it.k}',${q})">+${q===0.5?'½':q} h</button>`).join('')}
@@ -1286,8 +1846,7 @@ function renderMisTareas(){
       </div>`).join('')}
     </div>`;
   });
-  html += REG.adding? addFormHtml()
-    : `<button class="add-btn" onclick="toggleAdd(true)">${ic('plus')}Crear tarea propia<span>¿Trabajaste en algo que no está en la lista?</span></button>`;
+  html += REG.adding? addFormHtml() : botonesAgregarHtml();
   html += `<div class="panel">
       <label class="f">Comentario para el administrador (opcional)</label>
       <textarea class="i" id="regCom" rows="2" placeholder="Ej. Este mes dediqué más tiempo a X porque…" oninput="REG.comentario=this.value;markDirty()">${esc(REG.comentario)}</textarea>
@@ -1337,18 +1896,46 @@ function toggleAdd(on){
   if(on && !(CACHE.proyectos||[]).some(p=>isTrue(p.activo))){ toast('No hay proyectos vigentes; pídele al administrador que añada uno','err'); return; }
   REG.adding=on; renderMisTareas();
 }
-function agregarTareaPropia(){
+async function agregarTareaPropia(){
+  if(REG.creando) return;
+  const inp=document.getElementById('ntTarea'); if(!inp) return;
   const proyecto=document.getElementById('ntProy').value;
-  const tarea=document.getElementById('ntTarea').value.trim();
+  const tarea=inp.value.trim();
   if(!tarea){ toast('Escribe el nombre de la tarea','err'); return; }
   if(REG.items.some(i=>i.tarea.toLowerCase()===tarea.toLowerCase())){ toast('Ya tienes una tarea con ese nombre este mes','err'); return; }
-  const k=uid();
-  const restaurada=REG.removed.indexOf(tarea);
-  if(restaurada>-1) REG.removed.splice(restaurada,1);
-  REG.items.push({k,proyecto,tarea,horas:'',desc:'',pre:false,origen:'propia',nueva:restaurada===-1,showDesc:false});
-  REG.adding=false; markDirty(); renderMisTareas();
-  setTimeout(()=>{ const i=document.querySelector(`.regH[data-k="${k}"]`); if(i){ i.focus(); i.scrollIntoView({block:'center',behavior:'smooth'}); } },40);
-  toast('Tarea añadida. Anota sus horas y guarda.','ok');
+  REG.creando=true;
+  try{
+    const restaurada=REG.removed.indexOf(tarea);
+    if(restaurada>-1) REG.removed.splice(restaurada,1);
+    REG.items.push({k:uid(),proyecto,tarea,horas:'',desc:'',pre:false,origen:'propia',nueva:restaurada===-1,showDesc:false,max:0});
+    REG.adding=false; markDirty();
+    // La tarea queda guardada en la hoja de inmediato
+    await guardarMisHoras();
+    const it=REG.items.find(i=>i.tarea===tarea);
+    if(it) setTimeout(()=>{ const i=document.querySelector(`.regH[data-k="${it.k}"]`); if(i){ i.focus(); i.scrollIntoView({block:'center',behavior:'smooth'}); } },40);
+  }finally{ REG.creando=false; }
+}
+function editarTarea(k){
+  REG.items.forEach(i=>{ i.editando = i.k===k? !i.editando : false; });
+  renderMisTareas();
+  setTimeout(()=>{ const i=document.getElementById('etNom'); if(i){ i.focus(); i.select(); } },30);
+}
+async function guardarEdicionTarea(k){
+  const it=findItem(k); if(!it) return;
+  const proyecto=document.getElementById('etProy').value, tarea=document.getElementById('etNom').value.trim();
+  if(!tarea){ toast('Escribe el nombre de la tarea','err'); return; }
+  if(REG.items.some(i=>i.k!==k && i.tarea.toLowerCase()===tarea.toLowerCase())){ toast('Ya tienes otra tarea con ese nombre este mes','err'); return; }
+  if(tarea===it.tarea && proyecto===it.proyecto){ it.editando=false; renderMisTareas(); return; }
+  const de=it.tarea;
+  if(!it.nueva){
+    loader(true,'Actualizando la tarea…');
+    try{ await renombrarTareas(ME.email,REG.anio,REG.mes,[{de,a:tarea,proyecto}]); }
+    catch(e){ toast('Error: '+e.message,'err'); return; }
+    finally{ loader(false); }
+  }
+  it.tarea=tarea; it.proyecto=proyecto; it.editando=false;
+  REG.bloques.forEach(b=>{ if(b.tarea===de){ b.tarea=tarea; b.proyecto=proyecto; } });
+  renderMisTareas(); toast('Tarea actualizada','ok');
 }
 async function quitarPropia(k){
   const it=findItem(k); if(!it) return;
@@ -1375,21 +1962,27 @@ function sumRegTotal(){
   const n=REG.items.length;
   const pr=document.getElementById('regProg'); if(pr) pr.innerHTML= n? `<b>${filled}</b> de ${n} tareas con horas` : 'Sin tareas este mes';
   const pb=document.getElementById('pbarFill'); if(pb) pb.style.width= n? (filled/n*100)+'%' : '0';
-  // Tope mensual definido por el administrador
-  const over = REG.max>0 && s>REG.max+1e-9;
+  // Tope mensual definido por el administrador y máximo de cada tarea
+  const excede=tareasExcedidas();
+  REG.items.forEach(it=>{ const row=document.querySelector(`.task-row[data-k="${it.k}"]`); if(row) row.classList.toggle('excede',excede.includes(it)); });
+  const overMes = REG.max>0 && s>REG.max+1e-9;
+  const over = overMes || excede.length>0;
   const ss=document.getElementById('stickySave'); if(ss) ss.classList.toggle('over',over);
   const bt=document.getElementById('btnGuardarHoras'); if(bt) bt.disabled=over;
-  const ot=document.getElementById('regOverTxt'); if(ot) ot.textContent=`Superas el tope por ${r2(s-REG.max)} h`;
+  const ot=document.getElementById('regOverTxt');
+  if(ot) ot.textContent= overMes? `Superas el tope por ${r2(s-REG.max)} h`
+    : excede.length? `"${excede[0].tarea}" supera su máximo de ${r2(excede[0].max)} h` : '';
   const cap=document.getElementById('regCapNote');
   if(cap){
     if(REG.max>0){
       const pct=Math.min(100,s/REG.max*100);
       cap.classList.remove('hidden');
-      cap.innerHTML=`<div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;color:var(--tinta2)"><span>Tope mensual definido por el administrador</span><span><b style="color:var(--tinta)">${r2(s)}</b> / ${r2(REG.max)} h</span></div>
+      cap.innerHTML=`<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;font-size:12.5px;font-weight:600;color:var(--tinta2)"><span>${REG.jornada?`Tu jornada: <b style="color:var(--tinta)">${REG.jornada}</b>`:'Tope mensual definido por el administrador'}</span><span><b style="color:var(--tinta)">${r2(s)}</b> / ${r2(REG.max)} h</span></div>
         <div class="cap-bar"><div class="cap-fill ${over?'over':pct>=90?'warn':''}" style="width:${pct}%"></div></div>`;
     }else cap.classList.add('hidden');
   }
 }
+function tareasExcedidas(){ return REG.items.filter(it=>it.max>0 && (parseFloat(it.horas)||0)>it.max+1e-9); }
 window.addEventListener('beforeunload',(e)=>{ if(REG.dirty){ e.preventDefault(); e.returnValue=''; } });
 
 async function guardarMisHoras(){
@@ -1398,6 +1991,8 @@ async function guardarMisHoras(){
   const mes=REG.mes, anio=REG.anio;
   const totalMes=REG.items.reduce((s,i)=>s+(parseFloat(i.horas)||0),0);
   if(REG.max>0 && totalMes>REG.max+1e-9){ toast(`El tope de este mes es ${r2(REG.max)} h. Ajusta tus horas antes de guardar.`,'err'); return; }
+  const exc=tareasExcedidas();
+  if(exc.length){ toast(`"${exc[0].tarea}" tiene un máximo de ${r2(exc[0].max)} h. Ajusta sus horas antes de guardar.`,'err'); return; }
   REG.saving=true;
   loader(true,'Guardando…');
   try{
@@ -1410,7 +2005,7 @@ async function guardarMisHoras(){
     if(nuevas.length || REG.removed.length){
       const tareas=await readTab(TAB.TAR);
       const rows=tareas.rows.filter(t=> !(sameMail(t.correo,ME.email) && +t.anio===anio && +t.mes===mes && t.origen==='propia' && REG.removed.includes(t.tarea)));
-      nuevas.forEach(n=> rows.push({id:uid(),anio,mes,correo:ME.email,proyecto:n.proyecto,tarea:n.tarea,origen:'propia'}));
+      nuevas.forEach(n=> rows.push({id:uid(),anio,mes,correo:ME.email,proyecto:n.proyecto,tarea:n.tarea,origen:'propia',max_horas:n.max||''}));
       await replaceTab(TAB.TAR,TAB.TAR_HEAD,rows);
     }
     // 2) Horas
@@ -1439,7 +2034,7 @@ async function guardarMisHoras(){
     toast('Horas guardadas correctamente','ok');
     REG.dirty=false;
     checkTodosRegistraron(anio,mes).catch(()=>{});
-    loadMisTareas();
+    await loadMisTareas();
   }catch(e){ toast('Error al guardar: '+e.message,'err'); } finally{ loader(false); REG.saving=false; }
 }
 
@@ -1548,7 +2143,7 @@ function renderCalendario(){
   const rango=`${REG.semana.getDate()} ${MESES_CORTO[REG.semana.getMonth()].toLowerCase()} – ${fin.getDate()} ${MESES_CORTO[fin.getMonth()].toLowerCase()}`;
   const key=`${REG.anio}-${REG.mes}`;
   const evNote = !REG.verEventos? '' : (REG.eventsKey===key && REG.eventsErr)
-      ? `<div class="note">${ic('alert')}<span>No se pudieron leer las reuniones del Calendar. Cierra sesión y vuelve a ingresar para renovar los permisos de Google.</span></div>`
+      ? `<div class="note">${ic('alert')}<span>No se pudieron leer las reuniones del Calendar. Cierra sesión y vuelve a ingresar, y en la ventana de Google <b>marca todas las casillas de permisos</b>.</span></div>`
       : (REG.eventsKey!==key? `<div class="cal-loading">Cargando reuniones del Calendar…</div>` : '');
   cont.innerHTML=`<div class="panel cal-panel">
       <div class="cal-toolbar">
@@ -1561,7 +2156,7 @@ function renderCalendario(){
         ? 'Arrastra sobre una franja para registrar el tiempo trabajado. Un clic sobre una reunión la registra con su horario.'
         : 'Haz clic en un día para abrir su semana y registrar ahí tus horas.'}</span></div>
       ${evNote}
-      ${semana? weekHtml() : monthHtml()}
+      ${semana? semanaBarHtml()+weekHtml() : monthHtml()+semanasHtml()}
       ${legendHtml()}
     </div>
     ${stickyHtml()}`;
@@ -1616,6 +2211,33 @@ function monthHtml(){
   }
   return `<div class="mo"><div class="mo-head">${['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'].map(x=>`<div>${x}</div>`).join('')}</div><div class="mo-grid">${cells}</div></div>`;
 }
+// Horas marcadas en el calendario entre dos fechas (inclusive)
+function horasRango(d0,d1){
+  return r2(REG.bloques.filter(b=>{ const d=parseYmd(b.fecha); return d>=d0 && d<=d1; }).reduce((s,b)=>s+(b.fin-b.ini)/60,0));
+}
+function barraHtml(h,tope){
+  if(!tope) return '';
+  const pct=Math.min(100,h/tope*100);
+  return `<div class="cap-bar"><div class="cap-fill ${h>tope+1e-9?'over':pct>=90?'warn':''}" style="width:${pct}%"></div></div>`;
+}
+function semanaBarHtml(){
+  const h=horasRango(REG.semana,addDays(REG.semana,6));
+  return `<div class="wk-sem">${ic('clock')}<span>Esta semana: <b style="color:var(--tinta)">${h} h</b>${REG.semanal?` de ${r2(REG.semanal)} h semanales`:' marcadas en el calendario'}</span>${barraHtml(h,REG.semanal)}</div>`;
+}
+function semanasHtml(){
+  const first=new Date(REG.anio,REG.mes-1,1), last=new Date(REG.anio,REG.mes,0);
+  let html='', n=1;
+  for(let lun=mondayOf(first); lun<=last; lun=addDays(lun,7), n++){
+    const ini=lun<first? first : lun, finS=addDays(lun,6), fin=finS>last? last : finS;
+    const h=horasRango(ini,fin);
+    const dias=(fin-ini)/86400000+1;
+    const tope=REG.semanal? r2(REG.semanal*Math.min(5,diasHabilesRango(ini,fin))/5) : 0;
+    html+=`<button class="sem-item" style="text-align:left" onclick="irSemana('${ymd(ini)}')" title="Abrir esta semana">
+      Semana ${n} · ${ini.getDate()}–${fin.getDate()} ${MESES_CORTO[REG.mes-1].toLowerCase()}<b>${h} h${tope?` <small style="font-weight:600;color:var(--tinta3)">/ ${tope}</small>`:''}</b>${barraHtml(h,tope)}</button>`;
+  }
+  return `<div class="lg-t" style="margin-top:16px">Horas por semana${REG.semanal?` · jornada de ${r2(REG.semanal)} h semanales`:''}</div><div class="sem-list">${html}</div>`;
+}
+function diasHabilesRango(d0,d1){ let n=0; for(let d=new Date(d0); d<=d1; d=addDays(d,1)){ const w=d.getDay(); if(w>0&&w<6) n++; } return n; }
 function legendHtml(){
   if(!REG.items.length) return '';
   return `<div class="cal-legend"><div class="lg-t">Horas por tarea este mes</div><div class="lg-list">${REG.items.map(it=>{
@@ -1678,19 +2300,32 @@ function dibujarGhost(col,a,b){
 function quitarGhost(){ const g=document.getElementById('wkGhost'); if(g) g.remove(); }
 
 /* ---- Menú flotante ---- */
-function quitarPopEl(){ ['pop','popScrim'].forEach(id=>{ const el=document.getElementById(id); if(el) el.remove(); }); }
+function quitarPopEl(){
+  const p=document.getElementById('pop'); if(p && p._ro) p._ro.disconnect();
+  ['pop','popScrim'].forEach(id=>{ const el=document.getElementById(id); if(el) el.remove(); });
+}
+// Mantiene el cuadro emergente siempre dentro de la pantalla, aunque crezca o cambie el tamaño de la ventana
+function posPop(p){
+  const vw=document.documentElement.clientWidth, vh=document.documentElement.clientHeight;
+  const [x,y]=p._xy;
+  p.style.maxHeight=(vh-24)+'px';
+  const w=p.offsetWidth, h=p.offsetHeight;
+  let l=x+14, t=y-20;
+  if(l+w>vw-12) l=x-w-14;
+  l=Math.max(12,Math.min(l,vw-w-12));
+  t=Math.max(12,Math.min(t,vh-h-12));
+  p.style.left=l+'px'; p.style.top=t+'px';
+}
+window.addEventListener('resize',()=>{ const p=document.getElementById('pop'); if(p && p._xy) posPop(p); });
 function cerrarPop(){ quitarPopEl(); quitarGhost(); POP=null; }
 document.addEventListener('keydown',e=>{ if(e.key==='Escape' && document.getElementById('pop')) cerrarPop(); });
 function montarPop(html,x,y){
   quitarPopEl();
   const s=document.createElement('div'); s.id='popScrim'; s.className='pop-scrim'; s.onclick=cerrarPop; document.body.appendChild(s);
   const p=document.createElement('div'); p.id='pop'; p.className='pop'; p.innerHTML=html; document.body.appendChild(p);
-  const w=p.offsetWidth, h=p.offsetHeight;
-  let l=x+14, t=y-20;
-  if(l+w>innerWidth-12) l=x-w-14;
-  l=Math.max(12,Math.min(l,innerWidth-w-12));
-  t=Math.max(12,Math.min(t,innerHeight-h-12));
-  p.style.left=l+'px'; p.style.top=t+'px';
+  p._xy=[x,y];
+  posPop(p);
+  if(window.ResizeObserver){ p._ro=new ResizeObserver(()=>posPop(p)); p._ro.observe(p); }
   return p;
 }
 function abrirSelector(sel,x,y){
@@ -1747,7 +2382,7 @@ function crearYRegistrar(){
   if(!tarea){ toast('Escribe el nombre de la tarea','err'); return; }
   if(REG.items.some(i=>i.tarea.toLowerCase()===tarea.toLowerCase())){ toast('Ya tienes una tarea con ese nombre este mes','err'); return; }
   const k=uid(); const r=REG.removed.indexOf(tarea); if(r>-1) REG.removed.splice(r,1);
-  REG.items.push({k,proyecto,tarea,horas:'',desc:'',pre:false,origen:'propia',nueva:r===-1,showDesc:false});
+  REG.items.push({k,proyecto,tarea,horas:'',desc:'',pre:false,origen:'propia',nueva:r===-1,showDesc:false,max:0});
   registrarBloque(k);
 }
 function registrarBloque(k){
@@ -1758,6 +2393,8 @@ function registrarBloque(k){
   const choque=REG.bloques.find(b=>b.fecha===fecha && b.ini<fin && ini<b.fin);
   if(choque){ toast(`Ese horario se cruza con "${choque.tarea}" (${hhmm(choque.ini)}–${hhmm(choque.fin)})`,'err'); return; }
   const dur=(fin-ini)/60;
+  const base=(it.pre && !REG.bloques.some(b=>b.tarea===it.tarea))? 0 : (parseFloat(it.horas)||0);
+  if(it.max>0 && base+dur>it.max+1e-9){ toast(`"${it.tarea}" tiene un máximo de ${r2(it.max)} h; con este bloque llegaría a ${r2(base+dur)} h`,'err'); return; }
   // Si la tarea traía horas precargadas del mes anterior, el calendario las reemplaza
   if(it.pre && !REG.bloques.some(b=>b.tarea===it.tarea)){ it.horas=''; it.pre=false; }
   it.horas=String(r2((parseFloat(it.horas)||0)+dur));
@@ -1790,51 +2427,52 @@ function eliminarBloque(id){
 /* ============================================================
    ADMINISTRADOR · acceso
 ============================================================ */
-function viewAdminGate(target){
-  CURRENT=target; renderNav();
-  setPage('Administración','Esta sección requiere la contraseña de administrador.');
+// Ya no hay contraseña: el acceso depende de que el correo esté en la hoja SYS_Administradores
+function viewSinAcceso(){
+  CURRENT='home'; renderNav();
+  setPage('Administración','');
   V().innerHTML=`<div class="panel lock">
       <div class="lock-ic">${ic('lock')}</div>
-      <h3 style="justify-content:center">Acceso administrador</h3>
-      <div class="desc">Ingresa la contraseña para continuar.</div>
-      <input class="i" id="admPass" type="password" placeholder="Contraseña" style="max-width:280px;margin:0 auto 14px;display:block" onkeydown="if(event.key==='Enter')tryAdmin('${target}')">
-      <button class="btn" onclick="tryAdmin('${target}')">Entrar</button>
+      <h3 style="justify-content:center">Sin acceso de administrador</h3>
+      <div class="desc">Tu correo (${esc(ME.email)}) no está en la lista de administradores del sistema. Si necesitas este acceso, pídeselo a la persona responsable del DCD.</div>
+      <button class="btn sec" onclick="goHome()">Volver al inicio</button>
     </div>`;
-  setTimeout(()=>document.getElementById('admPass').focus(),100);
-}
-function tryAdmin(target){
-  if(document.getElementById('admPass').value===ADMIN_PASS){ adminUnlocked=true; VIEWS[target](); }
-  else toast('Contraseña incorrecta','err');
 }
 
 /* ---- Usuarios ---- */
-let USR_EDIT=null;
+let USR_EDIT=null, ADM_LIST=null;
 async function admUsuarios(force=true){
   setActive('usuarios');
   setPage('Usuarios','El correo es la clave que asocia a cada persona con sus tareas y horas.',
-    `<button class="btn sec" onclick="respaldarDrive()">${ic('cloud')}Respaldar a Drive</button>`);
+    `<button class="btn sec" onclick="sincronizarAccesos()" title="Comparte la hoja con edición a quienes aún no tienen acceso">${ic('users')}Dar acceso a la hoja</button>
+     <button class="btn sec" onclick="respaldarDrive()">${ic('cloud')}Respaldar a Drive</button>`);
   if(force){ V().innerHTML=loadingPanel('Cargando usuarios…'); USR_EDIT=null; }
   const us=await getUsuarios(force);
+  if(force || !ADM_LIST) { try{ ADM_LIST=(await readTab(TAB.ADM)).rows; }catch(e){ ADM_LIST=[]; } }
+  const esAdm=c=>ADM_LIST.some(r=>sameMail(String(r.correo).trim(),c) && (String(r.activo||'').trim()==='' || isTrue(r.activo)));
+  const hoyYM=currentYM();
   const rows=us.map((u,i)=>{
     const editando=USR_EDIT===i;
     const nom = editando
       ? `<input class="i" id="euNombre" value="${esc(u.nombre)}" onkeydown="if(event.key==='Enter')guardarEdicionUsr(${i});if(event.key==='Escape')cancelarEdicionUsr()">`
-      : `<span style="font-weight:600">${esc(u.nombre)}</span>`;
+      : `<span style="font-weight:600">${esc(u.nombre)}</span>${esAdm(u.correo)?' <span class="pill blue" title="Definido en la hoja SYS_Administradores">Admin</span>':''}`;
     const cor = editando
       ? `<input class="i" id="euCorreo" type="email" value="${esc(u.correo)}" onkeydown="if(event.key==='Enter')guardarEdicionUsr(${i});if(event.key==='Escape')cancelarEdicionUsr()">`
       : esc(u.correo);
     const acciones = editando
       ? `<button class="btn mini ok" onclick="guardarEdicionUsr(${i})">${ic('save')}Guardar</button>
          <button class="btn mini ghost" onclick="cancelarEdicionUsr()">Cancelar</button>`
-      : `<button class="btn mini sec" onclick="editarUsr(${i})" title="Editar nombre o correo">${ic('note')}Editar</button>
+      : `<button class="btn mini sec" onclick="editarUsr(${i})" title="Editar nombre o correo">${ic('edit')}Editar</button>
          <button class="btn mini sec" onclick="setUsr(${i},'activo',${!isTrue(u.activo)})" title="${isTrue(u.activo)?'Deja de recibir recordatorios y avisos por correo':'Vuelve a recibir recordatorios y avisos'}">${isTrue(u.activo)?'Desactivar':'Activar'}</button>
          <button class="btn mini danger" onclick="delUsr(${i})" title="Eliminar usuario">${ic('trash')}</button>`;
     return `<tr data-f="usuarios" data-ini="${inicial(u.nombre||u.correo)}" data-txt="${esc(sinTilde((u.nombre||'')+' '+(u.correo||'')).toLowerCase())}" class="${editando?'editing':''}">
       <td style="min-width:${editando?'200px':'0'}">${nom}</td>
       <td style="min-width:${editando?'230px':'0'}">${cor}</td>
       <td><label class="chk"><input type="checkbox" ${isTrue(u.es_empleado)?'checked':''} onchange="setUsr(${i},'es_empleado',this.checked)"> Empleado</label></td>
-      <td><input class="i mh" data-i="${i}" type="number" min="0" step="0.5" value="${esc(u.max_horas||'')}" placeholder="Sin tope"></td>
+      <td><input class="i mh" data-s="${i}" type="number" min="0" step="0.5" value="${esc(u.max_semanal||'')}" placeholder="Sin tope"></td>
+      <td><input class="i mh" data-i="${i}" type="number" min="0" step="0.5" value="${esc(u.max_horas||'')}" placeholder="${parseFloat(u.max_semanal)>0?'≈ '+topeMes({max_semanal:u.max_semanal},hoyYM.anio,hoyYM.mes)+' auto':'Sin tope'}" title="${parseFloat(u.max_semanal)>0?'Vacío: se calcula con el tope semanal y los días hábiles del mes':''}"></td>
       <td>${isTrue(u.activo)?'<span class="pill on">Activo</span>':`<span class="pill mute" title="No recibe notificaciones">${ic('bellOff')}Sin avisos</span>`}</td>
+      <td>${terminosAceptados(u)?`<span class="pill on" title="Aceptó el ${esc(u.terminos_fecha||'')}">Aceptó</span>`:'<span class="pill pre" title="Debe aceptarlos al ingresar">Pendiente</span>'}</td>
       <td><div class="row-actions">${acciones}</div></td></tr>`;
   }).join('');
   V().innerHTML=`
@@ -1845,27 +2483,32 @@ async function admUsuarios(force=true){
         <div><label class="f">Correo</label><input class="i" id="nuCorreo" placeholder="persona@ucenfotec.ac.cr" onkeydown="if(event.key==='Enter')addUsr()"></div>
       </div>
       <div class="toolbar" style="margin-top:14px;justify-content:space-between">
-        <label class="chk"><input type="checkbox" id="nuEmp"> Es empleado (el administrador le llena las horas)</label>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label class="chk"><input type="checkbox" id="nuAcceso" checked> Darle permiso de edición en la hoja del sistema (necesario para registrar horas)</label>
+          <label class="chk"><input type="checkbox" id="nuEmp"> Es empleado (el administrador le llena las horas)</label>
+        </div>
         <button class="btn" onclick="addUsr()">Añadir usuario</button>
       </div>
     </div>
     <div class="panel">
       <h3>Usuarios registrados <span class="pill mute" id="cnt-usuarios">${us.length}</span></h3>
       <div class="note" style="margin:12px 0 0">${ic('info')}<span>Desactivar a una persona solo detiene sus recordatorios y avisos por correo; sigue apareciendo en los reportes y en el control mensual. Al editar el nombre o el correo, el cambio se aplica en todo el historial de la hoja.</span></div>
+      <div class="note" style="margin:10px 0 0">${ic('shield')}<span>Los administradores se definen en la pestaña <b>SYS_Administradores</b> de la <a href="https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/edit" target="_blank" rel="noopener" style="color:var(--azul2);font-weight:600">hoja del sistema</a>: una fila por persona con su correo; escribe "No" en la columna activo para quitarle el acceso. La aceptación de los términos se registra en las últimas columnas de <b>SYS_Usuarios</b>.</span></div>
       ${filtroHtml('usuarios', us.map(u=>u.nombre||u.correo), 'Buscar por nombre o correo…')}
       <div class="tbl-wrap" style="margin-top:14px"><table>
-        <thead><tr><th>Nombre</th><th>Correo</th><th>Tipo</th><th>Tope mensual (h)</th><th>Estado</th><th>Acciones</th></tr></thead>
-        <tbody>${rows||'<tr><td colspan="6" class="empty">Aún no hay usuarios.</td></tr>'}
-          <tr id="vacio-usuarios" class="hidden"><td colspan="6"><div class="empty" style="padding:20px">Nadie coincide con el filtro.</div></td></tr></tbody>
+        <thead><tr><th>Nombre</th><th>Correo</th><th>Tipo</th><th>Tope semanal (h)</th><th>Tope mensual (h)</th><th>Estado</th><th>Términos</th><th>Acciones</th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="8" class="empty">Aún no hay usuarios.</td></tr>'}
+          <tr id="vacio-usuarios" class="hidden"><td colspan="8"><div class="empty" style="padding:20px">Nadie coincide con el filtro.</div></td></tr></tbody>
       </table></div>
       <div class="toolbar" style="margin-top:16px;justify-content:space-between">
         <div class="row-actions">
-          <input class="i mh" id="mhTodos" type="number" min="0" step="0.5" placeholder="Horas">
+          <input class="i mh" id="mhTodosS" type="number" min="0" step="0.5" placeholder="Semanal">
+          <input class="i mh" id="mhTodos" type="number" min="0" step="0.5" placeholder="Mensual">
           <button class="btn sec mini" onclick="aplicarTopeTodos()">Aplicar a todos</button>
-          <span class="desc" style="margin:0">Deja la casilla vacía para no poner tope.</span>
         </div>
         <button class="btn" onclick="guardarTopes()">Guardar topes</button>
       </div>
+      <div class="desc" style="margin:10px 0 0">Si solo defines el tope semanal (por ejemplo, 44 h), el mensual se calcula con los días hábiles de cada mes. Si escribes un tope mensual, ese manda. Deja ambas casillas vacías para no poner tope.</div>
     </div>`;
   filtrar('usuarios');
   if(USR_EDIT!==null) setTimeout(()=>{ const n=document.getElementById('euNombre'); if(n){ n.focus(); n.select(); } },30);
@@ -1883,14 +2526,23 @@ async function guardarEdicionUsr(i){
   if(correo===viejoC && nombre===viejoN){ cancelarEdicionUsr(); return; }
   if(correo!==viejoC && us.some((x,j)=>j!==i && sameMail(x.correo,correo))){ toast('Ese correo ya pertenece a otra persona','err'); return; }
   const cambios=[]; if(nombre!==viejoN) cambios.push(`nombre "${viejoN}" → "${nombre}"`); if(correo!==viejoC) cambios.push(`correo ${viejoC} → ${correo}`);
-  if(!(await confirmar('Actualizar usuario',`Se reemplazará ${cambios.join(' y ')} en tareas, horas, comentarios y bloques de calendario de todo el historial.`,{ok:'Actualizar'}))) return;
+  if(!(await confirmar('Actualizar usuario',`Se reemplazará ${cambios.join(' y ')} en tareas, horas, comentarios y bloques de calendario de todo el historial.${correo!==viejoC?' El permiso de edición en la hoja pasará al correo nuevo.':''}`,{ok:'Actualizar'}))) return;
+  const conDrive = correo!==viejoC? await pedirDrive() : false;
   loader(true,'Actualizando en toda la hoja…');
   try{
     const n=await reemplazarPersona(viejoC,correo,nombre);
     u.correo=correo; u.nombre=nombre;
     await replaceTab(TAB.USR,TAB.USR_HEAD,us);
     USR_EDIT=null;
-    toast(`Usuario actualizado (${n} fila${n===1?'':'s'} del historial)`,'ok');
+    let msg=`Usuario actualizado (${n} fila${n===1?'':'s'} del historial)`, tipo='ok';
+    if(correo!==viejoC){
+      if(!conDrive){ msg+='; recuerda compartir la hoja con el correo nuevo'; tipo='err'; }
+      else{
+        try{ await darAcceso(correo); if(!sameMail(viejoC,ME.email)) await quitarAcceso(viejoC); msg+=' y el acceso a la hoja pasó al correo nuevo'; }
+        catch(e){ msg+='. No se pudo ajustar el acceso a la hoja: '+errAcceso(e); tipo='err'; }
+      }
+    }
+    toast(msg,tipo);
     admUsuarios();
   }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
 }
@@ -1912,7 +2564,8 @@ async function reemplazarPersona(viejoC,correo,nombre){
   return total;
 }
 function aplicarTopeTodos(){
-  const v=document.getElementById('mhTodos').value;
+  const s=document.getElementById('mhTodosS').value, v=document.getElementById('mhTodos').value;
+  document.querySelectorAll('input.mh[data-s]').forEach(i=>i.value=s);
   document.querySelectorAll('input.mh[data-i]').forEach(i=>i.value=v);
 }
 async function guardarTopes(){
@@ -1923,6 +2576,10 @@ async function guardarTopes(){
       const v=inp.value.trim(); const n=parseFloat(v);
       us[+inp.dataset.i].max_horas = (v===''||!(n>0))? '' : n;
     });
+    document.querySelectorAll('input.mh[data-s]').forEach(inp=>{
+      const v=inp.value.trim(); const n=parseFloat(v);
+      us[+inp.dataset.s].max_semanal = (v===''||!(n>0))? '' : n;
+    });
     await replaceTab(TAB.USR,TAB.USR_HEAD,us); await getUsuarios(true);
     toast('Topes de horas guardados','ok'); admUsuarios();
   }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
@@ -1931,12 +2588,25 @@ async function addUsr(){
   const nombre=document.getElementById('nuNombre').value.trim();
   const correo=document.getElementById('nuCorreo').value.trim().toLowerCase();
   if(!nombre||!correo){ toast('Completa nombre y correo','err'); return; }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)){ toast('El correo no parece válido','err'); return; }
+  const compartir=document.getElementById('nuAcceso').checked;
+  const esEmp=document.getElementById('nuEmp').checked;
+  const conDrive = compartir? await pedirDrive() : false;
   loader(true,'Guardando…');
   try{
     const us=await getUsuarios(true);
     if(us.find(u=>sameMail(u.correo,correo))){ toast('Ese correo ya existe','err'); return; }
-    await appendRow(TAB.USR,[correo,nombre,document.getElementById('nuEmp').checked?'TRUE':'FALSE','TRUE','colaborador','']);
-    await getUsuarios(true); toast('Usuario añadido','ok'); admUsuarios();
+    await appendRow(TAB.USR,[correo,nombre,esEmp?'TRUE':'FALSE','TRUE','colaborador','']);
+    let msg='Usuario añadido', tipo='ok';
+    if(compartir){
+      if(!conDrive){ msg+=', pero sin acceso a la hoja: no se otorgó el permiso de Google Drive'; tipo='err'; }
+      else{
+        loader(true,'Dando permiso de edición en la hoja…');
+        try{ await darAcceso(correo); msg+=' con permiso de edición en la hoja'; }
+        catch(e){ msg+='. No se pudo compartir la hoja: '+errAcceso(e); tipo='err'; }
+      }
+    }
+    await getUsuarios(true); toast(msg,tipo); admUsuarios();
   }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
 }
 async function setUsr(i,field,val){
@@ -1947,26 +2617,44 @@ async function setUsr(i,field,val){
 }
 async function delUsr(i){
   const us=await getUsuarios(true);
-  if(!(await confirmar('Eliminar usuario',`¿Eliminar a ${us[i].nombre}? Sus horas registradas se conservan en los reportes. Si solo quieres que deje de recibir avisos, usa Desactivar.`,{ok:'Eliminar',danger:true}))) return;
+  if(!(await confirmar('Eliminar usuario',`¿Eliminar a ${us[i].nombre}? Sus horas registradas se conservan en los reportes y se le quitará el permiso de edición en la hoja. Si solo quieres que deje de recibir avisos, usa Desactivar.`,{ok:'Eliminar',danger:true}))) return;
+  const correo=us[i].correo;
+  const conDrive=await pedirDrive();
   loader(true,'Eliminando…');
-  try{ us.splice(i,1); await replaceTab(TAB.USR,TAB.USR_HEAD,us); await getUsuarios(true); admUsuarios(); toast('Usuario eliminado','ok'); }
+  try{
+    us.splice(i,1); await replaceTab(TAB.USR,TAB.USR_HEAD,us); await getUsuarios(true);
+    let msg='Usuario eliminado', tipo='ok';
+    if(!conDrive){ msg+='; su acceso a la hoja sigue activo (no se otorgó el permiso de Google Drive)'; tipo='err'; }
+    else if(!sameMail(correo,ME.email)){
+      try{ const q=await quitarAcceso(correo); msg+= q? ' y se le quitó el acceso a la hoja' : ''; }
+      catch(e){ msg+='. No se pudo quitar su acceso a la hoja: '+errAcceso(e); tipo='err'; }
+    }
+    admUsuarios(); toast(msg,tipo);
+  }
   catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
 }
 
 /* ---- Proyectos ---- */
-async function admProyectos(){
+let PRO_EDIT=null;
+async function admProyectos(force=true){
   setActive('proyectos');
   setPage('Proyectos','El nombre largo aparece en los reportes. Los proyectos inactivos siguen disponibles en los históricos.');
-  V().innerHTML=loadingPanel('Cargando proyectos…');
-  const pro=await getProyectos(true);
-  const rows=pro.map((p,i)=>`<tr data-f="proyectos" data-ini="${inicial(p.proyecto)}" data-txt="${esc(sinTilde((p.proyecto||'')+' '+(p.nombre_largo||'')).toLowerCase())}">
-      <td style="font-weight:600">${esc(p.proyecto)}</td>
+  if(force){ V().innerHTML=loadingPanel('Cargando proyectos…'); PRO_EDIT=null; }
+  const pro=await getProyectos(force);
+  const rows=pro.map((p,i)=>{
+    const ed=PRO_EDIT===i;
+    return `<tr data-f="proyectos" data-ini="${inicial(p.proyecto)}" data-txt="${esc(sinTilde((p.proyecto||'')+' '+(p.nombre_largo||'')).toLowerCase())}" class="${ed?'editing':''}">
+      <td style="font-weight:600;${ed?'min-width:180px':''}">${ed?`<input class="i" id="epNom" value="${esc(p.proyecto)}" onkeydown="if(event.key==='Enter')guardarEdicionProy(${i});if(event.key==='Escape')cancelarEdicionProy()">`:esc(p.proyecto)}</td>
       <td style="min-width:260px"><input class="i nlInput" data-i="${i}" value="${esc(p.nombre_largo||'')}" placeholder="Nombre largo para reportes…"></td>
       <td>${isTrue(p.activo)?'<span class="pill on">Vigente</span>':'<span class="pill off">Inactivo</span>'}</td>
-      <td><div class="row-actions">
-        <button class="btn mini sec" onclick="toggleProy(${i})">${isTrue(p.activo)?'Marcar inactivo':'Marcar vigente'}</button>
-        <button class="btn mini danger" onclick="delProy(${i})">${ic('trash')}</button>
-      </div></td></tr>`).join('');
+      <td><div class="row-actions">${ed
+        ? `<button class="btn mini ok" onclick="guardarEdicionProy(${i})">${ic('save')}Guardar</button>
+           <button class="btn mini ghost" onclick="cancelarEdicionProy()">Cancelar</button>`
+        : `<button class="btn mini sec" onclick="editarProy(${i})" title="Cambiar las siglas en toda la base de datos">${ic('edit')}Siglas</button>
+           <button class="btn mini sec" onclick="toggleProy(${i})">${isTrue(p.activo)?'Marcar inactivo':'Marcar vigente'}</button>
+           <button class="btn mini danger" onclick="delProy(${i})">${ic('trash')}</button>`}
+      </div></td></tr>`;
+  }).join('');
   V().innerHTML=`
     <div class="panel">
       <h3>${ic('plus')}Añadir proyecto</h3>
@@ -1987,6 +2675,33 @@ async function admProyectos(){
       <div class="row-actions" style="margin-top:16px"><button class="btn" onclick="guardarNombresLargos()">Guardar nombres largos</button></div>
     </div>`;
   filtrar('proyectos');
+  if(PRO_EDIT!==null) setTimeout(()=>{ const n=document.getElementById('epNom'); if(n){ n.focus(); n.select(); } },30);
+}
+function editarProy(i){ PRO_EDIT=i; admProyectos(false); }
+function cancelarEdicionProy(){ PRO_EDIT=null; admProyectos(false); }
+async function guardarEdicionProy(i){
+  const n=document.getElementById('epNom').value.trim();
+  if(!n){ toast('Escribe las siglas del proyecto','err'); return; }
+  const pro=await getProyectos(true); const p=pro[i];
+  if(!p){ toast('No se encontró el proyecto; recarga la página','err'); return; }
+  const de=p.proyecto;
+  if(n===de){ cancelarEdicionProy(); return; }
+  if(pro.some((x,j)=>j!==i && String(x.proyecto).toLowerCase()===n.toLowerCase())){ toast('Ya existe un proyecto con esas siglas','err'); return; }
+  if(!(await confirmar('Cambiar siglas',`"${de}" pasará a llamarse "${n}" en todas las tareas, horas y bloques de calendario del historial.`,{ok:'Cambiar'}))) return;
+  loader(true,'Actualizando en toda la hoja…');
+  try{
+    let total=0;
+    for(const [t,h,mode] of [[TAB.TAR,TAB.TAR_HEAD,'USER_ENTERED'],[TAB.REG,TAB.REG_HEAD,'USER_ENTERED'],[TAB.BLQ,TAB.BLQ_HEAD,'RAW']]){
+      const d=await readTab(t); let c=0;
+      d.rows.forEach(r=>{ if(r.proyecto===de){ r.proyecto=n; c++; } });
+      if(c){ await replaceTab(t,h,d.rows,mode); total+=c; }
+    }
+    p.proyecto=n;
+    await replaceTab(TAB.PRO,TAB.PRO_HEAD,pro);
+    PRO_EDIT=null;
+    toast(`Siglas actualizadas (${total} fila${total===1?'':'s'} del historial)`,'ok');
+    admProyectos();
+  }catch(e){ toast('Error: '+e.message,'err'); } finally{ loader(false); }
 }
 async function guardarNombresLargos(){
   loader(true,'Guardando…');
@@ -2045,7 +2760,7 @@ async function cargarAsignacion(){
   await sysReady();
   const tareas=await readTab(TAB.TAR);
   asignBuffer=tareas.rows.filter(t=>sameMail(t.correo,correo) && +t.anio===anio && +t.mes===mes)
-    .map(t=>({proyecto:t.proyecto,tarea:t.tarea,origen:t.origen||'admin'}));
+    .map(t=>({proyecto:t.proyecto,tarea:t.tarea,origen:t.origen||'admin',max:t.max_horas||'',orig:t.tarea,origP:t.proyecto}));
   renderAsignacion();
 }
 async function traerMesAnterior(){
@@ -2054,8 +2769,13 @@ async function traerMesAnterior(){
   const tareas=await readTab(TAB.TAR);
   const prev=tareas.rows.filter(t=>sameMail(t.correo,correo) && +t.anio===pa && +t.mes===pm);
   if(prev.length===0){ toast(`Sin tareas en ${MESES[pm-1]} ${pa}`,'err'); return; }
-  prev.forEach(t=>{ if(!asignBuffer.some(b=>b.tarea===t.tarea)) asignBuffer.push({proyecto:t.proyecto,tarea:t.tarea,origen:t.origen||'admin'}); });
-  renderAsignacion(); toast(`Traídas ${prev.length} tarea(s) de ${MESES[pm-1]}`,'ok');
+  const cand=prev.filter(t=>!asignBuffer.some(b=>b.tarea.trim().toLowerCase()===String(t.tarea).toLowerCase()));
+  if(!cand.length){ toast(`Las tareas de ${MESES[pm-1]} ya están en la lista`,'err'); return; }
+  const sel=await elegir(`Traer tareas de ${MESES[pm-1]} ${pa}`,'Todas vienen marcadas. Desmarca las que no quieras asignar este mes.',
+    cand.map(t=>({label:t.tarea,sub:t.proyecto+(parseFloat(t.max_horas)>0?` · máx. ${t.max_horas} h`:'')})));
+  if(!sel || !sel.length) return;
+  sel.forEach(i=>{ const t=cand[i]; asignBuffer.push({proyecto:t.proyecto,tarea:t.tarea,origen:t.origen||'admin',max:t.max_horas||''}); });
+  renderAsignacion(); toast(`Traídas ${sel.length} tarea(s) de ${MESES[pm-1]}. Recuerda guardar.`,'ok');
 }
 function addAsign(){
   const pro=(CACHE.proyectos||[]).filter(p=>isTrue(p.activo));
@@ -2070,6 +2790,7 @@ function renderAsignacion(){
   const rows=asignBuffer.map((t,i)=>`<tr>
       <td style="min-width:220px"><select class="i" onchange="asignBuffer[${i}].proyecto=this.value">${provOpts(t.proyecto)}</select></td>
       <td><input class="i asgT" value="${esc(t.tarea)}" oninput="asignBuffer[${i}].tarea=this.value" placeholder="Descripción de la tarea"></td>
+      <td><input class="i mh" type="number" min="0" step="0.5" value="${esc(t.max||'')}" placeholder="Sin máx." oninput="asignBuffer[${i}].max=this.value" title="Horas máximas para esta tarea; vacío = sin máximo"></td>
       <td>${t.origen==='propia'?'<span class="pill own">Propia</span>':'<span class="pill blue">Asignada</span>'}</td>
       <td><button class="btn mini danger" onclick="asignBuffer.splice(${i},1);renderAsignacion()" title="Quitar">${ic('trash')}</button></td>
     </tr>`).join('');
@@ -2081,8 +2802,8 @@ function renderAsignacion(){
         <button class="btn mini" onclick="addAsign()">${ic('plus')}Añadir tarea</button>
       </div>
       <div class="tbl-wrap"><table>
-        <thead><tr><th style="width:30%">Proyecto</th><th>Tarea</th><th>Origen</th><th></th></tr></thead>
-        <tbody>${rows||'<tr><td colspan="4"><div class="empty" style="padding:24px">Sin tareas. Añade una o trae las del mes anterior.</div></td></tr>'}</tbody>
+        <thead><tr><th style="width:26%">Proyecto</th><th>Tarea</th><th>Máx. horas</th><th>Origen</th><th></th></tr></thead>
+        <tbody>${rows||'<tr><td colspan="5"><div class="empty" style="padding:24px">Sin tareas. Añade una o trae las del mes anterior.</div></td></tr>'}</tbody>
       </table></div>
       <div class="toolbar" style="margin-top:16px;justify-content:space-between">
         <label class="chk"><input type="checkbox" id="atMail"> Notificar por correo a la persona</label>
@@ -2098,8 +2819,14 @@ async function guardarAsignacion(){
     await sysReady();
     const tareas=await readTab(TAB.TAR);
     const keep=tareas.rows.filter(t=> !(sameMail(t.correo,correo) && +t.anio===anio && +t.mes===mes));
-    const nuevos=limpio.map(t=>({id:uid(),anio,mes,correo,proyecto:t.proyecto,tarea:t.tarea.trim(),origen:t.origen||'admin'}));
+    const nuevos=limpio.map(t=>({id:uid(),anio,mes,correo,proyecto:t.proyecto,tarea:t.tarea.trim(),origen:t.origen||'admin',
+      max_horas: parseFloat(t.max)>0? parseFloat(t.max) : ''}));
     await replaceTab(TAB.TAR,TAB.TAR_HEAD,keep.concat(nuevos));
+    // Si se cambió el nombre o el proyecto de una tarea existente, se actualizan sus horas y bloques
+    const cambios=limpio.filter(t=>t.orig && (t.orig!==t.tarea.trim() || t.origP!==t.proyecto))
+      .map(t=>({de:t.orig,a:t.tarea.trim(),proyecto:t.proyecto}));
+    if(cambios.length) await renombrarTareas(correo,anio,mes,cambios,['REG','BLQ']);
+    asignBuffer.forEach(t=>{ if(t.tarea.trim()){ t.orig=t.tarea.trim(); t.origP=t.proyecto; } });
     let msg='Asignación guardada';
     if(document.getElementById('atMail').checked){
       const us=await getUsuarios(); const u=us.find(x=>sameMail(x.correo,correo));
@@ -2168,7 +2895,7 @@ async function cargarEstado(){
       <td style="font-weight:600">${esc(u.nombre)} ${com?`<span title="Dejó un comentario" style="color:var(--azul2);vertical-align:middle">${ic('msg')}</span>`:''}
         ${isTrue(u.activo)?'':`<span class="pill mute" title="No recibe notificaciones" style="margin-left:4px">${ic('bellOff')}Sin avisos</span>`}</td>
       <td>${asign} tarea(s)</td>
-      <td><b>${r2(total)} h</b>${parseFloat(u.max_horas)>0?` <span style="color:var(--tinta3)">/ ${r2(parseFloat(u.max_horas))}</span>${total>parseFloat(u.max_horas)?' <span class="pill off">Excede</span>':''}`:''}</td>
+      <td><b>${r2(total)} h</b>${topeMes(u,anio,mes)>0?` <span style="color:var(--tinta3)" title="${esc(textoJornada(u,anio,mes))}">/ ${r2(topeMes(u,anio,mes))}</span>${total>topeMes(u,anio,mes)+1e-9?' <span class="pill off">Excede</span>':''}`:''}</td>
       <td>${completo?'<span class="pill on"><span class="dot g"></span>Registró</span>':'<span class="pill off"><span class="dot r"></span>Pendiente</span>'}</td>
       <td><div class="row-actions">
         <button class="btn mini sec" onclick="editarHoras(${i})">Editar horas</button>
@@ -2268,7 +2995,7 @@ async function guardarHorasAdmin(){
       return { tarea:h.dataset.t, proyecto:h.dataset.p, horas:(h.value===''?'':parseFloat(h.value)||0), descripcion:d?d.value:'' };
     });
     const u=(CACHE.usuarios||[]).find(x=>sameMail(x.correo,correo));
-    const max=u? parseFloat(u.max_horas)||0 : 0;
+    const max=topeMes(u,anio,mes);
     const tot=entradas.reduce((s,e)=>s+(parseFloat(e.horas)||0),0);
     if(max>0 && tot>max){
       loader(false);
@@ -2443,9 +3170,198 @@ async function copiarScript(){
   catch(e){ toast('No se pudo copiar; selecciónalo manualmente','err'); }
 }
 
+/* ---- Comunicados de versión ---- */
+async function admComunicados(){
+  setActive('comunicados');
+  setPage('Comunicados','Informa al equipo por correo cuando el sistema tenga una versión nueva o cualquier novedad.');
+  V().innerHTML=loadingPanel();
+  await sysReady();
+  const cfg=await readConfig();
+  const ultimo=cfg.comunicado_fecha? `<div class="status-row">${ic('mail')}<div><b>Último comunicado: versión ${esc(cfg.comunicado_version||'—')}</b><small>${esc(cfg.comunicado_fecha)} · ${esc(cfg.comunicado_enviados||'0')} persona(s)</small></div></div>` : '';
+  V().innerHTML=`
+    <div class="grid2" style="grid-template-columns:3fr 2fr;align-items:start">
+      <div class="panel">
+        <h3>${ic('note')}Redactar comunicado</h3>
+        <div class="grid2" style="gap:12px;margin-top:14px;grid-template-columns:1fr 2fr">
+          <div><label class="f">Versión</label><input class="i" id="cmVer" placeholder="Ej. 1.3" value="" oninput="cmAsuntoAuto();cmPreview()"></div>
+          <div><label class="f">Asunto</label><input class="i" id="cmAsunto" placeholder="Sistema DCD · Versión 1.3" oninput="this.dataset.manual='1';cmPreview()"></div>
+        </div>
+        <div style="margin-top:14px"><label class="f">Mensaje y cambios</label>
+          <textarea class="i" id="cmTexto" rows="9" oninput="cmPreview()" placeholder="Ya está disponible la versión 1.3 del Sistema DCD. Estos son los cambios:
+- Ahora puedes editar tus tareas propias.
+- Puedes traer las tareas del mes anterior y elegir cuáles.
+- Nuevo reporte propio en la sección Reportes."></textarea>
+          <div class="desc" style="margin:6px 0 0">Las líneas que empiezan con un guion se envían como viñetas. El saludo, el enlace al sistema y la firma se agregan solos.</div></div>
+        <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px">
+          <label class="f" style="margin:0">Destinatarios</label>
+          <label class="chk"><input type="radio" name="cmDest" value="todos" checked onchange="cmContar()"> Todas las personas activas</label>
+          <label class="chk"><input type="radio" name="cmDest" value="empleados" onchange="cmContar()"> Solo empleados activos</label>
+          <label class="chk"><input type="checkbox" id="cmMostrar" checked> Mostrar también estas novedades en la página de Inicio</label>
+        </div>
+        <div class="toolbar" style="margin-top:18px;justify-content:space-between">
+          <button class="btn sec" onclick="enviarComunicado(true)">${ic('mail')}Enviarme una prueba</button>
+          <button class="btn" id="cmBtn" onclick="enviarComunicado(false)">${ic('send')}Enviar comunicado</button>
+        </div>
+      </div>
+      <div>
+        <div class="panel">
+          <h3>${ic('info')}Vista previa</h3>
+          <div class="desc" id="cmCount" style="margin:6px 0 12px">Calculando destinatarios…</div>
+          <div class="preview-mail" id="cmPrev"></div>
+        </div>
+        ${ultimo?`<div class="panel">${ultimo}</div>`:''}
+      </div>
+    </div>`;
+  cmPreview(); cmContar();
+}
+function cmAsuntoAuto(){
+  const a=document.getElementById('cmAsunto'); if(a.dataset.manual) return;
+  const v=document.getElementById('cmVer').value.trim();
+  a.value= v? `Sistema DCD · Versión ${v}` : '';
+}
+function cmDatos(){
+  const ver=document.getElementById('cmVer').value.trim();
+  return { ver, asunto:document.getElementById('cmAsunto').value.trim() || (ver?`Sistema DCD · Versión ${ver}`:'Sistema DCD · Novedades'),
+    texto:formatoNotas(document.getElementById('cmTexto').value),
+    dest:(document.querySelector('input[name="cmDest"]:checked')||{}).value||'todos', mostrar:document.getElementById('cmMostrar').checked };
+}
+function cuerpoComunicado(nombre,texto){
+  return `Hola ${nombre},\n\n${texto}\n\nIngresa al sistema en este enlace:\n${APP_URL}\n\n— Desarrollo Curricular, CENFOTEC`;
+}
+function cmPreview(){
+  const d=cmDatos(); const el=document.getElementById('cmPrev'); if(!el) return;
+  el.innerHTML=`<div class="pm-subj">${esc(d.asunto)}</div>${esc(cuerpoComunicado('[Nombre]', d.texto||'(Escribe el mensaje)'))}`;
+}
+async function cmDestinatarios(dest){
+  const us=await getUsuarios(true);
+  return us.filter(u=>u.correo && isTrue(u.activo) && (dest!=='empleados' || isTrue(u.es_empleado)));
+}
+async function cmContar(){
+  const el=document.getElementById('cmCount'); if(!el) return;
+  try{ const l=await cmDestinatarios(cmDatos().dest); el.innerHTML=`Se enviará a <b>${l.length}</b> persona(s). Las personas desactivadas no lo reciben.`; }
+  catch(e){ el.textContent=''; }
+}
+async function enviarComunicado(prueba){
+  const d=cmDatos();
+  if(!d.texto){ toast('Escribe el mensaje del comunicado','err'); return; }
+  if(prueba){
+    loader(true,'Enviando prueba…');
+    try{ await sendMail(ME.email,'[Prueba] '+d.asunto,cuerpoComunicado((ME.name||'').split(' ')[0]||ME.name,d.texto)); toast('Prueba enviada a tu correo','ok'); }
+    catch(e){ toast('No se pudo enviar: '+e.message,'err'); } finally{ loader(false); }
+    return;
+  }
+  if(!d.ver){ toast('Indica la versión del sistema','err'); return; }
+  let lista=[];
+  try{ lista=await cmDestinatarios(d.dest); }catch(e){ toast('Error: '+e.message,'err'); return; }
+  if(!lista.length){ toast('No hay destinatarios activos','err'); return; }
+  if(!(await confirmar('Enviar comunicado',`Se enviará "${d.asunto}" a ${lista.length} persona(s), desde tu cuenta de correo.`,{ok:'Enviar'}))) return;
+  let ok=0;
+  for(let i=0;i<lista.length;i++){
+    const u=lista[i];
+    loader(true,`Enviando ${i+1} de ${lista.length}…`);
+    try{ await sendMail(u.correo,d.asunto,cuerpoComunicado(u.nombre||u.correo,d.texto)); ok++; }catch(e){}
+  }
+  try{
+    const ahora=new Date();
+    await setConfigMany({ comunicado_version:d.ver, comunicado_asunto:d.asunto, comunicado_texto:d.texto,
+      comunicado_mostrar:d.mostrar?'TRUE':'FALSE', comunicado_enviados:String(ok),
+      comunicado_fecha:ahora.toLocaleString('es-CR',{dateStyle:'medium',timeStyle:'short'}) });
+  }catch(e){}
+  loader(false);
+  toast(`Comunicado enviado: ${ok} de ${lista.length}`, ok===lista.length?'ok':'err');
+  admComunicados();
+}
+
 /* ============================================================
    GOOGLE DRIVE · CALENDAR · GMAIL
 ============================================================ */
+/* ---- Sugerencias: cualquier persona escribe a los administradores ---- */
+function abrirSugerencia(){
+  toggleSide(false);
+  document.getElementById('sgTexto').value='';
+  document.getElementById('sgTipo').selectedIndex=0;
+  document.getElementById('sugModal').classList.add('show');
+  setTimeout(()=>document.getElementById('sgTexto').focus(),60);
+}
+async function enviarSugerencia(){
+  const tipo=document.getElementById('sgTipo').value;
+  const texto=document.getElementById('sgTexto').value.trim();
+  if(texto.length<5){ toast('Escribe tu mensaje antes de enviarlo','err'); return; }
+  const btn=document.getElementById('sgOk'); btn.disabled=true; btn.textContent='Enviando…';
+  try{
+    await sysReady();
+    const [adm,us]=await Promise.all([readTab(TAB.ADM),getUsuarios()]);
+    const destinos=[...new Set(adm.rows
+      .filter(r=>String(r.correo||'').trim() && (String(r.activo||'').trim()==='' || isTrue(r.activo)))
+      .map(r=>String(r.correo).trim().toLowerCase()))];
+    const meU=us.find(u=>sameMail(u.correo,ME.email));
+    const nombre=meU? meU.nombre : ME.name;
+    const fecha=new Date().toLocaleString('es-CR',{dateStyle:'medium',timeStyle:'short'});
+    if(destinos.length){
+      await sendMail(destinos.join(', '),`Sistema DCD · ${tipo} de ${nombre}`,
+        `Nueva ${tipo.toLowerCase()} enviada desde el Sistema DCD.\n\nDe: ${nombre} (${ME.email})\nFecha: ${fecha}\n\n${texto}\n\n— Enviado con el botón de sugerencias del Sistema DCD. Puedes responder este correo directamente.`);
+    }
+    // Queda también registrada en la hoja (RAW para que el texto nunca se interprete como fórmula)
+    await api(`${SS}/${SPREADSHEET_ID}/values/${enc(TAB.SUG)}!A1:append?valueInputOption=RAW`,
+      {method:'POST', body:JSON.stringify({values:[[fecha,ME.email,nombre,tipo,texto,destinos.join(', ')]]})});
+    document.getElementById('sugModal').classList.remove('show');
+    toast(destinos.length? '¡Gracias! Tu mensaje llegó a los administradores' : 'Gracias. Tu mensaje quedó registrado para los administradores','ok');
+  }catch(e){ toast('No se pudo enviar: '+e.message,'err'); }
+  finally{ btn.disabled=false; btn.textContent='Enviar'; }
+}
+
+/* ---- Acceso de edición a la hoja del sistema ---- */
+const DRV='https://www.googleapis.com/drive/v3/files/';
+function errAcceso(e){
+  const m=String(e && e.message || e);
+  if(/API 403/.test(m)) return 'tu cuenta no tiene permiso para compartir la hoja (pídele a la dueña del archivo que te lo habilite)';
+  if(/API 404/.test(m)) return 'no se encontró la hoja o no tienes acceso a ella';
+  return m.slice(0,140);
+}
+async function darAcceso(correo){
+  const base=`${DRV}${SPREADSHEET_ID}/permissions?supportsAllDrives=true`;
+  const body=JSON.stringify({role:'writer',type:'user',emailAddress:correo});
+  try{ await api(base+'&sendNotificationEmail=false',{method:'POST',body}); }
+  catch(e){
+    // Las cuentas que no son de Google solo se pueden invitar con aviso por correo
+    if(/notification/i.test(e.message)) await api(base+'&sendNotificationEmail=true',{method:'POST',body});
+    else throw e;
+  }
+}
+async function permisosHoja(){
+  let out=[], pt='';
+  do{
+    const d=await api(`${DRV}${SPREADSHEET_ID}/permissions?supportsAllDrives=true&pageSize=100&fields=nextPageToken,permissions(id,emailAddress,role,type)${pt?'&pageToken='+enc(pt):''}`);
+    out=out.concat(d.permissions||[]); pt=d.nextPageToken||'';
+  }while(pt);
+  return out;
+}
+async function quitarAcceso(correo){
+  const p=(await permisosHoja()).find(x=>sameMail(x.emailAddress,correo));
+  if(!p || p.role==='owner') return false;
+  await api(`${DRV}${SPREADSHEET_ID}/permissions/${p.id}?supportsAllDrives=true`,{method:'DELETE'});
+  return true;
+}
+// Da permiso de edición a todos los usuarios registrados que todavía no lo tienen
+async function sincronizarAccesos(){
+  const conDrive=await pedirDrive();
+  if(!conDrive){ toast('Se necesita el permiso de Google Drive para compartir la hoja','err'); return; }
+  loader(true,'Revisando quién tiene acceso a la hoja…');
+  try{
+    const [us,perms]=await Promise.all([getUsuarios(true),permisosHoja()]);
+    const conAcceso=new Set(perms.filter(p=>['owner','organizer','fileOrganizer','writer'].includes(p.role)).map(p=>String(p.emailAddress||'').toLowerCase()));
+    const faltan=us.filter(u=>u.correo && !conAcceso.has(String(u.correo).toLowerCase()));
+    if(!faltan.length){ toast('Todos los usuarios ya tienen permiso de edición en la hoja','ok'); return; }
+    let ok=0, fallos=[];
+    for(let i=0;i<faltan.length;i++){
+      loader(true,`Compartiendo la hoja ${i+1} de ${faltan.length}…`);
+      try{ await darAcceso(String(faltan[i].correo).toLowerCase()); ok++; }catch(e){ fallos.push(faltan[i].nombre||faltan[i].correo); if(/API 403/.test(e.message)) break; }
+    }
+    toast(fallos.length? `Acceso otorgado a ${ok}; no se pudo con ${fallos.join(', ')}` : `Acceso de edición otorgado a ${ok} persona(s)`, fallos.length?'err':'ok');
+  }catch(e){ toast('No se pudo revisar el acceso: '+errAcceso(e),'err'); }
+  finally{ loader(false); }
+}
+
 async function respaldarDrive(){
   loader(true,'Generando respaldo…');
   try{
