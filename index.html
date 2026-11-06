@@ -2856,7 +2856,7 @@ async function admEstado(){
       <div class="toolbar">
         <div class="grow"><label class="f">Mes</label><select class="i" id="esMes" onchange="cargarEstado()">${monthOptions(mes)}</select></div>
         <div class="grow"><label class="f">Año</label><select class="i" id="esAnio" onchange="cargarEstado()">${yearOptions(anio)}</select></div>
-        <label class="chk" style="padding-bottom:12px"><input type="checkbox" id="esSoloEmp" checked onchange="cargarEstado()"> Solo empleados</label>
+        <label class="chk" style="padding-bottom:12px"><input type="checkbox" id="esSoloEmp" onchange="cargarEstado()"> Solo empleados</label>
       </div>
       <div class="toolbar" style="margin-top:14px">
         <div class="grow" style="flex:2"><label class="f">Correo de aviso cuando todos hayan registrado</label>
